@@ -1,0 +1,35 @@
+{
+  "skill_name": "classify-scn-change",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Using the baseline and proposed changes in skills/classify-scn-change/evals/fixtures/baseline-agent-manifest.json, classify CR-101 and CR-102 under FedRAMP CR-26 SCN rules and state their notification requirements.",
+      "expected_output": "CR-101 classifies as 'routine-non-significant' (FRD-RTR): weekly CVE base-image patching and scheduled certificate rotation within the existing CMVP-4798 module are recurring operational maintenance. Under SCN-RTR-NNR, the provider SHOULD NOT send formal Significant Change Notifications, MUST record the evaluation in audit records (SCN-CSO-EVA, SCN-CSO-MAR), and SHOULD run post-change vulnerability detection (VDR-CSO-DAC). CR-102 classifies as 'adaptive-change-notice' (FRD-ADP): adding an in-boundary read-only tool inside the existing Isolation Runtime, Authorization PEP, and Tool Registry allowlist is a non-recurring change that does not substantively alter existing risk determinations. Under SCN-ADP-NTF, the provider MUST notify all necessary parties within 10 business days after finishing, in human-readable and JSON formats (SCN-CSO-HRM, SCN-CSO-INF), and retain audit records (SCN-CSO-MAR). Grounding: pinned to skills/classify-scn-change/evals/fixtures/baseline-agent-manifest.json.",
+      "expectations": [
+        "Classifies CR-101 as routine-non-significant and states that formal SCN notices SHOULD NOT be sent per SCN-RTR-NNR while retaining SCN-CSO-MAR audit records",
+        "Classifies CR-102 as adaptive-change-notice per FRD-ADP / SCN-ADP-NTF",
+        "Specifies the 10-business-day post-completion notification window (SCN-ADP-NTF) and dual human/JSON format requirement (SCN-CSO-HRM) for CR-102"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Evaluate CR-103 in skills/classify-scn-change/evals/fixtures/baseline-agent-manifest.json under FedRAMP CR-26 SCN and TPIR rules.",
+      "expected_output": "CR-103 classifies as 'transformative-tpir-addition' (introduces_new_tpir=true, alters_tool_egress_boundary=true): onboarding an external third-party SaaS MCP server outside the CSO MAS to process uploaded grant PDFs containing Federal Customer Data introduces substantive new third-party security risk (FRD-TRF, MAS-CSO-TPR). It triggers the full transformative notification schedule: initial plans >= 30 business days before starting (SCN-TRF-NIP), recommended third-party assessor scope/impact review (SCN-TRF-TPR), final plans >= 10 business days before starting (SCN-TRF-NFP), notice <= 5 business days after finishing (SCN-TRF-NAF), notice <= 5 business days after verification/validation (SCN-TRF-NAV), and updated documentation <= 30 business days after finishing (SCN-TRF-UPD), plus MAS-CSO-TPR certification/mitigation gating (routing unredacted Federal Customer Data to an uncertified SaaS TPIR is a compliance blocker). Grounding: pinned to skills/classify-scn-change/evals/fixtures/baseline-agent-manifest.json.",
+      "expectations": [
+        "Classifies CR-103 as transformative-tpir-addition with introduces_new_tpir=true and alters_tool_egress_boundary=true",
+        "Lists the complete transformative timeline: 30 business days initial (SCN-TRF-NIP), 10 business days final (SCN-TRF-NFP), 5 business days post-finish (SCN-TRF-NAF), 5 business days post-verification (SCN-TRF-NAV), and 30 business days doc update (SCN-TRF-UPD), plus SCN-TRF-TPR",
+        "Flags the MAS-CSO-TPR blocker against sending unredacted Federal Customer Data to an uncertified external SaaS MCP server"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Check the live schemas/scn-record.schema.json and relevant-rulesets.md in this repository: during an active PAIN=5 security incident, our Class D ops team immediately replaces a compromised cryptographic library with an alternate CMVP-validated FIPS 140-3 module and disables two external tool routes. How is this classified and documented?",
+      "expected_output": "Live-corpus check: Under schemas/scn-record.schema.json and CR-26 SCN-CSO-EMG, this classifies as 'emergency-change' with alters_cryptographic_modules=true and alters_tool_egress_boundary=true. Even though replacing cryptographic modules would normally be a transformative change requiring 30-day advance notice, SCN-CSO-EMG permits providers to execute significant changes (including transformative changes) during an emergency or active incident without following advance SCN timelines. The team MUST still maintain evaluation audit records (SCN-CSO-EVA, SCN-CSO-MAR), publish synchronized human-readable and JSON records (SCN-CSO-HRM) with SHA-256 digest and notified_parties per schemas/scn-record.schema.json, update CMU-CSO-CMD documentation, run post-change vulnerability detection (VDR-CSO-DAC), and coordinate with IEC incident reporting (IEC-CSO-IIR / IEC-CSO-OIR). Grounding: live lookup against schemas/scn-record.schema.json and relevant-rulesets.md.",
+      "expectations": [
+        "Consults live schemas/scn-record.schema.json and identifies the exact enum value emergency-change",
+        "Cites SCN-CSO-EMG allowing immediate execution of transformative changes during an active incident without advance waiting periods",
+        "Requires post-execution SCN-CSO-MAR / SCN-CSO-HRM JSON+human documentation (with alters_cryptographic_modules=true and alters_tool_egress_boundary=true) alongside CMU-CSO-CMD and IEC reporting"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "skill_name": "sample-clean-skill",
+  "evals": [
+    {
+      "id": "eval-clean-001",
+      "prompt": "Verify whether a Class D service requires FIPS 140-3 validated modules under CMU-CSO-UVM.",
+      "expected_output": "Class D strictly requires active FIPS-validated modules (MUST) under CMU-CSO-UVM.",
+      "expectations": [
+        "Cites CMU-CSO-UVM",
+        "Distinguishes Class C SHOULD from Class D MUST"
+      ]
+    }
+  ]
+}

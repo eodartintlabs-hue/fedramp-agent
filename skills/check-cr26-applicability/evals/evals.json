@@ -1,0 +1,35 @@
+{
+  "skill_name": "check-cr26-applicability",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Using the candidate profiles in skills/check-cr26-applicability/evals/fixtures/candidate-agent-profiles.json, determine the FedRAMP CR-26 Minimum Assessment Scope verdict and compliance gaps for cand-alpha and cand-beta.",
+      "expected_output": "cand-alpha is outside the provider's FedRAMP CSO scope under MAS-CSO-IIR Note 2 because it is software delivered separately for installation on agency workstations and not operated as a provider-managed shared-responsibility cloud service. cand-beta is a provider-managed internal-devsecops service that handles sensitive metadata and mutates the production CSO, so setting in_minimum_assessment_scope=false violates MAS-CSO-IIR and MAS-CSO-MDI (MUST be true). In addition, cand-beta has fips_140_3_validated_modules=false on Class C, which triggers a CMU-CSO-UVM SHOULD warning requiring senior-official risk rationale in the Security Decision Record (SDR-CSO-FRR). Grounding: pinned to skills/check-cr26-applicability/evals/fixtures/candidate-agent-profiles.json.",
+      "expectations": [
+        "Identifies cand-alpha as outside the provider's FedRAMP CSO scope per MAS-CSO-IIR Note 2 (separately delivered software installed on agency systems)",
+        "Flags cand-beta's in_minimum_assessment_scope=false as a mandatory MAS-CSO-IIR / MAS-CSO-MDI violation because it handles sensitive metadata and mutates the production CSO",
+        "Notes cand-beta's fips_140_3_validated_modules=false is a Class C SHOULD exception under CMU-CSO-UVM requiring SDR-CSO-FRR rationale rather than a Class D MUST failure"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Evaluate cand-gamma in skills/check-cr26-applicability/evals/fixtures/candidate-agent-profiles.json against FedRAMP CR-26 (2026.11.02.01) Class D requirements, including its 20x track declaration.",
+      "expected_output": "cand-gamma fails five mandatory Class D requirements: (1) us_jurisdiction_only=false with EU failover violates CTL.SA.SA-09-05 (Class D MUST keep all processing, federal customer data, and system services in U.S./U.S. Territories/U.S. jurisdiction); (2) fips_140_3_validated_modules=false violates CMU-CSO-UVM (Class D MUST); (3) digital_identity_level='IAL2/AAL2/FAL2' violates CTL.IA.IA-05 (Class D MUST enforce IAL3/AAL3/FAL3); (4) per_service_certification_artifacts=false violates CDS-CSO-PSM (Class D MUST); and (5) vdr_triage_sla_days=5 exceeds Class D's <= 2-day evaluation threshold under VER-TFR-EVU. Because cand-gamma also lists the 20x track, report without inventing statements that KSI-CNA-EIS, KSI-MLA-ALA, KSI-SVC-PRR, KSI-SVC-RUD, KSI-SVC-VCM, and VDR-TFR-MVX omit Class D in CR-26 2026.11.02.01 pending the 2027 Phase 4 Pilot (SDR-CSX-KMT). Grounding: pinned to skills/check-cr26-applicability/evals/fixtures/candidate-agent-profiles.json.",
+      "expectations": [
+        "Flags CTL.SA.SA-09-05 violation for non-U.S. EU failover residency on Class D",
+        "Flags CMU-CSO-UVM (FIPS MUST), CTL.IA.IA-05 (IAL3/AAL3/FAL3 MUST), CDS-CSO-PSM (per-service materials MUST), and VER-TFR-EVU (<= 2 days) violations",
+        "Explicitly notes that KSI-CNA-EIS, KSI-MLA-ALA, KSI-SVC-PRR, KSI-SVC-RUD, KSI-SVC-VCM, and VDR-TFR-MVX omit Class D in 2026.11.02.01 without inventing 20x Class D statements"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Consult the live relevant-rulesets.md and specifications.md in this repository to compare how VDR-TFR-MVX, VDR-TFR-MVF, and VER-TFR-NRI apply to a Class C (20x + Rev5) runtime-cso agent versus a Class D (Rev5 + 20x-ready) runtime-cso agent.",
+      "expected_output": "Live-corpus check: Under VDR-TFR-MVF (Rev5), both Class C and Class D providers MUST verify and validate machine-based information resources at least once every month. Under VDR-TFR-MVX (20x), Class C providers MUST verify and validate machine-based information resources at least once every 3 days, whereas VDR-TFR-MVX omits a Class D entry in CR-26 2026.11.02.01. Under VER-TFR-NRI, for likely exploitable vulnerabilities that are NOT internet-reachable with PAIN=5, Class C providers MAY treat them as a FedRAMP Reportable Incident until mitigated to N4 or below, whereas Class D providers SHOULD treat them as a FedRAMP Reportable Incident until mitigated to N4 or below. Grounding: live lookup against relevant-rulesets.md and specifications.md (CR-26 2026.11.02.01).",
+      "expectations": [
+        "Consults live repository documentation (relevant-rulesets.md / specifications.md)",
+        "Correctly states VDR-TFR-MVF requires monthly verification (MUST) for both Rev5 Class C and Class D, while VDR-TFR-MVX requires 3-day verification (MUST) for 20x Class C and omits Class D",
+        "Accurately contrasts VER-TFR-NRI force between Class C (MAY) and Class D (SHOULD) for non-internet-reachable PAIN=5 likely exploitable vulnerabilities"
+      ]
+    }
+  ]
+}

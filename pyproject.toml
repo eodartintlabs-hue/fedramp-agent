@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fedramp-agent-standard"
+version = "1.0.0"
+description = "FedRAMP Consolidated Rules 2026 (CR-26) Class C & Class D AI Agent Compliance Standard, Schemas, and Validation Tooling"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+authors = [
+  { name = "Enterprise FedRAMP AI Compliance Architecture Team" }
+]
+dependencies = []
+
+[project.optional-dependencies]
+schema = ["jsonschema>=4.20.0"]
+dev = ["pytest>=8.0.0", "pre-commit>=3.6.0"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["tools*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

@@ -1,0 +1,143 @@
+{
+  "schema_version": "1.0.0",
+  "agent_id": "mission-incident-response-agent-d",
+  "name": "High-Impact Mission Cyber & Incident Triage Agent (Class D)",
+  "version": "2.1.0",
+  "owner": {
+    "team": "Mission High Security Autonomous Systems",
+    "responsible_official": "Dr. Elena Vance",
+    "contact_email": "high-compliance@example-govcloud-cso.gov"
+  },
+  "fedramp": {
+    "service_class": "D",
+    "certification_tracks": [
+      "Rev5",
+      "20x"
+    ],
+    "certification_path": "Program",
+    "cso_package_id": "F1603047866",
+    "in_minimum_assessment_scope": true
+  },
+  "agent_profile": "runtime-cso",
+  "data_classification": {
+    "handles_federal_customer_data": true,
+    "handles_sensitive_metadata": true,
+    "fips199_level": "High",
+    "residency_boundary": "United States / U.S. Territories / U.S. Jurisdiction Only (AWS GovCloud US-East/US-West)"
+  },
+  "model_serving": {
+    "inference_provider": "Self-Hosted Dedicated GovCloud FIPS-Enforced Inference Cluster (AWS GovCloud US)",
+    "fedramp_certified_tpir_id": "F1603047866",
+    "model_reachability_pep": true,
+    "us_jurisdiction_only": true
+  },
+  "cryptography": {
+    "fips_140_3_validated_modules": true,
+    "modules": [
+      {
+        "name": "AWS-LC FIPS 140-3 Cryptographic Module",
+        "module_id": "CMVP-4815",
+        "validation_status": "FIPS 140-3 Active",
+        "purpose": "Strict mTLS 1.3 across all inter-component transport boundaries, OIDC JWE assertion decryption, and Model Serving PEP"
+      },
+      {
+        "name": "AWS CloudHSM FIPS 140-3 Level 3 Hardware Module",
+        "module_id": "CMVP-4690",
+        "validation_status": "FIPS 140-3 Active",
+        "purpose": "Root key custody, customer-managed KMS envelope keys, and cryptographic signing of WORM audit log segments"
+      }
+    ]
+  },
+  "identity_access": {
+    "digital_identity_level": "IAL3/AAL3/FAL3",
+    "sso_protocol": "OIDC",
+    "encrypted_assertions": true,
+    "local_password_bypass_disabled": true,
+    "delegation_model": "Hardware-backed PIV/CAC AAL3 identity federation with JWE-encrypted FAL3 assertions and mTLS certificate-bound RFC 8693 on-behalf-of tokens (TTL <= 300s)"
+  },
+  "tool_boundaries": {
+    "network_egress_pep": true,
+    "authorization_pep": true,
+    "tool_registry_allowlist": true,
+    "third_party_tool_isolation": true,
+    "consent_surface_dual_mode": true,
+    "allowed_tools": [
+      "govcloud_siem_event_query",
+      "kev_vulnerability_correlator",
+      "pain_rating_calculator",
+      "containment_playbook_drafter"
+    ]
+  },
+  "observability": {
+    "tamper_evident_audit_repo": true,
+    "prompt_response_redacted_from_external_telemetry": true,
+    "audit_control_plane_separated": true
+  },
+  "tpirs": [
+    {
+      "name": "AWS GovCloud (US) High Baseline Infrastructure & Dedicated GPU Compute",
+      "certified": true,
+      "fedramp_package_id": "F1603047866",
+      "use_case": "U.S.-jurisdiction sovereign cloud hosting, dedicated inference compute, FIPS 140-3 HSM key custody, and Object Lock WORM audit storage.",
+      "mitigations": "100% U.S. sovereign regions operated by U.S. Persons; zero external internet egress from inference VPC; VPC endpoint policies enforced by Network Egress PEP."
+    }
+  ],
+  "lifecycle": {
+    "vdr_triage_sla_days": 2,
+    "scn_change_channel": "https://trust.example-govcloud-cso.gov/controlled/class-d/significant-changes.json",
+    "iec_incident_channel": "mailto:fedramp_security@fedramp.gov,https://trust.example-govcloud-cso.gov/controlled/class-d/incidents.json",
+    "per_service_certification_artifacts": true,
+    "portable_eval_paths": [
+      "skills/check-cr26-applicability/evals/evals.json",
+      "skills/classify-scn-change/evals/evals.json",
+      "skills/audit-tpir-boundary/evals/evals.json",
+      "skills/map-cosai-controls/evals/evals.json"
+    ],
+    "cosai_component_ids": [
+      "componentModelServing",
+      "componentModelRegistry",
+      "componentModelStorage",
+      "componentReasoningCore",
+      "componentTools",
+      "componentToolRegistry",
+      "componentToolServer",
+      "componentIdentityProvider",
+      "componentAuthorizationPolicyDecisionPoint",
+      "componentFederationProxy",
+      "componentAgentConsentSurface",
+      "componentApplicationConsentSurface",
+      "componentIsolationRuntime",
+      "componentToolHosting",
+      "componentRuntimeHosting",
+      "componentAgentNetworkPolicyEnforcementPoint",
+      "componentAuthorizationPolicyEnforcementPoint",
+      "componentToolNetworkPolicyEnforcementPoint",
+      "componentApplicationNetworkPolicyEnforcementPoint",
+      "componentToolInputHandling",
+      "componentToolOutputHandling",
+      "componentAuditRecordRepository"
+    ],
+    "cosai_control_ids": [
+      "controlRuntimePrivacyEnhancingTechnologies",
+      "controlModelAndDataExecutionIntegrity",
+      "controlInputValidationAndSanitization",
+      "controlOutputValidationAndSanitization",
+      "controlAgentPluginUserControl",
+      "controlAgentPluginPermissions",
+      "controlVulnerabilityManagement",
+      "controlThreatDetection",
+      "controlIncidentResponseManagement",
+      "controlAgentObservability",
+      "controlIsolatedConfidentialComputing",
+      "controlOrchestratorAndRouteIntegrity",
+      "controlAgentInventoryManagement",
+      "controlAgentIntegrityManagement",
+      "controlAgentCredentialIsolation",
+      "controlInterComponentTransportSecurity",
+      "controlComponentIdentityProvenance",
+      "controlAgentExecutionBounds",
+      "controlModelRegistryIntegrity",
+      "controlToolRegistryAndDiscoveryIntegrity"
+    ]
+  }
+}

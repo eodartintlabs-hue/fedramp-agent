@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fedramp.gov/schemas/fedramp-agent/scn-record.schema.json",
+  "title": "FedRAMP Significant Change Notification (SCN) Agent Change Record",
+  "description": "Schema for evaluating, classifying, and recording agent architecture, model serving, tool registry, or TPIR changes under FedRAMP CR-26 SCN rules (SCN-CSO-EVA, SCN-CSO-MAR, SCN-CSO-INF, SCN-ADP-NTF, SCN-TRF-NIP, SCN-TRF-TPR).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "scn_id",
+    "cso_package_id",
+    "agent_id",
+    "service_class",
+    "change_title",
+    "change_classification",
+    "cr26_scn_rules_triggered",
+    "evaluated_at",
+    "planned_effective_date",
+    "impact_assessment",
+    "notification_delivery"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "scn_id": {
+      "type": "string",
+      "pattern": "^SCN-[0-9]{4}-[0-9]{3,}$"
+    },
+    "cso_package_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "agent_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "service_class": {
+      "type": "string",
+      "enum": ["C", "D"]
+    },
+    "change_title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "change_classification": {
+      "type": "string",
+      "enum": [
+        "routine-non-significant",
+        "adaptive-change-notice",
+        "transformative-prior-notice",
+        "transformative-tpir-addition",
+        "emergency-change"
+      ],
+      "description": "Classification per CR-26 SCN subsets (RTR, ADP, TRF, EMG)."
+    },
+    "cr26_scn_rules_triggered": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^SCN-[A-Z]{3}-[A-Z0-9]{3}$"
+      }
+    },
+    "evaluated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "planned_effective_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "impact_assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "affects_minimum_assessment_scope",
+        "introduces_new_tpir",
+        "alters_cryptographic_modules",
+        "alters_tool_egress_boundary",
+        "verification_plan",
+        "rollback_procedure"
+      ],
+      "properties": {
+        "affects_minimum_assessment_scope": { "type": "boolean" },
+        "introduces_new_tpir": { "type": "boolean" },
+        "alters_cryptographic_modules": { "type": "boolean" },
+        "alters_tool_egress_boundary": { "type": "boolean" },
+        "verification_plan": { "type": "string", "minLength": 1 },
+        "rollback_procedure": { "type": "string", "minLength": 1 }
+      }
+    },
+    "notification_delivery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["channel_uri", "sha256_digest", "notified_parties"],
+      "properties": {
+        "channel_uri": { "type": "string", "minLength": 1 },
+        "sha256_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "notified_parties": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

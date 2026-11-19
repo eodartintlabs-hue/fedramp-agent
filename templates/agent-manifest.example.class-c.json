@@ -1,0 +1,140 @@
+{
+  "schema_version": "1.0.0",
+  "agent_id": "procurement-research-agent-c",
+  "name": "Federal Acquisition & FAR Research Agent (Class C)",
+  "version": "1.4.0",
+  "owner": {
+    "team": "Acquisition AI Platform Engineering",
+    "responsible_official": "Patrick Phillips",
+    "contact_email": "security@example-federal-cso.gov"
+  },
+  "fedramp": {
+    "service_class": "C",
+    "certification_tracks": [
+      "20x",
+      "Rev5"
+    ],
+    "certification_path": "Program",
+    "cso_package_id": "FR2628650874",
+    "in_minimum_assessment_scope": true
+  },
+  "agent_profile": "runtime-cso",
+  "data_classification": {
+    "handles_federal_customer_data": true,
+    "handles_sensitive_metadata": true,
+    "fips199_level": "Moderate",
+    "residency_boundary": "United States Commercial Data Zone (CONUS)"
+  },
+  "model_serving": {
+    "inference_provider": "FedRAMP Certified Cloud Hosting Foundation Inference Endpoint (U.S. Data Zone Standard)",
+    "fedramp_certified_tpir_id": "F1209051525",
+    "model_reachability_pep": true,
+    "us_jurisdiction_only": true
+  },
+  "cryptography": {
+    "fips_140_3_validated_modules": true,
+    "modules": [
+      {
+        "name": "BoringCrypto / OpenSSL FIPS Provider",
+        "module_id": "CMVP-4798",
+        "validation_status": "FIPS 140-3 Active",
+        "purpose": "TLS 1.3 mTLS transport encryption across Application PEP, Model Serving PEP, and Tool Network PEP"
+      },
+      {
+        "name": "Cloud Hardware Security Module (HSM) Envelope Provider",
+        "module_id": "CMVP-4512",
+        "validation_status": "FIPS 140-3 Active",
+        "purpose": "AES-256-GCM at-rest encryption for conversation history, vector indices, and audit record repository"
+      }
+    ]
+  },
+  "identity_access": {
+    "digital_identity_level": "IAL2/AAL2/FAL2",
+    "sso_protocol": "OIDC",
+    "encrypted_assertions": true,
+    "local_password_bypass_disabled": true,
+    "delegation_model": "RFC 8693 OAuth 2.0 Token Exchange via Authorization Policy Decision Point issuing short-lived audience-bound capability tokens per tool invocation"
+  },
+  "tool_boundaries": {
+    "network_egress_pep": true,
+    "authorization_pep": true,
+    "tool_registry_allowlist": true,
+    "third_party_tool_isolation": true,
+    "consent_surface_dual_mode": true,
+    "allowed_tools": [
+      "sam_gov_opportunity_lookup",
+      "usaspending_award_query",
+      "far_clause_citation_retriever",
+      "procurement_file_draft_writer"
+    ]
+  },
+  "observability": {
+    "tamper_evident_audit_repo": true,
+    "prompt_response_redacted_from_external_telemetry": true,
+    "audit_control_plane_separated": true
+  },
+  "tpirs": [
+    {
+      "name": "Microsoft Azure Commercial (Cloud Hosting & Managed Inference Infrastructure)",
+      "certified": true,
+      "fedramp_package_id": "F1209051525",
+      "use_case": "Primary hosting substrate, private endpoints, key vault, and U.S. Data Zone managed LLM inference serving.",
+      "mitigations": "Private endpoints enforced; public ingress restricted to WAF; Model Serving PEP enforces U.S. Data Zone destination allowlist and zero data retention by model provider."
+    },
+    {
+      "name": "Managed CI/CD Delivery & Compliance Evidence Pipeline",
+      "certified": false,
+      "fedramp_package_id": null,
+      "use_case": "Out-of-band build orchestration, container image signing, and automated KSI compliance evidence publication.",
+      "mitigations": "Zero Federal Customer Data or runtime prompts enter the build plane; ephemeral self-hosted runners inside the CSO boundary; cosign digest pinning and SLSA provenance verification."
+    }
+  ],
+  "lifecycle": {
+    "vdr_triage_sla_days": 5,
+    "scn_change_channel": "https://trust.example-federal-cso.gov/controlled/significant-changes.json",
+    "iec_incident_channel": "mailto:fedramp_security@fedramp.gov,https://trust.example-federal-cso.gov/controlled/incidents.json",
+    "per_service_certification_artifacts": false,
+    "portable_eval_paths": [
+      "skills/check-cr26-applicability/evals/evals.json",
+      "skills/classify-scn-change/evals/evals.json",
+      "skills/audit-tpir-boundary/evals/evals.json",
+      "skills/map-cosai-controls/evals/evals.json"
+    ],
+    "cosai_component_ids": [
+      "componentModelServing",
+      "componentModelRegistry",
+      "componentReasoningCore",
+      "componentTools",
+      "componentToolRegistry",
+      "componentRAGContent",
+      "componentIdentityProvider",
+      "componentAuthorizationPolicyDecisionPoint",
+      "componentAgentConsentSurface",
+      "componentApplicationConsentSurface",
+      "componentIsolationRuntime",
+      "componentAgentNetworkPolicyEnforcementPoint",
+      "componentAuthorizationPolicyEnforcementPoint",
+      "componentToolNetworkPolicyEnforcementPoint",
+      "componentApplicationNetworkPolicyEnforcementPoint",
+      "componentAuditRecordRepository"
+    ],
+    "cosai_control_ids": [
+      "controlRuntimePrivacyEnhancingTechnologies",
+      "controlInputValidationAndSanitization",
+      "controlOutputValidationAndSanitization",
+      "controlAgentPluginUserControl",
+      "controlAgentPluginPermissions",
+      "controlAgentObservability",
+      "controlRetrievalAndVectorSystemIntegrity",
+      "controlOrchestratorAndRouteIntegrity",
+      "controlAgentInventoryManagement",
+      "controlAgentIntegrityManagement",
+      "controlAgentCredentialIsolation",
+      "controlInterComponentTransportSecurity",
+      "controlComponentIdentityProvenance",
+      "controlAgentExecutionBounds",
+      "controlModelRegistryIntegrity",
+      "controlToolRegistryAndDiscoveryIntegrity"
+    ]
+  }
+}

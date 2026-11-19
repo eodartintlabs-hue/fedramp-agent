@@ -1,0 +1,52 @@
+{
+  "_header": {
+    "notice": "Synthetic test input — not FedRAMP or CoSAI authoritative content. Must not be cited or consumed as production certification data.",
+    "models": "Candidate agent manifest summaries mirroring schemas/agent-manifest.schema.json scoping and control fields.",
+    "completeness": "Closed three-profile synthetic set.",
+    "refresh_policy": "Refresh only if schemas/agent-manifest.schema.json structurally changes required fields."
+  },
+  "candidates": [
+    {
+      "candidate_id": "cand-alpha",
+      "delivery_model": "separately-installed-agency-workstation-binary",
+      "provider_managed_cloud_runtime": false,
+      "service_class": "C",
+      "certification_tracks": ["20x"],
+      "handles_federal_customer_data": false,
+      "handles_sensitive_metadata": false,
+      "mutates_production_cso": false
+    },
+    {
+      "candidate_id": "cand-beta",
+      "delivery_model": "provider-hosted-cloud-service",
+      "provider_managed_cloud_runtime": true,
+      "agent_profile": "internal-devsecops",
+      "service_class": "C",
+      "certification_tracks": ["20x", "Rev5"],
+      "in_minimum_assessment_scope": false,
+      "handles_federal_customer_data": false,
+      "handles_sensitive_metadata": true,
+      "mutates_production_cso": true,
+      "fips_140_3_validated_modules": false,
+      "digital_identity_level": "IAL2/AAL2/FAL2",
+      "vdr_triage_sla_days": 5
+    },
+    {
+      "candidate_id": "cand-gamma",
+      "delivery_model": "provider-hosted-cloud-service",
+      "provider_managed_cloud_runtime": true,
+      "agent_profile": "runtime-cso",
+      "service_class": "D",
+      "certification_tracks": ["Rev5", "20x"],
+      "in_minimum_assessment_scope": true,
+      "handles_federal_customer_data": true,
+      "handles_sensitive_metadata": true,
+      "residency_boundary": "Global Multi-Region Active-Active (US and EU Failover)",
+      "us_jurisdiction_only": false,
+      "fips_140_3_validated_modules": false,
+      "digital_identity_level": "IAL2/AAL2/FAL2",
+      "per_service_certification_artifacts": false,
+      "vdr_triage_sla_days": 5
+    }
+  ]
+}

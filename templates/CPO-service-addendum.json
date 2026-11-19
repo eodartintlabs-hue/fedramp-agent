@@ -1,0 +1,190 @@
+{
+  "$schema": "https://fedramp.gov/schemas/fedramp-certification-package-overview-schema-2026-06-24.json",
+  "metadata": {
+    "responsibleAccountableOfficial": {
+      "name": "Dr. Elena Vance",
+      "title": "Chief Information Security Officer & FedRAMP Program Owner",
+      "email": "high-compliance@example-govcloud-cso.gov",
+      "phone": "202-555-0194"
+    },
+    "version": "2026.11.19.1",
+    "lastUpdated": "2026-11-19T12:00:00Z",
+    "sourceOfUpdate": "Automated compliance pipeline release synced with fedramp-agent standard v1.0.0"
+  },
+  "serviceIdentification": {
+    "fedRampPackageId": "FR2699001122",
+    "providerName": "Example Federal Cloud Systems Inc.",
+    "ueiNumber": "EXMP12345678",
+    "serviceName": "Mission Autonomous Operations & Acquisition Suite",
+    "serviceAcronym": "MAOAS",
+    "serviceDescription": "Enterprise FedRAMP Cloud Service Offering incorporating policy-enforced AI agent services for federal acquisition research (Class C) and mission cyber incident triage (Class D) with CoSAI Risk Map ADR-030 Policy Enforcement Point isolation.",
+    "certificationType": "20x",
+    "website": "https://trust.example-govcloud-cso.gov",
+    "logo": "https://trust.example-govcloud-cso.gov/assets/logo.png"
+  },
+  "serviceProperties": {
+    "serviceType": [
+      "SaaS"
+    ],
+    "deploymentModel": "Public Cloud / GovCloud Sovereign Boundary",
+    "digitalIdentityLevel": "Class C: IAL2/AAL2/FAL2; Class D: IAL3/AAL3/FAL3 via Agency OIDC/SAML SSO with JWE/XML-Enc encrypted assertions",
+    "digitalIdentityReadiness": "Production identity plane enforces NIST SP 800-63-4 digital identity assurance levels per CTL.IA.IA-05. Local password bypass is disabled for all federal tenants. Short-lived audience-scoped tokens govern every downstream agent tool invocation.",
+    "businessCategory": [
+      "Artificial Intelligence (AI)",
+      "Cybersecurity",
+      "Operations Management"
+    ],
+    "trustCenter": {
+      "repositoryType": [
+        "Trust Center"
+      ],
+      "url": "https://trust.example-govcloud-cso.gov/",
+      "repositoryDescription": "Public Trust Center providing machine-readable Certification Package Overview (CPO), Secure Configuration Guidance (SCG), and quarterly Ongoing Certification Reports (OCR).",
+      "authenticationRequired": false
+    },
+    "secureConfigurationGuidance": {
+      "repositoryType": [
+        "Secure Configuration Guidance"
+      ],
+      "url": "https://trust.example-govcloud-cso.gov/scg.html",
+      "repositoryDescription": "Customer and administrator guidance for configuring agent tool allowlists, dual consent surfaces, SSO assertion encryption, and egress Policy Enforcement Points.",
+      "authenticationRequired": false
+    },
+    "additionalRepositories": [
+      {
+        "repositoryType": [
+          "Machine Readable Package",
+          "Git Repository"
+        ],
+        "url": "https://github.com/example-federal-cso/trust-evidence",
+        "repositoryDescription": "Automated nightly KSI and agent-manifest evaluation evidence repository.",
+        "authenticationRequired": false
+      },
+      {
+        "repositoryType": [
+          "Controlled Certification Package"
+        ],
+        "url": "https://trust.example-govcloud-cso.gov/controlled/package.html",
+        "repositoryDescription": "Entitlement-gated access to Security Decision Records (SDR), per-service certification artifacts (CDS-CSO-PSM), SCN notices, and VDR/VER reports.",
+        "authenticationRequired": true,
+        "accessRequestInstructions": "Request a per-party entitlement credential from high-compliance@example-govcloud-cso.gov citing your agency, official purpose, and package ID FR2699001122."
+      }
+    ],
+    "nextOngoingCertificationReportDate": "2027-01-15",
+    "nextQuarterlyReview": {
+      "date": "2027-01-22",
+      "startTime": "14:00:00-05:00",
+      "registrationUrl": "mailto:high-compliance@example-govcloud-cso.gov?subject=Q1%202027%20Quarterly%20Review",
+      "calendarUrl": "https://trust.example-govcloud-cso.gov/calendar/2027-q1.ics",
+      "reportingQuarter": "2027-Q1"
+    },
+    "ongoingCertificationReportFeedbackUrl": "mailto:high-compliance@example-govcloud-cso.gov?subject=OCR%20Feedback"
+  },
+  "certifiedServices": [
+    {
+      "serviceName": "Federal Acquisition & FAR Research Agent (procurement-research-agent-c)",
+      "serviceDescription": "In-boundary runtime CSO agent providing citation-grounded acquisition research and document drafting within an isolated workspace container protected by Application, Agent Network, Model Serving, and Tool Authorization Policy Enforcement Points.",
+      "dateAvailable": "2026-06-01",
+      "securityCategory": "FIPS 199 Moderate (Class C: confidentiality Moderate, integrity Moderate, availability Moderate)",
+      "includedInMinimumAssessmentScope": true
+    },
+    {
+      "serviceName": "High-Impact Mission Cyber & Incident Triage Agent (mission-incident-response-agent-d)",
+      "serviceDescription": "U.S.-jurisdiction sovereign runtime CSO agent performing automated vulnerability correlation (VER-TFR-EVU 2-day SLA) and incident PAIN triage with FIPS 140-3 Level 3 HSM cryptography and IAL3/AAL3/FAL3 identity enforcement.",
+      "dateAvailable": "2026-09-15",
+      "securityCategory": "FIPS 199 High (Class D: confidentiality High, integrity High, availability High)",
+      "includedInMinimumAssessmentScope": true
+    }
+  ],
+  "thirdPartyInformationResources": {
+    "certified": [
+      {
+        "fedRampCertifiedThirdPartyInformationResource": "F1603047866",
+        "name": "AWS GovCloud (US)",
+        "provider": "Amazon Web Services, Inc.",
+        "website": "https://www.fedramp.gov/marketplace/products/F1603047866/",
+        "useCase": "Sovereign cloud hosting, FIPS 140-3 cryptographic modules, private VPC endpoints, dedicated inference compute, and immutable Object Lock WORM audit storage.",
+        "generalUsageAndConfiguration": "All runtime agent containers, model weights, vector stores, and audit repositories operate exclusively in AWS GovCloud (US-East/US-West) regions under U.S. jurisdiction.",
+        "justification": "Provides inherited FedRAMP High physical, environmental, and foundational infrastructure controls.",
+        "mitigationMeasures": [
+          "Enforce VPC endpoint policies and Network Egress PEP allowlists preventing any public internet egress from inference or tool subnets.",
+          "Encrypt all data at rest and in transit using active FIPS 140-3 validated modules (CMU-CSO-UVM)."
+        ],
+        "compensatingControls": [
+          "Separate control-plane audit record repository (CoSAI componentAuditRecordRepository) with WORM retention and cryptographic digest chaining.",
+          "Automated nightly configuration drift and KSI verification."
+        ]
+      }
+    ],
+    "nonCertified": [
+      {
+        "name": "Internal DevSecOps CI/CD & Compliance Evidence Pipeline",
+        "provider": "Example Federal Cloud Systems Inc.",
+        "website": "https://build.example-govcloud-cso.gov",
+        "useCase": "Source control, deterministic manifest and neutrality validation, container image signing, and automated compliance evidence generation.",
+        "generalUsageAndConfiguration": "Self-hosted ephemeral build runners executing inside isolated management subnets; zero Federal Customer Data or production prompts/responses enter this plane.",
+        "justification": "Required for repeatable software delivery, vulnerability scanning (VDR), and automated SDR/OCR artifact publication.",
+        "mitigationMeasures": [
+          "Enforce prompt_response_redacted_from_external_telemetry and block all production data paths to CI/CD systems (MAS-CSO-MDI).",
+          "Pin all build tools by SHA-256 digest and sign release artifacts with FIPS-backed keys."
+        ],
+        "compensatingControls": [
+          "Mandatory pre-commit and CI gates executing validate_manifest.py, check_neutrality.py, and audit_agent_repo.py on every pull request."
+        ]
+      }
+    ]
+  },
+  "documentationOverview": [
+    {
+      "name": "Certification Package Overview (CPO)",
+      "formats": ["HTML", "JSON"],
+      "availability": "Public",
+      "url": "https://trust.example-govcloud-cso.gov/"
+    },
+    {
+      "name": "Secure Configuration Guide (SCG)",
+      "formats": ["Markdown", "HTML", "JSON"],
+      "availability": "Public",
+      "url": "https://trust.example-govcloud-cso.gov/scg.html",
+      "machineReadableUrl": "https://trust.example-govcloud-cso.gov/scg.json"
+    },
+    {
+      "name": "Security Decision Record (SDR) & Per-Service Agent Addenda",
+      "formats": ["Markdown", "JSON"],
+      "availability": "Supplied to authorized agency and assessment personnel via Controlled Certification Package channel (CDS-CSO-PSM)"
+    }
+  ],
+  "servicesOutsideMinimumAssessmentScope": [
+    {
+      "serviceName": "Corporate Marketing & Unconnected Sandbox Environments",
+      "reason": "Neither handles Federal Customer Data/metadata nor connects to, administers, builds, or deploys the certified CSO or its in-scope agents (MAS-CSO-IIR / MAS-CSO-SUP).",
+      "supplemental": true,
+      "includedInCloudServiceOffering": false,
+      "includedInMinimumAssessmentScope": false,
+      "fedRampCertified": false
+    }
+  ],
+  "changeNotificationMechanism": {
+    "mechanism": "Controlled certification-data distribution channel",
+    "description": "All Significant Change Notifications (SCN) affecting agent architectures, model serving endpoints, TPIRs, or security boundaries are published as signed Markdown and JSON records with SHA-256 delivery receipts.",
+    "publishedAt": "https://trust.example-govcloud-cso.gov/#scn",
+    "gatedNoticesPage": "https://trust.example-govcloud-cso.gov/controlled/significant-changes.html",
+    "procedure": "templates/SCN-change-notice.md"
+  },
+  "incidentNotificationMechanism": {
+    "status": "Implemented and tested quarterly",
+    "mechanism": "FedRAMP security email, agency-specific verified channels, and controlled Trust Center feed",
+    "description": "Delivers Initial, Ongoing, and Final Incident Reports per CR-26 IEC rules and VER-TFR-IRI / VER-TFR-NRI vulnerability escalation triggers.",
+    "publishedAt": "https://trust.example-govcloud-cso.gov/#iec",
+    "controlledManifestEndpoint": "https://trust.example-govcloud-cso.gov/api/controlled/incidents",
+    "procedure": "templates/IEC-incident-runbook.md"
+  },
+  "contactInformation": [
+    {
+      "contactType": "Security",
+      "contactName": "Dr. Elena Vance",
+      "contactEmail": "high-compliance@example-govcloud-cso.gov",
+      "contactPhone": "202-555-0194"
+    }
+  ]
+}

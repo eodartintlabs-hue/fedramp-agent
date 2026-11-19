@@ -1,0 +1,35 @@
+{
+  "skill_name": "audit-tpir-boundary",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Audit tpir-scen-1 in skills/audit-tpir-boundary/evals/fixtures/candidate-tpir-inventories.json against FedRAMP CR-26 TPIR and observability boundary rules.",
+      "expected_output": "tpir-scen-1 has four blocking violations: (1) routing unredacted Federal Customer Data to 'Public Uncertified Foundation API' (fedramp_certified_tpir_id=null, external uncertified API) violates MAS-CSO-TPR inference-destination requirements; (2) prompt_response_redacted_from_external_telemetry=false while streaming raw user prompts and completions to non-certified 'External Commercial APM & Trace SaaS' leaks Federal Customer Data and in-scope metadata outside the MAS in violation of MAS-CSO-MDI and MAS-CSO-TPR; (3) the non-certified APM TPIR has an empty mitigations string, violating MAS-CSO-TPR mandatory mitigation documentation; and (4) 'Managed Cloud Storage Service' sets certified=true with fedramp_package_id=null, failing structural certified-TPIR package ID validation. Grounding: pinned to skills/audit-tpir-boundary/evals/fixtures/candidate-tpir-inventories.json.",
+      "expectations": [
+        "Flags uncertified external inference processing of Federal Customer Data under MAS-CSO-TPR",
+        "Flags prompt_response_redacted_from_external_telemetry=false and raw prompt/completion export to the non-certified APM SaaS (plus empty mitigations) under MAS-CSO-MDI and MAS-CSO-TPR",
+        "Flags certified=true with missing fedramp_package_id=null on Managed Cloud Storage Service"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Audit tpir-scen-2 in skills/audit-tpir-boundary/evals/fixtures/candidate-tpir-inventories.json for FedRAMP Class D compliance.",
+      "expected_output": "tpir-scen-2 fails Class D residency mandatory gates (BLOCKING): although it cites a certified package ID and FIPS 140-3 mTLS, setting us_jurisdiction_only=false and configuring automatic disaster-recovery failover to Toronto, Canada violates CTL.SA.SA-09-05 (Class D MUST restrict all information processing, federal customer data, and system services to U.S./U.S. Territories or geographic locations under U.S. jurisdiction). Failover routes on Class D MUST remain strictly within U.S. jurisdiction and fail closed rather than crossing outside U.S. jurisdiction. Grounding: pinned to skills/audit-tpir-boundary/evals/fixtures/candidate-tpir-inventories.json.",
+      "expectations": [
+        "Identifies the Toronto, Canada failover route and us_jurisdiction_only=false as a BLOCKING Class D violation of CTL.SA.SA-09-05",
+        "Explains that even a certified cloud provider or DR failover path cannot process Class D Federal Customer Data outside U.S./U.S. Territories/U.S. jurisdiction",
+        "Requires fail-closed U.S.-jurisdiction-only failover routing with us_jurisdiction_only=true"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Consult the live schemas/tpir-register.schema.json and templates/agent-manifest.example.class-c.json in this repository: what fields are required to document a non-certified CI/CD delivery pipeline TPIR properly, and what boundary controls keep it compliant?",
+      "expected_output": "Live-corpus check: In schemas/tpir-register.schema.json (under thirdPartyInformationResources.nonCertified[]), every non-certified TPIR requires nine fields: name, provider, website, useCase, generalUsageAndConfiguration, justification, mitigationMeasures (non-empty array), and compensatingControls (non-empty array) — and in agent-manifest.json tpirs[], it requires name, certified=false, fedramp_package_id=null, use_case, and non-empty mitigations. As demonstrated in templates/agent-manifest.example.class-c.json, a non-certified CI/CD delivery pipeline stays compliant under MAS-CSO-TPR and KSI-SCR-MIT only when zero Federal Customer Data or runtime prompts enter the build plane, builds run on ephemeral self-hosted runners inside the CSO boundary with federated short-lived credentials, and artifacts enforce cryptographic digest pinning and provenance signatures (CTL.CM.CM-14, CTL.SR.SR-03). Grounding: live lookup against schemas/tpir-register.schema.json and templates/agent-manifest.example.class-c.json.",
+      "expectations": [
+        "Reads live schemas/tpir-register.schema.json and enumerates the required nonCertified object fields (name, provider, website, useCase, generalUsageAndConfiguration, justification, mitigationMeasures, compensatingControls)",
+        "Notes certified=false and fedramp_package_id=null in agent-manifest.json tpirs[]",
+        "States the core boundary controls from templates/agent-manifest.example.class-c.json (zero Federal Customer Data in build plane, ephemeral in-boundary runners, cryptographic digest/signature verification)"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "_header": {
+    "notice": "Synthetic test input — not FedRAMP or CoSAI authoritative content. Must not be cited or consumed as production certification data.",
+    "models": "Two synthetic agent TPIR boundary configurations mirroring schemas/agent-manifest.schema.json.",
+    "completeness": "Two self-contained inventory scenarios.",
+    "refresh_policy": "Refresh only if schemas/agent-manifest.schema.json or schemas/tpir-register.schema.json changes structurally."
+  },
+  "scenarios": [
+    {
+      "scenario_id": "tpir-scen-1",
+      "service_class": "C",
+      "handles_federal_customer_data": true,
+      "model_serving": {
+        "inference_provider": "Public Uncertified Foundation API",
+        "fedramp_certified_tpir_id": null,
+        "model_reachability_pep": true,
+        "us_jurisdiction_only": true
+      },
+      "observability": {
+        "tamper_evident_audit_repo": true,
+        "prompt_response_redacted_from_external_telemetry": false,
+        "audit_control_plane_separated": true
+      },
+      "tpirs": [
+        {
+          "name": "External Commercial APM & Trace SaaS",
+          "certified": false,
+          "fedramp_package_id": null,
+          "use_case": "Receives full agent execution traces including raw user prompts and model completions for debugging.",
+          "mitigations": ""
+        },
+        {
+          "name": "Managed Cloud Storage Service",
+          "certified": true,
+          "fedramp_package_id": null,
+          "use_case": "Encrypted conversation state persistence.",
+          "mitigations": "Private VPC endpoints and TLS 1.3."
+        }
+      ]
+    },
+    {
+      "scenario_id": "tpir-scen-2",
+      "service_class": "D",
+      "handles_federal_customer_data": true,
+      "model_serving": {
+        "inference_provider": "Certified Cloud Inference Cluster with Toronto Canada DR Failover",
+        "fedramp_certified_tpir_id": "F1603047866",
+        "model_reachability_pep": true,
+        "us_jurisdiction_only": false
+      },
+      "observability": {
+        "tamper_evident_audit_repo": true,
+        "prompt_response_redacted_from_external_telemetry": true,
+        "audit_control_plane_separated": true
+      },
+      "tpirs": [
+        {
+          "name": "Sovereign Cloud Hosting with Cross-Border DR",
+          "certified": true,
+          "fedramp_package_id": "F1603047866",
+          "use_case": "Primary inference in US-East with automatic failover to Canada Central during regional outage.",
+          "mitigations": "FIPS 140-3 mTLS 1.3 and zero data retention."
+        }
+      ]
+    }
+  ]
+}

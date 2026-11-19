@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0.0",
+  "agent_id": "fixture-invalid-class-c",
+  "name": "Non-Compliant Class C Test Agent",
+  "version": "1.0.0",
+  "owner": {
+    "team": "Platform Engineering",
+    "responsible_official": "Jane Doe",
+    "contact_email": "compliance@example.gov"
+  },
+  "fedramp": {
+    "service_class": "C",
+    "certification_tracks": ["20x"],
+    "certification_path": "Program",
+    "cso_package_id": "FR2628650874",
+    "in_minimum_assessment_scope": false
+  },
+  "agent_profile": "runtime-cso",
+  "data_classification": {
+    "handles_federal_customer_data": true,
+    "handles_sensitive_metadata": true,
+    "fips199_level": "Moderate",
+    "residency_boundary": "United States Commercial Data Zone"
+  },
+  "model_serving": {
+    "inference_provider": "External Unmanaged Endpoint",
+    "fedramp_certified_tpir_id": null,
+    "model_reachability_pep": false,
+    "us_jurisdiction_only": true
+  },
+  "cryptography": {
+    "fips_140_3_validated_modules": false,
+    "modules": []
+  },
+  "identity_access": {
+    "digital_identity_level": "IAL2/AAL2/FAL2",
+    "sso_protocol": "OIDC",
+    "encrypted_assertions": false,
+    "local_password_bypass_disabled": false,
+    "delegation_model": "Pass-through bearer token"
+  },
+  "tool_boundaries": {
+    "network_egress_pep": false,
+    "authorization_pep": false,
+    "tool_registry_allowlist": false,
+    "third_party_tool_isolation": false,
+    "consent_surface_dual_mode": false,
+    "allowed_tools": []
+  },
+  "observability": {
+    "tamper_evident_audit_repo": false,
+    "prompt_response_redacted_from_external_telemetry": false,
+    "audit_control_plane_separated": false
+  },
+  "tpirs": [
+    {
+      "name": "Unverified External Observability SaaS",
+      "certified": false,
+      "fedramp_package_id": null,
+      "use_case": "External telemetry and APM logging sink.",
+      "mitigations": ""
+    },
+    {
+      "name": "Claimed Certified TPIR Missing Package ID",
+      "certified": true,
+      "fedramp_package_id": null,
+      "use_case": "Secondary storage",
+      "mitigations": "Private link"
+    }
+  ],
+  "lifecycle": {
+    "vdr_triage_sla_days": 10,
+    "scn_change_channel": "https://trust.example.gov/scn.json",
+    "iec_incident_channel": "mailto:fedramp_security@fedramp.gov",
+    "per_service_certification_artifacts": false,
+    "portable_eval_paths": [],
+    "cosai_component_ids": ["componentFakeNonExistent"],
+    "cosai_control_ids": ["controlFakeNonExistent"]
+  }
+}

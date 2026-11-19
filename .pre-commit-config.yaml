@@ -1,0 +1,33 @@
+# Pre-commit hooks for FedRAMP CR-26 & CoSAI ADR-033 AI Agent Compliance Standard
+# Runs using pure Python 3.11+ standard library (zero mandatory external dependencies).
+minimum_pre_commit_version: "3.2.0"
+repos:
+  - repo: local
+    hooks:
+      - id: fedramp-validate-example-manifests
+        name: Validate FedRAMP Class C & Class D Agent Manifests (CR-26)
+        entry: python3 tools/validate_manifest.py
+        language: system
+        files: ^(templates/agent-manifest\.example\.class-[cd]\.json|agent-manifest\.json)$
+        pass_filenames: true
+
+      - id: cosai-check-neutrality
+        name: Enforce CoSAI ADR-033 Vendor Neutrality & SKILL.md Structure
+        entry: python3 tools/check_neutrality.py agents skills
+        language: system
+        files: ^(agents|skills)/
+        pass_filenames: false
+
+      - id: fedramp-audit-repo-class-c
+        name: Audit Repository Compliance Gate (Class C Profile)
+        entry: python3 tools/audit_agent_repo.py --repo . --manifest templates/agent-manifest.example.class-c.json
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      - id: fedramp-audit-repo-class-d
+        name: Audit Repository Compliance Gate (Class D Profile)
+        entry: python3 tools/audit_agent_repo.py --repo . --manifest templates/agent-manifest.example.class-d.json
+        language: system
+        pass_filenames: false
+        always_run: true

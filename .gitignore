@@ -1,0 +1,32 @@
+# Python bytecode & packaging
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+venv/
+ENV/
+
+# Test & coverage caches
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.ruff_cache/
+
+# Generated local compliance report outputs
+compliance-report.md
+compliance-report.json
+artifacts/
+out/
+
+# OS & editor files
+.DS_Store
+Thumbs.db
+*.swp
+*~

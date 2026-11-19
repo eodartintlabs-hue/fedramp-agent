@@ -1,0 +1,79 @@
+# llms.txt — fedramp-agent Enterprise Standard Index
+# Dataset: FedRAMP CR-26 v2026.11.02.01 (2026-11-02) | Analysis Date: 2026-11-19
+
+## Authoritative Entrypoints
+- [README.md](README.md): Executive and developer overview, Class C vs Class D summary, and quickstart CLI.
+- [AGENTS.md](AGENTS.md): Mandatory agent read order, non-negotiable compliance invariants, and pre-PR gates.
+- [relevant-rulesets.md](relevant-rulesets.md): Programmatic CR-26 applicability analysis for 20x and Rev5 (Class C and Class D).
+- [specifications.md](specifications.md): Polyglot agent architecture, runtime-cso vs internal-devsecops profiles, and PEP specs.
+- [CONTRIBUTING.md](CONTRIBUTING.md): Clone/fork/branch workflow, SCN change classification, CI gates, and neutral commit trailers.
+
+## Compliance & Crosswalk Artifacts
+- [compliance/sources-manifest.json](compliance/sources-manifest.json): Pinned upstream SHAs and dataset versions (CR-26, Markdown, Marketplace, CoSAI).
+- [compliance/frd-glossary.md](compliance/frd-glossary.md): Authoritative FedRAMP Rules Definitions (FRD) for agent engineering.
+- [compliance/marketplace-class-cd-analysis.md](compliance/marketplace-class-cd-analysis.md): FedRAMP Marketplace Class C/D CSO and product analysis.
+- [compliance/cosai-crosswalk.md](compliance/cosai-crosswalk.md): Narrative crosswalk between CR-26 rules/controls and CoSAI Risk Map.
+- [compliance/cosai-crosswalk.json](compliance/cosai-crosswalk.json): Machine-readable CR-26 to CoSAI Risk Map control mapping.
+
+## Canonical Agents (Vendor-Neutral)
+- [agents/README.md](agents/README.md): Index and invocation contract for canonical compliance agents.
+- [agents/fedramp-compliance-reviewer.md](agents/fedramp-compliance-reviewer.md): CR-26 Class C/D compliance review agent.
+- [agents/threat-modeler.md](agents/threat-modeler.md): CoSAI ADR-030 agentic threat modeling agent.
+- [agents/change-impact-assessor.md](agents/change-impact-assessor.md): SCN significant-change classification and impact assessor.
+- [agents/evidence-collector.md](agents/evidence-collector.md): SDR and evidence-bundle assembly agent.
+
+## Canonical Skills (Vendor-Neutral)
+- [skills/README.md](skills/README.md): Index and portability rules for canonical compliance skills.
+- [skills/check-cr26-applicability/SKILL.md](skills/check-cr26-applicability/SKILL.md): Evaluate CR-26 20x/Rev5 Class C/D rule applicability.
+- [skills/classify-scn-change/SKILL.md](skills/classify-scn-change/SKILL.md): Classify repository/agent changes under FedRAMP SCN rules.
+- [skills/audit-tpir-boundary/SKILL.md](skills/audit-tpir-boundary/SKILL.md): Audit external models, MCP servers, and APIs against MAS-CSO-TPR.
+- [skills/map-cosai-controls/SKILL.md](skills/map-cosai-controls/SKILL.md): Map agent components to CoSAI Risk Map controls and CR-26 rules.
+
+## JSON Schemas (Draft 2020-12)
+- [schemas/agent-manifest.schema.json](schemas/agent-manifest.schema.json): Canonical schema for team `agent-manifest.json` declarations.
+- [schemas/sdr-agent-addendum.schema.json](schemas/sdr-agent-addendum.schema.json): Schema for System Security / Design Record (SDR) agent addenda.
+- [schemas/scn-record.schema.json](schemas/scn-record.schema.json): Schema for Significant Change Notification (SCN) records.
+- [schemas/tpir-register.schema.json](schemas/tpir-register.schema.json): Schema for Third-Party Information Resource (TPIR) registers.
+- [schemas/evidence-bundle.schema.json](schemas/evidence-bundle.schema.json): Schema for machine-readable compliance evidence bundles.
+
+## Templates
+- [templates/agent-manifest.example.class-c.json](templates/agent-manifest.example.class-c.json): Reference manifest for a Class C agent.
+- [templates/agent-manifest.example.class-d.json](templates/agent-manifest.example.class-d.json): Reference manifest for a Class D agent.
+- [templates/MAS-boundary-statement.md](templates/MAS-boundary-statement.md): Minimum Assessment Scope (MAS) boundary statement template.
+- [templates/SDR-agent-record.md](templates/SDR-agent-record.md): System Design / Security Record (SDR) agent addendum template.
+- [templates/SCG-agent-secure-config.md](templates/SCG-agent-secure-config.md): Secure Configuration Guide (SCG) template for agents.
+- [templates/SCN-change-notice.md](templates/SCN-change-notice.md): Significant Change Notification (SCN) notice template.
+- [templates/VDR-vulnerability-profile.md](templates/VDR-vulnerability-profile.md): VDR/VER vulnerability profile and SLA template (5d Class C / 2d Class D).
+- [templates/IEC-incident-runbook.md](templates/IEC-incident-runbook.md): Incident & Emergency Communication (IEC) runbook template.
+- [templates/CPO-service-addendum.json](templates/CPO-service-addendum.json): Continuous Plan of Action / Ongoing Authorization (CPO) addendum template.
+- [templates/PR-compliance-checklist.md](templates/PR-compliance-checklist.md): Pull Request compliance review checklist.
+
+## Zero-Dependency Python 3.11+ Tooling & Tests
+- [tools/validate_manifest.py](tools/validate_manifest.py): Validate an agent manifest against schema and Class C/D CR-26 rules.
+- [tools/check_neutrality.py](tools/check_neutrality.py): Enforce vendor/harness neutrality across `agents/` and `skills/`.
+- [tools/audit_agent_repo.py](tools/audit_agent_repo.py): Audit a team repository against its manifest and required artifacts.
+- [tools/generate_compliance_report.py](tools/generate_compliance_report.py): Generate Markdown and JSON compliance reports from a manifest.
+- [tests/test_validate_manifest.py](tests/test_validate_manifest.py): Unit tests for manifest validation and Class C/D rule gates.
+- [tests/test_check_neutrality.py](tests/test_check_neutrality.py): Unit tests for the vendor-neutrality gate.
+- [tests/test_audit_agent_repo.py](tests/test_audit_agent_repo.py): Unit tests for repository compliance auditing.
+
+## Documentation & ADRs
+- [docs/getting-started.md](docs/getting-started.md): Day-0 to Day-N onboarding guide for Class C and Class D agent teams.
+- [docs/model-routing-playbook.md](docs/model-routing-playbook.md): Multi-model subscription routing plan and CSO inference boundary rules.
+- [docs/adr/001-fedramp-agent-repo-standard.md](docs/adr/001-fedramp-agent-repo-standard.md): ADR-001 Polyglot dual-audience repository standard.
+- [docs/adr/002-class-c-vs-class-d-compliance-profiles.md](docs/adr/002-class-c-vs-class-d-compliance-profiles.md): ADR-002 Class C vs Class D compliance profiles and non-invention.
+- [docs/adr/003-vendor-neutral-agent-and-eval-shipping.md](docs/adr/003-vendor-neutral-agent-and-eval-shipping.md): ADR-003 Vendor-neutral canonical agents, skills, and portable evals.
+
+## Automation & Packaging
+- [.github/workflows/fedramp-agent-compliance.yml](.github/workflows/fedramp-agent-compliance.yml): CI workflow running manifest, neutrality, audit, and unit-test gates.
+- [.pre-commit-config.yaml](.pre-commit-config.yaml): Local pre-commit hooks for manifest validation and neutrality checks.
+- [pyproject.toml](pyproject.toml): Python 3.11+ project metadata (zero external runtime dependencies).
+- [.gitignore](.gitignore): Standard ignores for Python caches and generated compliance reports.
+
+## Standard CLI Commands
+- `python3 tools/validate_manifest.py templates/agent-manifest.example.class-c.json`
+- `python3 tools/validate_manifest.py templates/agent-manifest.example.class-d.json`
+- `python3 tools/check_neutrality.py agents skills`
+- `python3 tools/audit_agent_repo.py --repo . --manifest templates/agent-manifest.example.class-d.json`
+- `python3 tools/generate_compliance_report.py --manifest templates/agent-manifest.example.class-d.json --md-out compliance-report.md --json-out compliance-report.json`
+- `python3 -m unittest discover -s tests -v`

@@ -1,0 +1,5899 @@
+{
+  "schema_version": "1.0.0",
+  "generated_date": "2026-11-19",
+  "title": "CoSAI Risk Map to FedRAMP Consolidated Rules 2026 (CR-26) Authoritative Crosswalk",
+  "provenance": {
+    "fedramp_cr26_version": "2026.11.02.01",
+    "fedramp_cr26_last_updated": "2026-11-02",
+    "approved_scope": {
+      "service_classes": [
+        "C",
+        "D"
+      ],
+      "certification_tracks": {
+        "C": [
+          "20x",
+          "Rev5"
+        ],
+        "D": [
+          "Rev5",
+          "20x-ready-2027"
+        ]
+      },
+      "agent_profiles": [
+        "runtime-cso",
+        "internal-devsecops"
+      ]
+    },
+    "non_invention_notice": "Five 20x Key Security Indicators (KSI-CNA-EIS, KSI-MLA-ALA, KSI-SVC-PRR, KSI-SVC-RUD, KSI-SVC-VCM) and FRR rule VDR-TFR-MVX omit Class D variants in CR-26 version 2026.11.02.01 because 20x Class D requirements are scheduled for the 2027 Phase 4 Pilot (see SDR-CSX-KMT). No Class D 20x statements are invented for those entries; Class D enforcement relies on common FRR rules and Rev5 High CTL requirements.",
+    "counts": {
+      "cosai_components": 42,
+      "cosai_controls": 37,
+      "cosai_risks": 36,
+      "cosai_personas": 10,
+      "external_frameworks": 6
+    }
+  },
+  "external_frameworks": [
+    {
+      "id": "mitre-atlas",
+      "name": "MITRE ATLAS",
+      "full_name": "Adversarial Threat Landscape for Artificial-Intelligence Systems",
+      "version": "2026.09",
+      "version_id": "mitre-atlas@2026.09",
+      "prior_versions": [
+        "mitre-atlas@5.0.1"
+      ],
+      "last_updated": "2026-09-15",
+      "applicable_to": [
+        "controls",
+        "risks"
+      ],
+      "provenance_note": "Framework registry is at mitre-atlas@2026.09; individual control/risk entries in CoSAI YAML retain version-pinned @5.0.1 identifiers per CoSAI ADR-027 until re-pinned."
+    },
+    {
+      "id": "nist-ai-rmf",
+      "name": "NIST AI RMF",
+      "full_name": "NIST Artificial Intelligence Risk Management Framework",
+      "version": "1.0",
+      "version_id": "nist-ai-rmf@1.0",
+      "prior_versions": [],
+      "last_updated": "2023-01-26",
+      "applicable_to": [
+        "controls"
+      ],
+      "provenance_note": "Subcategory pins follow GOVERN/MAP/MEASURE/MANAGE-X.Y@1.0."
+    },
+    {
+      "id": "stride",
+      "name": "STRIDE",
+      "full_name": "STRIDE Threat Model",
+      "version": null,
+      "version_id": "stride",
+      "prior_versions": [],
+      "last_updated": null,
+      "applicable_to": [
+        "risks"
+      ],
+      "provenance_note": "Unversioned classical threat taxonomy: Spoofing, Tampering, Repudiation, InformationDisclosure, DenialOfService, ElevationOfPrivilege."
+    },
+    {
+      "id": "owasp-top10-llm",
+      "name": "OWASP Top 10 for LLM",
+      "full_name": "OWASP Top 10 for Large Language Model Applications",
+      "version": "2025",
+      "version_id": "owasp-top10-llm@2025",
+      "prior_versions": [],
+      "last_updated": "2024-11-18",
+      "applicable_to": [
+        "controls",
+        "risks"
+      ],
+      "provenance_note": "Identifiers use LLM01:2025 through LLM10:2025."
+    },
+    {
+      "id": "iso-22989",
+      "name": "ISO 22989",
+      "full_name": "ISO/IEC 22989 Artificial Intelligence Concepts and Terminology",
+      "version": "2022",
+      "version_id": "iso-22989@2022",
+      "prior_versions": [],
+      "last_updated": "2022-07-01",
+      "applicable_to": [
+        "personas"
+      ],
+      "provenance_note": "Maps CoSAI personas to international AI ecosystem role taxonomy."
+    },
+    {
+      "id": "eu-ai-act",
+      "name": "EU AI Act",
+      "full_name": "European Union Artificial Intelligence Act",
+      "version": "2024",
+      "version_id": "eu-ai-act@2024",
+      "prior_versions": [],
+      "last_updated": "2024-06-13",
+      "applicable_to": [
+        "personas",
+        "controls"
+      ],
+      "provenance_note": "Supported in CoSAI frameworks.yaml for persona and control mappings."
+    }
+  ],
+  "class_c_vs_d_key_elevations": [
+    {
+      "domain": "Cryptographic Modules",
+      "rule_ids": [
+        "CMU-CSO-UVM",
+        "CMU-CSO-CMD",
+        "CTL.SC.SC-13"
+      ],
+      "class_c": "SHOULD use active CMVP FIPS-validated modules (SDR rationale required if non-validated).",
+      "class_d": "MUST use active CMVP FIPS-validated cryptographic modules across all federal data protection boundaries.",
+      "manifest_field": "cryptography.fips_140_3_validated_modules"
+    },
+    {
+      "domain": "Per-Service Certification Materials",
+      "rule_ids": [
+        "CDS-CSO-PSM"
+      ],
+      "class_c": "MAY supply per-service FedRAMP Certification materials.",
+      "class_d": "MUST supply per-service FedRAMP Certification materials.",
+      "manifest_field": "lifecycle.per_service_certification_artifacts"
+    },
+    {
+      "domain": "Digital Identity & Encrypted Assertions",
+      "rule_ids": [
+        "CTL.IA.IA-05"
+      ],
+      "class_c": "NIST Digital Identity Guidelines IAL2/AAL2/FAL2 + XML-Encryption (SAML) or JWE (OIDC) assertions.",
+      "class_d": "NIST Digital Identity Guidelines IAL3/AAL3/FAL3 + XML-Encryption (SAML) or JWE (OIDC) assertions.",
+      "manifest_field": "identity_access.digital_identity_level"
+    },
+    {
+      "domain": "Data, Inference & Service Residency",
+      "rule_ids": [
+        "CTL.SA.SA-09-05"
+      ],
+      "class_c": "Document external service locations for all federal customer data.",
+      "class_d": "All information processing, federal customer data, and system services MUST remain within U.S./U.S. Territories or geographic locations under U.S. jurisdiction.",
+      "manifest_field": "model_serving.us_jurisdiction_only"
+    },
+    {
+      "domain": "Vulnerability Evaluation & Incident Escalation",
+      "rule_ids": [
+        "VER-TFR-EVU",
+        "VER-TFR-NRI",
+        "VDR-TFR-PVR"
+      ],
+      "class_c": "Evaluate within <= 5 days (VER-TFR-EVU); PAIN=5 IRV+LEV mitigated within 2 days (VDR-TFR-PVR); non-IRV PAIN=5 LEV incident treatment is MAY (VER-TFR-NRI).",
+      "class_d": "Evaluate within <= 2 days (VER-TFR-EVU); PAIN=5 IRV+LEV mitigated within 12 hours (VDR-TFR-PVR); non-IRV PAIN=5 LEV incident treatment elevates to SHOULD (VER-TFR-NRI).",
+      "manifest_field": "lifecycle.vdr_triage_sla_days"
+    }
+  ],
+  "components": [
+    {
+      "id": "componentDataSources",
+      "title": "Data Sources",
+      "category": "componentsInfrastructure",
+      "subcategory": "componentsData",
+      "edges": {
+        "to": [
+          "componentDataFilteringAndProcessing"
+        ],
+        "from": []
+      },
+      "adr030_decision": "Baseline Data Tier",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-FLO",
+        "MAS-CSO-TPR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-PIY-GIV",
+        "KSI-SCR-MIT",
+        "KSI-SVC-SIN"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-08",
+        "CTL.CM.CM-12",
+        "CTL.SA.SA-09-05",
+        "CTL.SR.SR-03"
+      ],
+      "agent_manifest_paths": [
+        "data_classification.handles_federal_customer_data",
+        "tpirs"
+      ],
+      "class_c_vs_d_delta": "Class D mandates U.S./U.S. Territories/U.S. jurisdiction residency for all federal customer data sources and processing (CTL.SA.SA-09-05).",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "componentDataFilteringAndProcessing",
+      "title": "Data Filtering and Processing",
+      "category": "componentsInfrastructure",
+      "subcategory": "componentsData",
+      "edges": {
+        "to": [
+          "componentTrainingData"
+        ],
+        "from": [
+          "componentDataSources"
+        ]
+      },
+      "adr030_decision": "Baseline Data Tier",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-MDI",
+        "CMU-CSO-UVM"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-RUD",
+        "KSI-SVC-SIN",
+        "KSI-SVC-VRI"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-SVC-RUD"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-12",
+        "CTL.SI.SI-08",
+        "CTL.SC.SC-13"
+      ],
+      "agent_manifest_paths": [
+        "observability.prompt_response_redacted_from_external_telemetry",
+        "data_classification.handles_sensitive_metadata"
+      ],
+      "class_c_vs_d_delta": "Class D requires FIPS-validated modules (CMU-CSO-UVM MUST vs Class C SHOULD); note KSI-SVC-RUD defines Class B/C only in 2026.11.02.01 (20x Class D pending 2027).",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "componentTrainingData",
+      "title": "Training Data",
+      "category": "componentsInfrastructure",
+      "subcategory": "componentsData",
+      "edges": {
+        "to": [
+          "componentDataStorage"
+        ],
+        "from": [
+          "componentDataFilteringAndProcessing"
+        ]
+      },
+      "adr030_decision": "D11 (Training Tier Reachability)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-FLO",
+        "SDR-CSO-FRR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-SIN",
+        "KSI-SVC-VRI",
+        "KSI-PIY-GIV"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-12",
+        "CTL.CM.CM-12-01",
+        "CTL.SA.SA-09-05"
+      ],
+      "agent_manifest_paths": [
+        "data_classification.handles_federal_customer_data",
+        "data_classification.residency_boundary"
+      ],
+      "class_c_vs_d_delta": "Federal Customer Data MUST NOT enter shared/unscoped training corpora; Class D enforces strict U.S. jurisdiction residency (CTL.SA.SA-09-05).",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "componentDataStorage",
+      "title": "Data Storage Infrastructure",
+      "category": "componentsInfrastructure",
+      "subcategory": "componentsData",
+      "edges": {
+        "to": [
+          "componentModelTrainingTuning"
+        ],
+        "from": [
+          "componentTrainingData"
+        ]
+      },
+      "adr030_decision": "D15 (Storage Separation vs Audit Repository)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "CMU-CSO-CMD",
+        "CMU-CSO-UVM"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-SIN",
+        "KSI-SVC-ASM",
+        "KSI-RPL-ABO"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SC.SC-13",
+        "CTL.CM.CM-12",
+        "CTL.SA.SA-09-05",
+        "CTL.CP.CP-07-01"
+      ],
+      "agent_manifest_paths": [
+        "cryptography.fips_140_3_validated_modules",
+        "cryptography.modules",
+        "data_classification.residency_boundary"
+      ],
+      "class_c_vs_d_delta": "Class C SHOULD vs Class D MUST use active FIPS-validated cryptographic modules at rest (CMU-CSO-UVM); Class D enforces U.S. jurisdiction storage (CTL.SA.SA-09-05).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentModelFrameworksAndCode",
+      "title": "Model Frameworks and Code",
+      "category": "componentsModel",
+      "subcategory": "componentsModelTraining",
+      "edges": {
+        "to": [
+          "componentModelTrainingTuning"
+        ],
+        "from": []
+      },
+      "adr030_decision": "Baseline Model Training Tier",
+      "fedramp_frr_ids": [
+        "VDR-CSO-DET",
+        "VDR-TFR-KEV",
+        "VER-TFR-EVU",
+        "SCN-CSO-EVA"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SCR-MIT",
+        "KSI-SCR-MON",
+        "KSI-PIY-RSD",
+        "KSI-CMT-VTD"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SR.SR-03",
+        "CTL.CM.CM-14",
+        "CTL.SI.SI-02",
+        "CTL.RA.RA-05"
+      ],
+      "agent_manifest_paths": [
+        "lifecycle.vdr_triage_sla_days"
+      ],
+      "class_c_vs_d_delta": "Vulnerability evaluation SLA tightens from <= 5 days (Class C) to <= 2 days (Class D) under VER-TFR-EVU; Class D SHOULD escalate non-internet-reachable PAIN=5 LEVs as incidents (VER-TFR-NRI).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentModelEvaluation",
+      "title": "Model Evaluation",
+      "category": "componentsModel",
+      "subcategory": "componentsModelTraining",
+      "edges": {
+        "to": [
+          "componentModelTrainingTuning"
+        ],
+        "from": [
+          "componentTheModel"
+        ]
+      },
+      "adr030_decision": "D11 (Evaluation Consumes Model Artifact)",
+      "fedramp_frr_ids": [
+        "IVV-CSO-SEE",
+        "IVV-CSO-SEI",
+        "SCN-CSO-EVA",
+        "FRC-CSX-VVK"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CMT-VTD",
+        "KSI-SVC-EIS",
+        "KSI-PIY-RSD"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CA.CA-02",
+        "CTL.CA.CA-07",
+        "CTL.CA.CA-08"
+      ],
+      "agent_manifest_paths": [
+        "lifecycle.portable_eval_paths"
+      ],
+      "class_c_vs_d_delta": "Both Class C and Class D MUST run automated KSI validation in 20x (FRC-CSX-VVK) and supply per-service certification artifacts in Class D (CDS-CSO-PSM MUST vs Class C MAY).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentModelTrainingTuning",
+      "title": "Training and Tuning",
+      "category": "componentsModel",
+      "subcategory": "componentsModelTraining",
+      "edges": {
+        "to": [
+          "componentTheModel",
+          "componentModelStorage",
+          "componentModelRegistry"
+        ],
+        "from": [
+          "componentModelEvaluation",
+          "componentModelFrameworksAndCode",
+          "componentDataStorage"
+        ]
+      },
+      "adr030_decision": "D11 (Sole Non-Serving Producer of Model Artifact)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "SCN-CSO-EVA",
+        "SCN-TRF-NIP",
+        "SDR-CSO-FRR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CMT-LMC",
+        "KSI-SVC-VRI",
+        "KSI-SCR-MIT"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-14",
+        "CTL.SR.SR-03",
+        "CTL.SA.SA-09-05"
+      ],
+      "agent_manifest_paths": [
+        "data_classification.residency_boundary"
+      ],
+      "class_c_vs_d_delta": "Fine-tuning on Federal Customer Data triggers MAS inclusion and Class D U.S.-jurisdiction compute constraints (CTL.SA.SA-09-05).",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "componentModelStorage",
+      "title": "Model Storage",
+      "category": "componentsInfrastructure",
+      "subcategory": "componentsDeployment",
+      "edges": {
+        "to": [
+          "componentModelServing"
+        ],
+        "from": [
+          "componentModelRegistry",
+          "componentModelTrainingTuning"
+        ]
+      },
+      "adr030_decision": "D3, D11 (Deployment Substrate Reaching Serving, Not Artifact)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "CMU-CSO-CMD",
+        "CMU-CSO-UVM",
+        "SCG-CSO-SDF"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-VRI",
+        "KSI-SVC-SIN",
+        "KSI-SVC-ASM"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-14",
+        "CTL.SC.SC-13",
+        "CTL.SA.SA-09-05"
+      ],
+      "agent_manifest_paths": [
+        "cryptography.fips_140_3_validated_modules",
+        "model_serving.us_jurisdiction_only"
+      ],
+      "class_c_vs_d_delta": "Class D MUST encrypt stored model weights/adapters with active FIPS-validated modules (CMU-CSO-UVM) within U.S. jurisdiction (CTL.SA.SA-09-05).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentModelServing",
+      "title": "Model Serving Infrastructure & Policy Enforcement Point",
+      "category": "componentsModel",
+      "subcategory": "componentsModelCore",
+      "edges": {
+        "to": [
+          "componentTheModel",
+          "componentAuditRecordRepository",
+          "componentApplicationNetworkPolicyEnforcementPoint",
+          "componentAgentNetworkPolicyEnforcementPoint",
+          "componentOrchestrationInputHandling"
+        ],
+        "from": [
+          "componentModelRegistry",
+          "componentModelStorage",
+          "componentRuntimeHosting",
+          "componentTheModel",
+          "componentApplicationNetworkPolicyEnforcementPoint",
+          "componentAgentNetworkPolicyEnforcementPoint",
+          "componentOrchestrationOutputHandling",
+          "componentIdentityProvider",
+          "componentAuthorizationPolicyDecisionPoint"
+        ]
+      },
+      "adr030_decision": "D11, D12 (Sole Runtime Door & Model-Tier Policy Enforcement Point)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-TPR",
+        "CMU-CSO-UVM",
+        "SCG-CSO-RSC"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-RNT",
+        "KSI-IAM-SNU",
+        "KSI-SVC-VCM",
+        "KSI-MLA-LET"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-SVC-VCM"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.SC.SC-07",
+        "CTL.SC.SC-13",
+        "CTL.SA.SA-09-05",
+        "CTL.AC.AC-06-01"
+      ],
+      "agent_manifest_paths": [
+        "model_serving.model_reachability_pep",
+        "model_serving.fedramp_certified_tpir_id",
+        "model_serving.us_jurisdiction_only"
+      ],
+      "class_c_vs_d_delta": "Class D enforces U.S.-jurisdiction-only inference processing (CTL.SA.SA-09-05) and mandatory FIPS 140-3 mTLS termination (CMU-CSO-UVM MUST); note KSI-SVC-VCM omits Class D in 2026.11.02.01.",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentModelRegistry",
+      "title": "Model Registry and Marketplace",
+      "category": "componentsInfrastructure",
+      "subcategory": "componentsRegistries",
+      "edges": {
+        "to": [
+          "componentModelServing",
+          "componentModelStorage",
+          "componentAuditRecordRepository"
+        ],
+        "from": [
+          "componentModelTrainingTuning"
+        ]
+      },
+      "adr030_decision": "D1, D11, D12 (Infrastructure Registry Consulted by Model Serving PEP)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "SCN-CSO-EVA",
+        "VDR-CSO-DET"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-PIY-GIV",
+        "KSI-SVC-VRI",
+        "KSI-SCR-MIT",
+        "KSI-CMT-LMC"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-08",
+        "CTL.CM.CM-14",
+        "CTL.SR.SR-03"
+      ],
+      "agent_manifest_paths": [
+        "model_serving.inference_provider",
+        "lifecycle.cosai_component_ids"
+      ],
+      "class_c_vs_d_delta": "Swapping registered foundation models or quantization/adapter digests requires SCN evaluation (SCN-CSO-EVA) and Class D per-service artifact updates (CDS-CSO-PSM MUST).",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "componentTheModel",
+      "title": "The Model",
+      "category": "componentsModel",
+      "subcategory": "componentsModelCore",
+      "edges": {
+        "to": [
+          "componentModelEvaluation",
+          "componentModelServing"
+        ],
+        "from": [
+          "componentModelTrainingTuning",
+          "componentModelServing"
+        ]
+      },
+      "adr030_decision": "D11 (Strict Reachability Boundary: Training & Serving Only)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-TPR",
+        "SCN-CSO-EVA"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-VRI",
+        "KSI-SCR-MIT",
+        "KSI-CNA-MAT"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-08",
+        "CTL.CM.CM-14",
+        "CTL.SA.SA-09-05"
+      ],
+      "agent_manifest_paths": [
+        "model_serving.model_reachability_pep",
+        "model_serving.fedramp_certified_tpir_id"
+      ],
+      "class_c_vs_d_delta": "Direct consumer-tier edges to the model artifact are prohibited in both classes (model_reachability_pep=true); Class D mandates U.S. residency for hosted weights (CTL.SA.SA-09-05).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentApplication",
+      "title": "Application",
+      "category": "componentsApplication",
+      "subcategory": "componentsApplicationCore",
+      "edges": {
+        "to": [
+          "componentApplicationOutputHandling",
+          "componentAuditRecordRepository"
+        ],
+        "from": [
+          "componentApplicationInputHandling",
+          "componentRuntimeHosting"
+        ]
+      },
+      "adr030_decision": "D6, D8 (Hosted on Runtime Hosting; No Direct Tool Invocation)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "FRC-CSX-MAS",
+        "SCG-CSO-RSC",
+        "SCG-CSO-AUP"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-DFP",
+        "KSI-IAM-ELP",
+        "KSI-MLA-LET"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.AC.AC-06-01",
+        "CTL.CM.CM-08",
+        "CTL.IA.IA-02"
+      ],
+      "agent_manifest_paths": [
+        "fedramp.in_minimum_assessment_scope",
+        "agent_profile"
+      ],
+      "class_c_vs_d_delta": "Class D requires per-service certification materials (CDS-CSO-PSM MUST vs Class C MAY) and IAL3/AAL3/FAL3 user authentication (CTL.IA.IA-05).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentApplicationOutputHandling",
+      "title": "Application Output Handling",
+      "category": "componentsApplication",
+      "subcategory": "componentsApplicationCore",
+      "edges": {
+        "to": [
+          "componentApplicationNetworkPolicyEnforcementPoint",
+          "componentApplicationConsentSurface",
+          "componentAuditRecordRepository"
+        ],
+        "from": [
+          "componentApplication"
+        ]
+      },
+      "adr030_decision": "D7, D11 (Application Outbound Rendering Sanitization)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-FLO"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-RNT",
+        "KSI-SVC-SIN"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SI.SI-04",
+        "CTL.SC.SC-07"
+      ],
+      "agent_manifest_paths": [
+        "lifecycle.cosai_control_ids"
+      ],
+      "class_c_vs_d_delta": "Prevents markdown/HTML exfiltration beacons from leaking Federal Customer Data; breach impact escalates to High/PAIN=5 faster in Class D (IEC-CSO-EFR).",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "componentApplicationInputHandling",
+      "title": "Application Input Handling",
+      "category": "componentsApplication",
+      "subcategory": "componentsApplicationCore",
+      "edges": {
+        "to": [
+          "componentApplication",
+          "componentAuditRecordRepository"
+        ],
+        "from": [
+          "componentApplicationNetworkPolicyEnforcementPoint",
+          "componentApplicationConsentSurface"
+        ]
+      },
+      "adr030_decision": "D7, D11 (Application In-Flow Validation Layer)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "SCG-CSO-SDF"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-MAT",
+        "KSI-SVC-VCM"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-SVC-VCM"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.SI.SI-04",
+        "CTL.SC.SC-07"
+      ],
+      "agent_manifest_paths": [
+        "lifecycle.cosai_control_ids"
+      ],
+      "class_c_vs_d_delta": "Same structural input validation mandate across Class C and Class D; KSI-SVC-VCM defines Class B/C in 2026.11.02.01 (Class D Rev5 relies on CTL.SC.SC-07 / CTL.SI.SI-04).",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "componentReasoningCore",
+      "title": "Agent Reasoning Core",
+      "category": "componentsApplication",
+      "subcategory": "componentsAgent",
+      "edges": {
+        "to": [
+          "componentAgentOutputHandling",
+          "componentAuditRecordRepository"
+        ],
+        "from": [
+          "componentAgentInputHandling",
+          "componentRuntimeHosting"
+        ]
+      },
+      "adr030_decision": "D6, D8 (Decoupled from Orchestration; Gated by Agent I/O Handling)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "SCG-CSO-SDF",
+        "SCN-CSO-EVA"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-DFP",
+        "KSI-CNA-OFA",
+        "KSI-MLA-LET"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.AC.AC-06-01",
+        "CTL.CM.CM-08",
+        "CTL.AU.AU-12"
+      ],
+      "agent_manifest_paths": [
+        "fedramp.in_minimum_assessment_scope",
+        "lifecycle.cosai_component_ids"
+      ],
+      "class_c_vs_d_delta": "Enforces bounded turn/token loops in both classes; Class D requires per-service certification documentation covering reasoning-core autonomy boundaries (CDS-CSO-PSM MUST).",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "componentOrchestrationOutputHandling",
+      "title": "Orchestration Output Handling",
+      "category": "componentsModel",
+      "subcategory": "componentsOrchestration",
+      "edges": {
+        "to": [
+          "componentAuditRecordRepository",
+          "componentModelServing"
+        ],
+        "from": [
+          "componentMemory",
+          "componentRAGContent",
+          "componentOrchestrationInputHandling"
+        ]
+      },
+      "adr030_decision": "D4, D8 (Model-Side Orchestration Output Gate)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-FLO",
+        "SCG-CSO-SDF"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-SIN",
+        "KSI-MLA-LET"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SI.SI-04",
+        "CTL.AU.AU-12"
+      ],
+      "agent_manifest_paths": [
+        "model_serving.model_reachability_pep"
+      ],
+      "class_c_vs_d_delta": "Validates retrieved/memory-augmented model outputs prior to returning across Model Serving PEP.",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "componentOrchestrationInputHandling",
+      "title": "Orchestration Input Handling",
+      "category": "componentsModel",
+      "subcategory": "componentsOrchestration",
+      "edges": {
+        "to": [
+          "componentMemory",
+          "componentRAGContent",
+          "componentAuditRecordRepository",
+          "componentOrchestrationOutputHandling"
+        ],
+        "from": [
+          "componentModelServing"
+        ]
+      },
+      "adr030_decision": "D4, D8, D14 (Model-Side Orchestration Input Gate; No Direct Tool Registry Bypass)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "SCG-CSO-SDF"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-MAT",
+        "KSI-SVC-SIN"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SI.SI-04",
+        "CTL.SC.SC-07"
+      ],
+      "agent_manifest_paths": [
+        "model_serving.model_reachability_pep"
+      ],
+      "class_c_vs_d_delta": "Operates behind Model Serving PEP under single model-operator authority in both Class C and Class D.",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "componentTools",
+      "title": "External Tool Capabilities",
+      "category": "componentsExternalTools",
+      "subcategory": "componentsToolInvocationPath",
+      "edges": {
+        "to": [
+          "componentToolServer",
+          "componentToolRegistry",
+          "componentAuditRecordRepository"
+        ],
+        "from": [
+          "componentToolServer"
+        ]
+      },
+      "adr030_decision": "D1 (External Tool Capabilities: Executable Tools & Retrievable Resources)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-TPR",
+        "SCG-CSO-SDF",
+        "SCN-CSO-EVA"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-DFP",
+        "KSI-IAM-ELP",
+        "KSI-PIY-GIV"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.AC.AC-06-08",
+        "CTL.CM.CM-08",
+        "CTL.AC.AC-20"
+      ],
+      "agent_manifest_paths": [
+        "tool_boundaries.allowed_tools",
+        "tool_boundaries.tool_registry_allowlist"
+      ],
+      "class_c_vs_d_delta": "Explicitly enumerated in allowed_tools (CTL.AC.AC-06-08 software/capability allowlisting); adding side-effecting external tools triggers SCN evaluation (SCN-CSO-EVA).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentToolRegistry",
+      "title": "Tool Registry and Discovery",
+      "category": "componentsInfrastructure",
+      "subcategory": "componentsRegistries",
+      "edges": {
+        "to": [
+          "componentAgentNetworkPolicyEnforcementPoint",
+          "componentAuditRecordRepository"
+        ],
+        "from": [
+          "componentTools"
+        ]
+      },
+      "adr030_decision": "D1, D14 (Infrastructure Tool Catalog Consulted by Agent Network PEP)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-TPR",
+        "SCN-CSO-EVA",
+        "VDR-TFR-PDD"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-PIY-GIV",
+        "KSI-SVC-VRI",
+        "KSI-SVC-ACM"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-08",
+        "CTL.CM.CM-14",
+        "CTL.AC.AC-06-08"
+      ],
+      "agent_manifest_paths": [
+        "tool_boundaries.tool_registry_allowlist",
+        "tool_boundaries.allowed_tools"
+      ],
+      "class_c_vs_d_delta": "Cryptographically pinned allowlist consulted at connection admission by Agent Network PEP (ADR-030 D14); mandatory true in both Class C and Class D.",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentMemory",
+      "title": "Model Memory",
+      "category": "componentsModel",
+      "subcategory": "componentsOrchestration",
+      "edges": {
+        "to": [
+          "componentOrchestrationOutputHandling"
+        ],
+        "from": [
+          "componentOrchestrationInputHandling"
+        ]
+      },
+      "adr030_decision": "D8 (Orchestration Memory Subgraph Behind Model Serving)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-MDI",
+        "CMU-CSO-UVM"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-SIN",
+        "KSI-SVC-PRR",
+        "KSI-SVC-RUD"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-SVC-PRR",
+        "KSI-SVC-RUD"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-12",
+        "CTL.SC.SC-13",
+        "CTL.SA.SA-09-05"
+      ],
+      "agent_manifest_paths": [
+        "data_classification.handles_federal_customer_data",
+        "cryptography.fips_140_3_validated_modules"
+      ],
+      "class_c_vs_d_delta": "Tenant-partitioned session/long-term memory encrypted via FIPS modules (Class D MUST under CMU-CSO-UVM) within U.S. jurisdiction (Class D CTL.SA.SA-09-05); note KSI-SVC-PRR and KSI-SVC-RUD omit Class D in 2026.11.02.01.",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentRAGContent",
+      "title": "Retrieval Augmented Generation & Content",
+      "category": "componentsModel",
+      "subcategory": "componentsOrchestration",
+      "edges": {
+        "to": [
+          "componentOrchestrationOutputHandling"
+        ],
+        "from": [
+          "componentOrchestrationInputHandling"
+        ]
+      },
+      "adr030_decision": "D8 (Orchestration Retrieval Subgraph Behind Model Serving)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-FLO",
+        "MAS-CSO-TPR",
+        "CMU-CSO-UVM"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-SIN",
+        "KSI-SVC-VRI",
+        "KSI-IAM-ELP"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-12",
+        "CTL.AC.AC-06-01",
+        "CTL.SC.SC-13",
+        "CTL.SA.SA-09-05"
+      ],
+      "agent_manifest_paths": [
+        "data_classification.handles_federal_customer_data",
+        "tpirs"
+      ],
+      "class_c_vs_d_delta": "Enforces document-level ACLs at retrieval time; external vector stores are TPIRs (MAS-CSO-TPR) requiring U.S. residency and FIPS 140-3 encryption in Class D.",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "componentAgentUserQuery",
+      "title": "Agent User Query",
+      "category": "componentsApplication",
+      "subcategory": "componentsAgent",
+      "edges": {
+        "to": [
+          "componentAgentInputHandling"
+        ],
+        "from": []
+      },
+      "adr030_decision": "Baseline Agent Input Primitive",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-MDI",
+        "MAS-CSO-FLO"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-SIN",
+        "KSI-MLA-LET"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-12",
+        "CTL.SA.SA-09-05"
+      ],
+      "agent_manifest_paths": [
+        "data_classification.handles_federal_customer_data",
+        "observability.prompt_response_redacted_from_external_telemetry"
+      ],
+      "class_c_vs_d_delta": "User queries in runtime-cso agents constitute Federal Customer Data (FRD-FCD); Class D restricts all processing and caching to U.S. jurisdiction (CTL.SA.SA-09-05).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentAgentSystemInstruction",
+      "title": "Agent System Instructions",
+      "category": "componentsApplication",
+      "subcategory": "componentsAgent",
+      "edges": {
+        "to": [
+          "componentAgentInputHandling"
+        ],
+        "from": []
+      },
+      "adr030_decision": "Baseline Agent Instruction Primitive",
+      "fedramp_frr_ids": [
+        "SCG-CSO-RSC",
+        "SCG-CSO-SDF",
+        "SCN-CSO-EVA"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CMT-LMC",
+        "KSI-CMT-RMV",
+        "KSI-SVC-VRI"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-14",
+        "CTL.CM.CM-08"
+      ],
+      "agent_manifest_paths": [
+        "lifecycle.scn_change_channel"
+      ],
+      "class_c_vs_d_delta": "System instructions are version-controlled configuration baselines; material permission-altering prompt changes require SCN evaluation (SCN-CSO-EVA).",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "componentAgentInputHandling",
+      "title": "Agent Input Handling",
+      "category": "componentsApplication",
+      "subcategory": "componentsAgent",
+      "edges": {
+        "to": [
+          "componentReasoningCore",
+          "componentAuditRecordRepository"
+        ],
+        "from": [
+          "componentAgentUserQuery",
+          "componentAgentSystemInstruction",
+          "componentAgentConsentSurface",
+          "componentAgentNetworkPolicyEnforcementPoint"
+        ]
+      },
+      "adr030_decision": "D7, D8 (Sole Content Ingress Gate to Reasoning Core, Including Tool Metadata)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "SCG-CSO-SDF"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-MAT",
+        "KSI-SVC-VCM"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-SVC-VCM"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.SI.SI-04",
+        "CTL.SC.SC-07"
+      ],
+      "agent_manifest_paths": [
+        "lifecycle.cosai_control_ids"
+      ],
+      "class_c_vs_d_delta": "Screens untrusted context, retrieved documents, and remote MCP tools/list metadata before Reasoning Core ingestion across Class C and Class D.",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "componentAgentOutputHandling",
+      "title": "Agent Output Handling",
+      "category": "componentsApplication",
+      "subcategory": "componentsAgent",
+      "edges": {
+        "to": [
+          "componentAgentConsentSurface",
+          "componentAgentNetworkPolicyEnforcementPoint",
+          "componentAuditRecordRepository"
+        ],
+        "from": [
+          "componentReasoningCore"
+        ]
+      },
+      "adr030_decision": "D7, D8 (Sole Content Egress Gate from Reasoning Core)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-FLO",
+        "MAS-CSO-MDI"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-SIN",
+        "KSI-CNA-RNT"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SI.SI-04",
+        "CTL.SC.SC-07"
+      ],
+      "agent_manifest_paths": [
+        "observability.prompt_response_redacted_from_external_telemetry"
+      ],
+      "class_c_vs_d_delta": "Sanitizes structured tool-call proposals and rendered responses; strips Federal Customer Data from external telemetry across Class C and Class D.",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentIdentityProvider",
+      "title": "Identity Provider",
+      "category": "componentsInfrastructure",
+      "subcategory": "componentsIdentity",
+      "edges": {
+        "to": [
+          "componentAuthorizationPolicyDecisionPoint",
+          "componentFederationProxy",
+          "componentToolNetworkPolicyEnforcementPoint",
+          "componentAgentNetworkPolicyEnforcementPoint",
+          "componentApplicationNetworkPolicyEnforcementPoint",
+          "componentModelServing",
+          "componentAuditRecordRepository"
+        ],
+        "from": []
+      },
+      "adr030_decision": "D2, D9 (Identity Plane Trust Root & Subject-Attribute PIP)",
+      "fedramp_frr_ids": [
+        "SCG-CSO-RSC",
+        "SCG-CSO-SDF",
+        "CMU-CSO-UVM"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-IAM-AAM",
+        "KSI-IAM-APM",
+        "KSI-IAM-SNU",
+        "KSI-IAM-SUS"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.IA.IA-02",
+        "CTL.IA.IA-02-01",
+        "CTL.IA.IA-02-06",
+        "CTL.IA.IA-05"
+      ],
+      "agent_manifest_paths": [
+        "identity_access.digital_identity_level",
+        "identity_access.sso_protocol",
+        "identity_access.encrypted_assertions",
+        "identity_access.local_password_bypass_disabled"
+      ],
+      "class_c_vs_d_delta": "CRITICAL ELEVATION: Class C requires NIST IAL2/AAL2/FAL2; Class D requires NIST IAL3/AAL3/FAL3 (CTL.IA.IA-05). Both classes require encrypted assertions (OIDC JWE or SAML XML-Enc) and local password bypass disabled.",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentAuthorizationPolicyDecisionPoint",
+      "title": "Authorization Policy Decision Point",
+      "category": "componentsInfrastructure",
+      "subcategory": "componentsIdentity",
+      "edges": {
+        "to": [
+          "componentAuthorizationPolicyEnforcementPoint",
+          "componentToolNetworkPolicyEnforcementPoint",
+          "componentAgentNetworkPolicyEnforcementPoint",
+          "componentApplicationNetworkPolicyEnforcementPoint",
+          "componentModelServing",
+          "componentAuditRecordRepository"
+        ],
+        "from": [
+          "componentIdentityProvider"
+        ]
+      },
+      "adr030_decision": "D2, D9 (Central Policy Decision Point Consulted by All 4 PEPs & Model Serving)",
+      "fedramp_frr_ids": [
+        "SCG-CSO-SDF",
+        "SCG-CSO-RSC",
+        "MAS-CSO-FLO"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-IAM-ELP",
+        "KSI-IAM-JIT",
+        "KSI-MLA-LET"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.AC.AC-06-01",
+        "CTL.AC.AC-06-02",
+        "CTL.AU.AU-12"
+      ],
+      "agent_manifest_paths": [
+        "tool_boundaries.authorization_pep",
+        "identity_access.delegation_model"
+      ],
+      "class_c_vs_d_delta": "Evaluates subject, tenant, and capability scope for all PEPs; Class D policy decisions incorporate AAL3/FAL3 hardware-backed assurance claims (CTL.IA.IA-05).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentAgentConsentSurface",
+      "title": "Agent Consent Elicitation Surface",
+      "category": "componentsApplication",
+      "subcategory": "componentsAgent",
+      "edges": {
+        "to": [
+          "componentAgentInputHandling"
+        ],
+        "from": [
+          "componentAgentOutputHandling"
+        ]
+      },
+      "adr030_decision": "D5 (Mid-Loop Autonomous Agent Elicitation Surface)",
+      "fedramp_frr_ids": [
+        "SCG-CSO-AUP",
+        "SCG-CSO-RSC",
+        "SCG-CSO-SDF"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-IAM-JIT",
+        "KSI-IAM-ELP",
+        "KSI-MLA-LET"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.AC.AC-06-01",
+        "CTL.AC.AC-06-02",
+        "CTL.AU.AU-10"
+      ],
+      "agent_manifest_paths": [
+        "tool_boundaries.consent_surface_dual_mode"
+      ],
+      "class_c_vs_d_delta": "Reserves mid-loop confirmation for irreversible/mutating actions and cryptographically binds approval digests; Class D requires AAL3/FAL3 non-repudiation context (CTL.IA.IA-05, CTL.AU.AU-10).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentIsolationRuntime",
+      "title": "Isolation Runtime Boundary",
+      "category": "componentsInfrastructure",
+      "subcategory": "componentsDeployment",
+      "edges": {
+        "to": [
+          "componentToolHosting",
+          "componentRuntimeHosting"
+        ],
+        "from": []
+      },
+      "adr030_decision": "D3, D13 (Confinement Boundary Containing Runtime Hosting and Tool Hosting)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "SCG-CSO-SDF",
+        "VDR-CSO-DFR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-EIS",
+        "KSI-CNA-ULN",
+        "KSI-CNA-MAT",
+        "KSI-SVC-PRR"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-CNA-EIS",
+        "KSI-SVC-PRR"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.SC.SC-07",
+        "CTL.CM.CM-11",
+        "CTL.CP.CP-10-04"
+      ],
+      "agent_manifest_paths": [
+        "tool_boundaries.third_party_tool_isolation"
+      ],
+      "class_c_vs_d_delta": "MicroVM/gVisor/confidential-compute confinement boundary; note KSI-CNA-EIS and KSI-SVC-PRR define Class B/C in 2026.11.02.01 (Class D Rev5 enforced via CTL.SC.SC-07 and CTL.CP.CP-10-04).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentToolServer",
+      "title": "Tool Server",
+      "category": "componentsExternalTools",
+      "subcategory": "componentsToolInvocationPath",
+      "edges": {
+        "to": [
+          "componentToolOutputHandling",
+          "componentTools",
+          "componentAuditRecordRepository"
+        ],
+        "from": [
+          "componentTools",
+          "componentToolHosting",
+          "componentAuthorizationPolicyEnforcementPoint"
+        ]
+      },
+      "adr030_decision": "D1, D6 (Tool Server Endpoint, Capability Negotiation & Prompt-Template Locus)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-TPR",
+        "VDR-CSO-DET",
+        "SCN-CSO-EVA"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-PIY-GIV",
+        "KSI-CNA-DFP",
+        "KSI-SCR-MON"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-08",
+        "CTL.AC.AC-06-08",
+        "CTL.SA.SA-09-02",
+        "CTL.SA.SA-09-05"
+      ],
+      "agent_manifest_paths": [
+        "tool_boundaries.allowed_tools",
+        "tpirs"
+      ],
+      "class_c_vs_d_delta": "Third-party MCP/tool servers are governed as TPIRs (MAS-CSO-TPR); Class D restricts federal-data tool servers to U.S. jurisdiction (CTL.SA.SA-09-05) and 2-day VDR triage (VER-TFR-EVU).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentAgentToolTransport",
+      "title": "Agent Tool Transport Channel",
+      "category": "componentsApplication",
+      "subcategory": "componentsAgent",
+      "edges": {
+        "to": [
+          "componentAgentNetworkPolicyEnforcementPoint",
+          "componentToolNetworkPolicyEnforcementPoint"
+        ],
+        "from": [
+          "componentAgentNetworkPolicyEnforcementPoint",
+          "componentToolNetworkPolicyEnforcementPoint"
+        ]
+      },
+      "adr030_decision": "D1, D4 (Wire Channel Carrying JSON-RPC/MCP/gRPC Between Agent PEP and Tool PEP)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-FLO",
+        "CMU-CSO-CMD",
+        "CMU-CSO-UVM"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-RNT",
+        "KSI-IAM-SNU",
+        "KSI-SVC-VCM",
+        "KSI-SVC-ASM"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-SVC-VCM"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.SC.SC-07",
+        "CTL.SC.SC-13"
+      ],
+      "agent_manifest_paths": [
+        "cryptography.fips_140_3_validated_modules",
+        "cryptography.modules"
+      ],
+      "class_c_vs_d_delta": "Requires mutual TLS, session binding, and replay protection; Class D mandates active CMVP FIPS 140-3 modules on the transport channel (CMU-CSO-UVM MUST).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentFederationProxy",
+      "title": "Authorization Federation Proxy",
+      "category": "componentsInfrastructure",
+      "subcategory": "componentsIdentity",
+      "edges": {
+        "to": [
+          "componentAgentNetworkPolicyEnforcementPoint",
+          "componentToolNetworkPolicyEnforcementPoint",
+          "componentAuditRecordRepository"
+        ],
+        "from": [
+          "componentIdentityProvider"
+        ]
+      },
+      "adr030_decision": "D2, D17 (Cross-Domain Borrowed-Authority Intermediary Minting Scoped Tokens)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-TPR",
+        "CMU-CSO-UVM",
+        "SCG-CSO-SDF"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-IAM-SNU",
+        "KSI-IAM-JIT",
+        "KSI-SVC-ASM"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.IA.IA-05",
+        "CTL.AC.AC-20",
+        "CTL.SC.SC-13"
+      ],
+      "agent_manifest_paths": [
+        "identity_access.delegation_model",
+        "identity_access.encrypted_assertions"
+      ],
+      "class_c_vs_d_delta": "Performs RFC 8693 OAuth 2.0 Token Exchange across trust domains; Class D requires FAL3 assertion assurance and FIPS 140-3 signing/encryption modules (CTL.IA.IA-05, CMU-CSO-UVM).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentAgentNetworkPolicyEnforcementPoint",
+      "title": "Agent Network Policy Enforcement Point",
+      "category": "componentsApplication",
+      "subcategory": "componentsAgent",
+      "edges": {
+        "to": [
+          "componentAgentInputHandling",
+          "componentAgentToolTransport",
+          "componentModelServing",
+          "componentApplicationNetworkPolicyEnforcementPoint",
+          "componentAuditRecordRepository"
+        ],
+        "from": [
+          "componentAgentOutputHandling",
+          "componentAgentToolTransport",
+          "componentModelServing",
+          "componentApplicationNetworkPolicyEnforcementPoint",
+          "componentIdentityProvider",
+          "componentAuthorizationPolicyDecisionPoint",
+          "componentFederationProxy",
+          "componentToolRegistry"
+        ]
+      },
+      "adr030_decision": "D4, D14 (Agent Operator Egress PEP Consulting IdP, PDP, and Tool Registry)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-FLO",
+        "MAS-CSO-TPR",
+        "CMU-CSO-UVM",
+        "SCG-CSO-SDF"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-RNT",
+        "KSI-CNA-ULN",
+        "KSI-CNA-MAT",
+        "KSI-IAM-SNU"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SC.SC-07",
+        "CTL.SC.SC-13",
+        "CTL.AC.AC-20"
+      ],
+      "agent_manifest_paths": [
+        "tool_boundaries.network_egress_pep",
+        "tool_boundaries.tool_registry_allowlist",
+        "cryptography.fips_140_3_validated_modules"
+      ],
+      "class_c_vs_d_delta": "Default-deny outbound PEP consulting Tool Registry allowlist; Class D elevates FIPS-validated mTLS cryptography from SHOULD to MUST (CMU-CSO-UVM) and enforces U.S.-only destinations (CTL.SA.SA-09-05).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentAuthorizationPolicyEnforcementPoint",
+      "title": "Authorization Policy Enforcement Point",
+      "category": "componentsExternalTools",
+      "subcategory": "componentsToolInvocationPath",
+      "edges": {
+        "to": [
+          "componentToolServer",
+          "componentAuditRecordRepository"
+        ],
+        "from": [
+          "componentAuthorizationPolicyDecisionPoint",
+          "componentToolInputHandling"
+        ]
+      },
+      "adr030_decision": "D1, D4 (In-Flow L7 Action Authorization PEP Between Tool Input Handling and Tool Server)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-FLO",
+        "SCG-CSO-SDF",
+        "SCG-CSO-RSC"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-IAM-ELP",
+        "KSI-IAM-JIT",
+        "KSI-IAM-SNU",
+        "KSI-MLA-LET"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.AC.AC-06-01",
+        "CTL.AC.AC-06-02",
+        "CTL.IA.IA-05"
+      ],
+      "agent_manifest_paths": [
+        "tool_boundaries.authorization_pep",
+        "identity_access.delegation_model"
+      ],
+      "class_c_vs_d_delta": "Enforces intersection of caller authority and agent capability token (preventing confused deputy); Class D requires upstream IAL3/AAL3/FAL3 identity assurance (CTL.IA.IA-05).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentToolNetworkPolicyEnforcementPoint",
+      "title": "Tool Network Policy Enforcement Point",
+      "category": "componentsExternalTools",
+      "subcategory": "componentsToolNetworkControls",
+      "edges": {
+        "to": [
+          "componentAgentToolTransport",
+          "componentToolInputHandling",
+          "componentAuditRecordRepository"
+        ],
+        "from": [
+          "componentAgentToolTransport",
+          "componentToolOutputHandling",
+          "componentAuthorizationPolicyDecisionPoint",
+          "componentIdentityProvider",
+          "componentFederationProxy"
+        ]
+      },
+      "adr030_decision": "D1, D4, D14 (Mandatory Resource-Side Network Ingress Gate to External Tool Zone)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-FLO",
+        "MAS-CSO-TPR",
+        "CMU-CSO-UVM"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-RNT",
+        "KSI-CNA-ULN",
+        "KSI-IAM-SNU"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SC.SC-07",
+        "CTL.SC.SC-13",
+        "CTL.AC.AC-20"
+      ],
+      "agent_manifest_paths": [
+        "tool_boundaries.network_egress_pep"
+      ],
+      "class_c_vs_d_delta": "No data path may enter the External Tools tier without traversing this PEP (ADR-030 D14); Class D mandates FIPS 140-3 validated TLS/mTLS modules (CMU-CSO-UVM MUST).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentApplicationConsentSurface",
+      "title": "Application Consent Surface",
+      "category": "componentsApplication",
+      "subcategory": "componentsApplicationCore",
+      "edges": {
+        "to": [
+          "componentApplicationInputHandling"
+        ],
+        "from": [
+          "componentApplicationOutputHandling"
+        ]
+      },
+      "adr030_decision": "D5 (User-Engaged Application Approval Locus)",
+      "fedramp_frr_ids": [
+        "SCG-CSO-AUP",
+        "SCG-CSO-RSC",
+        "MAS-CSO-FLO"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-IAM-ELP",
+        "KSI-IAM-JIT",
+        "KSI-MLA-LET"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.AC.AC-06-01",
+        "CTL.AC.AC-06-02",
+        "CTL.AU.AU-12"
+      ],
+      "agent_manifest_paths": [
+        "tool_boundaries.consent_surface_dual_mode"
+      ],
+      "class_c_vs_d_delta": "Dual consent mode enforced across Class C and Class D; Class D binds high-consequence approvals to AAL3 session context (CTL.IA.IA-05).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentApplicationNetworkPolicyEnforcementPoint",
+      "title": "Application Network Policy Enforcement Point",
+      "category": "componentsApplication",
+      "subcategory": "componentsApplicationCore",
+      "edges": {
+        "to": [
+          "componentApplicationInputHandling",
+          "componentModelServing",
+          "componentAgentNetworkPolicyEnforcementPoint",
+          "componentAuditRecordRepository"
+        ],
+        "from": [
+          "componentApplicationOutputHandling",
+          "componentModelServing",
+          "componentAgentNetworkPolicyEnforcementPoint",
+          "componentIdentityProvider",
+          "componentAuthorizationPolicyDecisionPoint"
+        ]
+      },
+      "adr030_decision": "D4 (Application Operator Egress PEP)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-FLO",
+        "CMU-CSO-UVM",
+        "SCG-CSO-SDF"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-RNT",
+        "KSI-CNA-ULN",
+        "KSI-SVC-VCM"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-SVC-VCM"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.SC.SC-07",
+        "CTL.SC.SC-13"
+      ],
+      "agent_manifest_paths": [
+        "tool_boundaries.network_egress_pep",
+        "cryptography.fips_140_3_validated_modules"
+      ],
+      "class_c_vs_d_delta": "Class D MUST enforce active FIPS 140-3 TLS/mTLS modules on application-to-agent handoff channels (CMU-CSO-UVM MUST vs Class C SHOULD).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentToolHosting",
+      "title": "Tool Hosting",
+      "category": "componentsInfrastructure",
+      "subcategory": "componentsDeployment",
+      "edges": {
+        "to": [
+          "componentToolServer"
+        ],
+        "from": [
+          "componentIsolationRuntime"
+        ]
+      },
+      "adr030_decision": "D3, D6, D13 (Third-Party Code Execution Substrate Inside Isolation Runtime)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-TPR",
+        "SCG-CSO-SDF",
+        "VDR-CSO-DET"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-MAT",
+        "KSI-CNA-DFP",
+        "KSI-SCR-MIT",
+        "KSI-CMT-RMV"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.AC.AC-06-08",
+        "CTL.CM.CM-11",
+        "CTL.SC.SC-07",
+        "CTL.SA.SA-09-05"
+      ],
+      "agent_manifest_paths": [
+        "tool_boundaries.third_party_tool_isolation",
+        "tpirs"
+      ],
+      "class_c_vs_d_delta": "Contains untrusted/third-party MCP and plugin code; Class D enforces 2-day VDR evaluation (VER-TFR-EVU) and U.S.-jurisdiction compute hosting (CTL.SA.SA-09-05).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentRuntimeHosting",
+      "title": "Runtime Hosting",
+      "category": "componentsInfrastructure",
+      "subcategory": "componentsDeployment",
+      "edges": {
+        "to": [
+          "componentModelServing",
+          "componentApplication",
+          "componentReasoningCore"
+        ],
+        "from": [
+          "componentIsolationRuntime"
+        ]
+      },
+      "adr030_decision": "D3, D6, D13 (First-Party Execution Substrate Hosting Application, Reasoning Core, and Model Serving)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "VDR-CSO-DET",
+        "VDR-TFR-MVF",
+        "VDR-TFR-MVX"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CMT-RMV",
+        "KSI-CNA-EIS",
+        "KSI-SVC-ACM"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-CNA-EIS"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-08",
+        "CTL.RA.RA-05",
+        "CTL.SI.SI-02",
+        "CTL.SA.SA-09-05"
+      ],
+      "agent_manifest_paths": [
+        "fedramp.in_minimum_assessment_scope",
+        "lifecycle.vdr_triage_sla_days"
+      ],
+      "class_c_vs_d_delta": "Persistent machine verification: 20x Class C MUST every 3 days (VDR-TFR-MVX, which omits Class D in 2026.11.02.01); Rev5 Class C & Class D MUST monthly (VDR-TFR-MVF); Class D VDR triage <= 2 days (VER-TFR-EVU).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "componentToolInputHandling",
+      "title": "Tool Input Handling",
+      "category": "componentsExternalTools",
+      "subcategory": "componentsToolInvocationPath",
+      "edges": {
+        "to": [
+          "componentAuthorizationPolicyEnforcementPoint",
+          "componentAuditRecordRepository"
+        ],
+        "from": [
+          "componentToolNetworkPolicyEnforcementPoint"
+        ]
+      },
+      "adr030_decision": "D1, D7 (Tool-Boundary Inbound Argument Validation Before Authz PEP)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "SCG-CSO-SDF"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-MAT",
+        "KSI-CNA-DFP"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SI.SI-04",
+        "CTL.AC.AC-06-08"
+      ],
+      "agent_manifest_paths": [
+        "tool_boundaries.allowed_tools"
+      ],
+      "class_c_vs_d_delta": "Validates JSON-RPC/tool schema arguments against coerced or injected parameters before Authorization PEP evaluation across Class C and Class D.",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "componentToolOutputHandling",
+      "title": "Tool Output Handling",
+      "category": "componentsExternalTools",
+      "subcategory": "componentsToolInvocationPath",
+      "edges": {
+        "to": [
+          "componentToolNetworkPolicyEnforcementPoint",
+          "componentAuditRecordRepository"
+        ],
+        "from": [
+          "componentToolServer"
+        ]
+      },
+      "adr030_decision": "D1, D7 (Tool-Boundary Outbound Response Sanitization Against Tool Poisoning)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-FLO",
+        "SCG-CSO-SDF"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-MAT",
+        "KSI-SVC-SIN"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SI.SI-04",
+        "CTL.SC.SC-07"
+      ],
+      "agent_manifest_paths": [
+        "lifecycle.cosai_control_ids"
+      ],
+      "class_c_vs_d_delta": "Screens outbound tool responses for indirect prompt injection, oversized payloads, and unauthorized sensitive-data leakage across Class C and Class D.",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "componentAuditRecordRepository",
+      "title": "Audit Record Repository",
+      "category": "componentsInfrastructure",
+      "subcategory": "componentsDeployment",
+      "edges": {
+        "to": [],
+        "from": [
+          "componentModelServing",
+          "componentReasoningCore",
+          "componentTools",
+          "componentOrchestrationInputHandling",
+          "componentOrchestrationOutputHandling",
+          "componentAgentInputHandling",
+          "componentAgentOutputHandling",
+          "componentAgentNetworkPolicyEnforcementPoint",
+          "componentApplicationNetworkPolicyEnforcementPoint",
+          "componentToolNetworkPolicyEnforcementPoint",
+          "componentApplicationInputHandling",
+          "componentApplicationOutputHandling",
+          "componentToolInputHandling",
+          "componentToolOutputHandling",
+          "componentApplication",
+          "componentToolServer",
+          "componentAuthorizationPolicyEnforcementPoint",
+          "componentIdentityProvider",
+          "componentAuthorizationPolicyDecisionPoint",
+          "componentFederationProxy",
+          "componentToolRegistry",
+          "componentModelRegistry"
+        ]
+      },
+      "adr030_decision": "D3, D15 (Control-Plane-Separated Tamper-Evident WORM Audit Storage Sink)",
+      "fedramp_frr_ids": [
+        "MAS-CSO-MDI",
+        "SCN-CSO-MAR",
+        "CDS-TRC-ACL",
+        "CMU-CSO-UVM"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-MLA-ALA",
+        "KSI-MLA-LET",
+        "KSI-MLA-OSM",
+        "KSI-MLA-RVL",
+        "KSI-SVC-VRI"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-MLA-ALA"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.AU.AU-06",
+        "CTL.AU.AU-06-05",
+        "CTL.AU.AU-10",
+        "CTL.AU.AU-12",
+        "CTL.SC.SC-13"
+      ],
+      "agent_manifest_paths": [
+        "observability.tamper_evident_audit_repo",
+        "observability.audit_control_plane_separated",
+        "observability.prompt_response_redacted_from_external_telemetry"
+      ],
+      "class_c_vs_d_delta": "Grounded in NIST SP 800-53 AU-9(2)/(4)/(6) control-plane separation; Class D mandates FIPS 140-3 cryptographic signing/encryption (CMU-CSO-UVM MUST) and U.S. residency (CTL.SA.SA-09-05). Note KSI-MLA-ALA omits Class D in 2026.11.02.01.",
+      "verification_method": "automated-cli"
+    }
+  ],
+  "controls": [
+    {
+      "id": "controlModelPrivacyEnhancingTechnologies",
+      "title": "Privacy Enhancing Technologies for Model Training",
+      "category": "controlsData",
+      "cosai_components": [
+        "componentModelTrainingTuning",
+        "componentModelEvaluation"
+      ],
+      "cosai_risks": [
+        "riskSensitiveDataDisclosure",
+        "riskFederatedDistributedTrainingPrivacy"
+      ],
+      "cosai_personas": [
+        "personaModelProvider",
+        "personaDataProvider"
+      ],
+      "external_mappings": {},
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-MDI",
+        "SDR-CSO-FRR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-SIN",
+        "KSI-SVC-RUD"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-SVC-RUD"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-12",
+        "CTL.CM.CM-12-01"
+      ],
+      "agent_manifest_paths": [
+        "data_classification.handles_federal_customer_data"
+      ],
+      "class_c_enforcement": "Required if training/evaluating with sensitive data; KSI-SVC-RUD applies to 20x Class C.",
+      "class_d_enforcement": "Strict prohibition on unapproved Federal Customer Data in training; U.S. jurisdiction mandatory (CTL.SA.SA-09-05); KSI-SVC-RUD pending 2027 for 20x Class D.",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "controlRuntimePrivacyEnhancingTechnologies",
+      "title": "Privacy Enhancing Technologies for Inference",
+      "category": "controlsData",
+      "cosai_components": [
+        "componentApplicationOutputHandling",
+        "componentModelServing"
+      ],
+      "cosai_risks": [
+        "riskSensitiveDataDisclosure",
+        "riskFederatedDistributedTrainingPrivacy"
+      ],
+      "cosai_personas": [
+        "personaPlatformProvider",
+        "personaModelServing",
+        "personaAgenticProvider",
+        "personaApplicationDeveloper"
+      ],
+      "external_mappings": {},
+      "fedramp_frr_ids": [
+        "MAS-CSO-MDI",
+        "MAS-CSO-FLO",
+        "MAS-CSO-TPR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-SIN",
+        "KSI-SVC-RUD",
+        "KSI-MLA-LET"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-SVC-RUD"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-12",
+        "CTL.SI.SI-04",
+        "CTL.SA.SA-09-05"
+      ],
+      "agent_manifest_paths": [
+        "observability.prompt_response_redacted_from_external_telemetry"
+      ],
+      "class_c_enforcement": "MUST redact Federal Customer Data and raw prompts/responses before external telemetry emission (MAS-CSO-MDI).",
+      "class_d_enforcement": "MUST redact prior to any telemetry TPIR AND maintain all unredacted runtime audit logs inside U.S.-jurisdiction FIPS-encrypted WORM storage (CTL.SA.SA-09-05, CMU-CSO-UVM).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "controlTrainingDataManagement",
+      "title": "Training Data Management",
+      "category": "controlsData",
+      "cosai_components": [
+        "componentDataSources",
+        "componentTrainingData",
+        "componentModelTrainingTuning",
+        "componentModelEvaluation"
+      ],
+      "cosai_risks": [
+        "riskInferredSensitiveData",
+        "riskUnauthorizedTrainingData",
+        "riskExcessiveDataHandling"
+      ],
+      "cosai_personas": [
+        "personaModelProvider",
+        "personaDataProvider"
+      ],
+      "external_mappings": {},
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-FLO",
+        "SDR-CSO-FRR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-PIY-GIV",
+        "KSI-SVC-SIN"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-08",
+        "CTL.CM.CM-12",
+        "CTL.SA.SA-09-05"
+      ],
+      "agent_manifest_paths": [
+        "data_classification.handles_federal_customer_data",
+        "data_classification.residency_boundary"
+      ],
+      "class_c_enforcement": "Document training data inventory and security categories (MAS-CSO-FLO).",
+      "class_d_enforcement": "Enforce U.S./U.S. Territories/U.S. jurisdiction lineage and storage (CTL.SA.SA-09-05) plus per-service certification docs (CDS-CSO-PSM MUST).",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "controlTrainingDataSanitization",
+      "title": "Training Data Sanitization",
+      "category": "controlsData",
+      "cosai_components": [
+        "componentDataFilteringAndProcessing"
+      ],
+      "cosai_risks": [
+        "riskDataPoisoning",
+        "riskUnauthorizedTrainingData",
+        "riskRetrievalVectorStorePoisoning"
+      ],
+      "cosai_personas": [
+        "personaModelProvider",
+        "personaDataProvider"
+      ],
+      "external_mappings": {
+        "mitre-atlas": [
+          "AML.M0007@5.0.1"
+        ]
+      },
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "VDR-CSO-DET"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-RUD",
+        "KSI-SCR-MIT"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-SVC-RUD"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.SI.SI-08",
+        "CTL.SR.SR-03"
+      ],
+      "agent_manifest_paths": [
+        "lifecycle.cosai_control_ids"
+      ],
+      "class_c_enforcement": "Sanitize untrusted training/fine-tuning inputs against poisoning (KSI-SCR-MIT, KSI-SVC-RUD).",
+      "class_d_enforcement": "Same sanitization rigor plus mandatory supply-chain provenance controls under Rev5 High baseline (CTL.SR.SR-03).",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "controlUserDataManagement",
+      "title": "User Data Management",
+      "category": "controlsData",
+      "cosai_components": [
+        "componentDataStorage"
+      ],
+      "cosai_risks": [
+        "riskSensitiveDataDisclosure",
+        "riskPromptResponseCachePoisoning",
+        "riskExcessiveDataHandlingDuringInference"
+      ],
+      "cosai_personas": [
+        "personaDataProvider",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {},
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-FLO",
+        "SCG-CSO-AUP"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-SIN",
+        "KSI-SVC-PRR",
+        "KSI-SVC-RUD"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-SVC-PRR",
+        "KSI-SVC-RUD"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-12",
+        "CTL.CM.CM-12-01",
+        "CTL.SA.SA-09-05"
+      ],
+      "agent_manifest_paths": [
+        "data_classification.handles_federal_customer_data",
+        "data_classification.residency_boundary"
+      ],
+      "class_c_enforcement": "Enforce agency retention, zero-training-by-default on Federal Customer Data, and tenant data deletion.",
+      "class_d_enforcement": "Add mandatory U.S. jurisdiction data/processing residency (CTL.SA.SA-09-05) and FIPS-validated encryption (CMU-CSO-UVM MUST).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "controlModelAndDataInventoryManagement",
+      "title": "Model and Data Inventory Management",
+      "category": "controlsInfrastructure",
+      "cosai_components": [
+        "componentModelServing",
+        "componentModelEvaluation",
+        "componentModelTrainingTuning",
+        "componentModelStorage",
+        "componentModelRegistry"
+      ],
+      "cosai_risks": [
+        "riskDataPoisoning",
+        "riskModelSourceTampering",
+        "riskModelExfiltration"
+      ],
+      "cosai_personas": [
+        "personaModelProvider",
+        "personaDataProvider"
+      ],
+      "external_mappings": {},
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-MDI",
+        "CPO-CSO-OVR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-PIY-GIV",
+        "KSI-CMT-LMC"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-08",
+        "CTL.CM.CM-12"
+      ],
+      "agent_manifest_paths": [
+        "model_serving.inference_provider",
+        "fedramp.in_minimum_assessment_scope"
+      ],
+      "class_c_enforcement": "Machine-readable inventory of all models, datasets, and metadata in MAS (MAS-CSO-IIR, MAS-CSO-MDI).",
+      "class_d_enforcement": "Same machine-readable inventory plus mandatory per-service certification artifacts (CDS-CSO-PSM MUST).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "controlModelAndDataAccessControls",
+      "title": "Model and Data Access Controls",
+      "category": "controlsInfrastructure",
+      "cosai_components": [
+        "componentModelServing",
+        "componentModelEvaluation",
+        "componentModelTrainingTuning",
+        "componentModelStorage"
+      ],
+      "cosai_risks": [
+        "riskDataPoisoning",
+        "riskModelSourceTampering",
+        "riskModelExfiltration",
+        "riskAcceleratorAndSystemSideChannels",
+        "riskAdapterPEFTInjection",
+        "riskOrchestratorRouteHijacking",
+        "riskMaliciousLoaderDeserialization",
+        "riskPromptResponseCachePoisoning"
+      ],
+      "cosai_personas": [
+        "personaModelProvider",
+        "personaDataProvider",
+        "personaModelServing"
+      ],
+      "external_mappings": {},
+      "fedramp_frr_ids": [
+        "SCG-CSO-RSC",
+        "SCG-CSO-SDF",
+        "CMU-CSO-UVM"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-IAM-ELP",
+        "KSI-IAM-JIT",
+        "KSI-IAM-APM"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.AC.AC-06-01",
+        "CTL.AC.AC-06-02",
+        "CTL.IA.IA-05"
+      ],
+      "agent_manifest_paths": [
+        "identity_access.digital_identity_level",
+        "model_serving.model_reachability_pep"
+      ],
+      "class_c_enforcement": "Least-privilege RBAC/ABAC with NIST IAL2/AAL2/FAL2 authentication (CTL.IA.IA-05).",
+      "class_d_enforcement": "Elevates privileged & user access to NIST IAL3/AAL3/FAL3 hardware-backed authentication (CTL.IA.IA-05).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "controlModelAndDataIntegrityManagement",
+      "title": "Model and Data Integrity Management",
+      "category": "controlsInfrastructure",
+      "cosai_components": [
+        "componentModelServing",
+        "componentModelEvaluation",
+        "componentModelTrainingTuning",
+        "componentModelStorage",
+        "componentModelRegistry"
+      ],
+      "cosai_risks": [
+        "riskAdapterPEFTInjection",
+        "riskCovertChannelsInModelOutputs",
+        "riskDataPoisoning",
+        "riskEvaluationBenchmarkManipulation",
+        "riskFederatedDistributedTrainingPrivacy",
+        "riskMaliciousLoaderDeserialization",
+        "riskModelSourceTampering",
+        "riskModelExfiltration",
+        "riskOrchestratorRouteHijacking",
+        "riskPromptResponseCachePoisoning",
+        "riskRetrievalVectorStorePoisoning",
+        "riskToolSourceProvenance",
+        "riskStaleAgentIdentityBinding"
+      ],
+      "cosai_personas": [
+        "personaModelProvider",
+        "personaDataProvider",
+        "personaModelServing"
+      ],
+      "external_mappings": {
+        "mitre-atlas": [
+          "AML.M0013@5.0.1",
+          "AML.M0014@5.0.1"
+        ],
+        "nist-ai-rmf": [
+          "MEASURE-2.3@1.0"
+        ]
+      },
+      "fedramp_frr_ids": [
+        "CMU-CSO-CMD",
+        "CMU-CSO-UVM",
+        "VDR-TFR-PDD"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-VRI",
+        "KSI-SCR-MIT",
+        "KSI-CMT-VTD"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-14",
+        "CTL.SC.SC-13",
+        "CTL.SR.SR-03"
+      ],
+      "agent_manifest_paths": [
+        "cryptography.fips_140_3_validated_modules",
+        "cryptography.modules"
+      ],
+      "class_c_enforcement": "Cryptographic digest/signature verification of weights and artifacts; FIPS modules SHOULD be used (CMU-CSO-UVM).",
+      "class_d_enforcement": "Cryptographic signatures MUST use active CMVP FIPS 140-3 validated modules (CMU-CSO-UVM MUST).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "controlModelAndDataExecutionIntegrity",
+      "title": "Model and Data Execution Integrity",
+      "category": "controlsInfrastructure",
+      "cosai_components": [
+        "componentModelServing",
+        "componentModelStorage",
+        "componentTheModel"
+      ],
+      "cosai_risks": [
+        "riskAdapterPEFTInjection",
+        "riskInsecureIntegratedComponent",
+        "riskModelDeploymentTampering",
+        "riskMaliciousLoaderDeserialization",
+        "riskModelSourceTampering"
+      ],
+      "cosai_personas": [
+        "personaPlatformProvider",
+        "personaModelServing"
+      ],
+      "external_mappings": {},
+      "fedramp_frr_ids": [
+        "VDR-TFR-PDD",
+        "CMU-CSO-UVM",
+        "SCN-CSO-EVA"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-VRI",
+        "KSI-CMT-RMV",
+        "KSI-CNA-EIS"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-CNA-EIS"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-14",
+        "CTL.CP.CP-10-04",
+        "CTL.SC.SC-13"
+      ],
+      "agent_manifest_paths": [
+        "model_serving.model_reachability_pep",
+        "cryptography.fips_140_3_validated_modules"
+      ],
+      "class_c_enforcement": "Immutable container/model digests verified at inference startup; KSI-CNA-EIS applies to 20x Class C.",
+      "class_d_enforcement": "FIPS 140-3 signature verification at runtime load (CMU-CSO-UVM MUST); KSI-CNA-EIS omits Class D in 2026.11.02.01 (enforced via Rev5 CTL.CM.CM-14).",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "controlSecureByDefaultMLTooling",
+      "title": "Secure-by-Default ML Tooling",
+      "category": "controlsInfrastructure",
+      "cosai_components": [
+        "componentModelServing",
+        "componentModelTrainingTuning",
+        "componentModelEvaluation",
+        "componentModelStorage"
+      ],
+      "cosai_risks": [
+        "riskDataPoisoning",
+        "riskModelSourceTampering",
+        "riskModelExfiltration",
+        "riskModelDeploymentTampering",
+        "riskAcceleratorAndSystemSideChannels",
+        "riskFederatedDistributedTrainingPrivacy",
+        "riskAdapterPEFTInjection",
+        "riskOrchestratorRouteHijacking",
+        "riskMaliciousLoaderDeserialization",
+        "riskToolSourceProvenance",
+        "riskMCPTransportHijacking",
+        "riskShadowAndUnknownAgents",
+        "riskAgenticDelegationConfusedDeputy",
+        "riskCrossTenantCredentialPropagation"
+      ],
+      "cosai_personas": [
+        "personaPlatformProvider",
+        "personaModelServing",
+        "personaAgenticProvider",
+        "personaApplicationDeveloper"
+      ],
+      "external_mappings": {
+        "mitre-atlas": [
+          "AML.M0011@5.0.1"
+        ]
+      },
+      "fedramp_frr_ids": [
+        "SCG-CSO-SDF",
+        "SCG-CSO-RSC",
+        "VDR-CSO-DET"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-IBP",
+        "KSI-CNA-MAT",
+        "KSI-SVC-ACM"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.AC.AC-06-08",
+        "CTL.CM.CM-11",
+        "CTL.SR.SR-03"
+      ],
+      "agent_manifest_paths": [
+        "tool_boundaries.third_party_tool_isolation",
+        "tool_boundaries.tool_registry_allowlist"
+      ],
+      "class_c_enforcement": "Safe tensor loaders (safetensors over pickle), default-deny network egress, and SCG secure defaults (SCG-CSO-SDF).",
+      "class_d_enforcement": "Same secure-by-default baseline plus 2-day vulnerability evaluation SLA on ML tooling CVEs (VER-TFR-EVU).",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "controlInputValidationAndSanitization",
+      "title": "Input Validation and Sanitization",
+      "category": "controlsModel",
+      "cosai_components": [
+        "componentApplicationInputHandling",
+        "componentAgentInputHandling",
+        "componentOrchestrationInputHandling"
+      ],
+      "cosai_risks": [
+        "riskPromptInjection",
+        "riskMaliciousLoaderDeserialization",
+        "riskPromptResponseCachePoisoning",
+        "riskRetrievalVectorStorePoisoning",
+        "riskInsecureIntegratedComponent"
+      ],
+      "cosai_personas": [
+        "personaPlatformProvider",
+        "personaModelServing",
+        "personaAgenticProvider",
+        "personaApplicationDeveloper"
+      ],
+      "external_mappings": {
+        "mitre-atlas": [
+          "AML.M0010@5.0.1",
+          "AML.M0015@5.0.1",
+          "AML.M0020@5.0.1",
+          "AML.M0024@5.0.1"
+        ],
+        "owasp-top10-llm": [
+          "LLM01:2025"
+        ]
+      },
+      "fedramp_frr_ids": [
+        "SCG-CSO-SDF",
+        "VDR-CSO-FAV"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-MAT",
+        "KSI-SVC-VCM"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-SVC-VCM"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.SI.SI-04",
+        "CTL.SC.SC-07"
+      ],
+      "agent_manifest_paths": [
+        "lifecycle.cosai_control_ids"
+      ],
+      "class_c_enforcement": "Multi-layer structural/semantic validation across Application, Agent, Orchestration, and Tool input gates.",
+      "class_d_enforcement": "Same multi-layer validation with heightened monitoring under CTL.SI.SI-04-02 / CTL.SI.SI-04-05.",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "controlOutputValidationAndSanitization",
+      "title": "Output Validation and Sanitization",
+      "category": "controlsModel",
+      "cosai_components": [
+        "componentApplicationOutputHandling",
+        "componentAgentOutputHandling",
+        "componentOrchestrationOutputHandling"
+      ],
+      "cosai_risks": [
+        "riskPromptInjection",
+        "riskRogueActions",
+        "riskSensitiveDataDisclosure",
+        "riskInferredSensitiveData",
+        "riskCovertChannelsInModelOutputs",
+        "riskPromptResponseCachePoisoning",
+        "riskInsecureModelOutput",
+        "riskRetrievalVectorStorePoisoning"
+      ],
+      "cosai_personas": [
+        "personaModelServing",
+        "personaApplicationDeveloper"
+      ],
+      "external_mappings": {
+        "mitre-atlas": [
+          "AML.M0020@5.0.1",
+          "AML.M0024@5.0.1"
+        ],
+        "owasp-top10-llm": [
+          "LLM02:2025",
+          "LLM05:2025"
+        ]
+      },
+      "fedramp_frr_ids": [
+        "MAS-CSO-FLO",
+        "SCG-CSO-SDF"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-SIN",
+        "KSI-CNA-RNT"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SI.SI-04",
+        "CTL.SC.SC-07"
+      ],
+      "agent_manifest_paths": [
+        "observability.prompt_response_redacted_from_external_telemetry",
+        "lifecycle.cosai_control_ids"
+      ],
+      "class_c_enforcement": "Sanitize Markdown/HTML/JSON outputs and tool responses to block XSS, SSRF, and covert exfiltration.",
+      "class_d_enforcement": "Same sanitization plus strict U.S.-boundary egress enforcement preventing cross-jurisdiction data leakage (CTL.SA.SA-09-05).",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "controlAdversarialTrainingAndTesting",
+      "title": "Adversarial Training and Testing",
+      "category": "controlsModel",
+      "cosai_components": [
+        "componentTheModel"
+      ],
+      "cosai_risks": [
+        "riskModelEvasion",
+        "riskPromptInjection",
+        "riskSensitiveDataDisclosure",
+        "riskInferredSensitiveData",
+        "riskInsecureModelOutput"
+      ],
+      "cosai_personas": [
+        "personaModelProvider",
+        "personaApplicationDeveloper"
+      ],
+      "external_mappings": {
+        "mitre-atlas": [
+          "AML.M0003@5.0.1",
+          "AML.M0006@5.0.1",
+          "AML.M0008@5.0.1"
+        ]
+      },
+      "fedramp_frr_ids": [
+        "IVV-CSO-SEE",
+        "VDR-CSO-DET"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-EIS",
+        "KSI-PIY-RSD"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CA.CA-08",
+        "CTL.CA.CA-02"
+      ],
+      "agent_manifest_paths": [
+        "lifecycle.portable_eval_paths"
+      ],
+      "class_c_enforcement": "Pre-deployment adversarial prompt-injection and jailbreak evaluation suites.",
+      "class_d_enforcement": "Mandatory independent penetration/red-team validation evidence in per-service certification package (CTL.CA.CA-08, CDS-CSO-PSM MUST).",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "controlApplicationAccessManagement",
+      "title": "Application Access and Resource Management",
+      "category": "controlsApplication",
+      "cosai_components": [
+        "componentApplication"
+      ],
+      "cosai_risks": [
+        "riskDenialOfMLService",
+        "riskEconomicDenialOfWallet",
+        "riskModelReverseEngineering"
+      ],
+      "cosai_personas": [
+        "personaPlatformProvider",
+        "personaModelServing",
+        "personaApplicationDeveloper"
+      ],
+      "external_mappings": {
+        "mitre-atlas": [
+          "AML.M0019@5.0.1"
+        ],
+        "owasp-top10-llm": [
+          "LLM10:2025"
+        ]
+      },
+      "fedramp_frr_ids": [
+        "SCG-CSO-RSC",
+        "SCG-CSO-SDF",
+        "CDS-CSO-AVR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-IAM-AAM",
+        "KSI-IAM-APM",
+        "KSI-IAM-ELP",
+        "KSI-CNA-OFA"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.IA.IA-02",
+        "CTL.IA.IA-05",
+        "CTL.AC.AC-06-01"
+      ],
+      "agent_manifest_paths": [
+        "identity_access.digital_identity_level",
+        "identity_access.local_password_bypass_disabled",
+        "identity_access.encrypted_assertions"
+      ],
+      "class_c_enforcement": "IAL2/AAL2/FAL2 SSO with encrypted assertions, rate quotas, and local password bypass disabled (CTL.IA.IA-05).",
+      "class_d_enforcement": "IAL3/AAL3/FAL3 phishing-resistant hardware-backed SSO with encrypted assertions (CTL.IA.IA-05).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "controlUserTransparencyAndControls",
+      "title": "User Transparency and Controls",
+      "category": "controlsApplication",
+      "cosai_components": [
+        "componentApplication"
+      ],
+      "cosai_risks": [
+        "riskSensitiveDataDisclosure",
+        "riskExcessiveDataHandling",
+        "riskExcessiveDataHandlingDuringInference"
+      ],
+      "cosai_personas": [
+        "personaModelServing",
+        "personaAgenticProvider",
+        "personaApplicationDeveloper"
+      ],
+      "external_mappings": {},
+      "fedramp_frr_ids": [
+        "SCG-CSO-AUP",
+        "SCG-CSO-PUB",
+        "CDS-CSO-PUB"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-DFP",
+        "KSI-MLA-LET"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SA.SA-05",
+        "CTL.CM.CM-12"
+      ],
+      "agent_manifest_paths": [
+        "tool_boundaries.consent_surface_dual_mode"
+      ],
+      "class_c_enforcement": "Clear customer use instructions (SCG-CSO-AUP) and attribution of AI-generated actions.",
+      "class_d_enforcement": "Per-service public and controlled documentation of autonomous agent capabilities (CDS-CSO-PSM MUST, SCG-CSO-AUP).",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "controlAgentPluginUserControl",
+      "title": "Agent User Control",
+      "category": "controlsApplication",
+      "cosai_components": [
+        "componentReasoningCore"
+      ],
+      "cosai_risks": [
+        "riskSensitiveDataDisclosure",
+        "riskRogueActions"
+      ],
+      "cosai_personas": [
+        "personaAgenticProvider",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {},
+      "fedramp_frr_ids": [
+        "SCG-CSO-AUP",
+        "SCG-CSO-RSC",
+        "SCG-CSO-SDF"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-IAM-JIT",
+        "KSI-IAM-ELP",
+        "KSI-MLA-LET"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.AC.AC-06-01",
+        "CTL.AC.AC-06-02",
+        "CTL.AU.AU-10"
+      ],
+      "agent_manifest_paths": [
+        "tool_boundaries.consent_surface_dual_mode"
+      ],
+      "class_c_enforcement": "Dual consent surfaces (Application + Agent Elicitation) gating state-mutating or external actions.",
+      "class_d_enforcement": "Dual consent surfaces bound to IAL3/AAL3/FAL3 authenticated sessions with non-repudiable audit records (CTL.IA.IA-05, CTL.AU.AU-10).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "controlAgentPluginPermissions",
+      "title": "Agent Permissions",
+      "category": "controlsApplication",
+      "cosai_components": [
+        "componentReasoningCore",
+        "componentTools",
+        "componentRAGContent",
+        "componentMemory"
+      ],
+      "cosai_risks": [
+        "riskInsecureIntegratedComponent",
+        "riskSensitiveDataDisclosure",
+        "riskRogueActions",
+        "riskToolSourceProvenance",
+        "riskAgenticDelegationConfusedDeputy",
+        "riskCrossTenantCredentialPropagation"
+      ],
+      "cosai_personas": [
+        "personaAgenticProvider",
+        "personaApplicationDeveloper"
+      ],
+      "external_mappings": {
+        "nist-ai-rmf": [
+          "MEASURE-2.7@1.0"
+        ],
+        "owasp-top10-llm": [
+          "LLM06:2025"
+        ]
+      },
+      "fedramp_frr_ids": [
+        "SCG-CSO-SDF",
+        "SCG-CSO-RSC",
+        "MAS-CSO-FLO"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-IAM-ELP",
+        "KSI-IAM-JIT",
+        "KSI-CNA-DFP"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.AC.AC-06-01",
+        "CTL.AC.AC-06-02",
+        "CTL.AC.AC-06-08"
+      ],
+      "agent_manifest_paths": [
+        "tool_boundaries.authorization_pep",
+        "tool_boundaries.allowed_tools",
+        "identity_access.delegation_model"
+      ],
+      "class_c_enforcement": "Least-privilege tool allowlists and caller-intersection delegation checks at Authorization PEP.",
+      "class_d_enforcement": "Same strict intersection delegation with hardware-attested FAL3 assertions and short-lived capability tokens (CTL.IA.IA-05).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "controlRedTeaming",
+      "title": "Red Teaming",
+      "category": "controlsAssurance",
+      "cosai_components": "all",
+      "cosai_risks": "all",
+      "cosai_personas": [
+        "personaModelProvider",
+        "personaPlatformProvider",
+        "personaModelServing",
+        "personaAgenticProvider",
+        "personaApplicationDeveloper"
+      ],
+      "external_mappings": {},
+      "fedramp_frr_ids": [
+        "IVV-CSO-FIA",
+        "IVV-CSO-SEE",
+        "VDR-CSO-DET"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-EIS",
+        "KSI-PIY-RSD"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CA.CA-08",
+        "CTL.CA.CA-02"
+      ],
+      "agent_manifest_paths": [
+        "lifecycle.portable_eval_paths"
+      ],
+      "class_c_enforcement": "Structured adversarial red-teaming of prompt injection, confused deputy, and tool boundary bypasses (CTL.CA.CA-08).",
+      "class_d_enforcement": "Annual independent assessment + red-team exercises across per-service high-impact agent boundaries (IVV-CSO-FIA, CTL.CA.CA-08).",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "controlVulnerabilityManagement",
+      "title": "Vulnerability Management",
+      "category": "controlsAssurance",
+      "cosai_components": "all",
+      "cosai_risks": "all",
+      "cosai_personas": [
+        "personaGovernance",
+        "personaEndUser"
+      ],
+      "external_mappings": {},
+      "fedramp_frr_ids": [
+        "VDR-CSO-DET",
+        "VDR-CSO-RES",
+        "VDR-TFR-KEV",
+        "VDR-TFR-PVR",
+        "VER-TFR-EVU",
+        "VER-TFR-IRI",
+        "VER-TFR-NRI"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-PIY-RVD",
+        "KSI-CMT-VTD",
+        "KSI-SCR-MON"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.RA.RA-05",
+        "CTL.RA.RA-05-02",
+        "CTL.SI.SI-02",
+        "CTL.SI.SI-02-02"
+      ],
+      "agent_manifest_paths": [
+        "lifecycle.vdr_triage_sla_days"
+      ],
+      "class_c_enforcement": "Evaluate vulnerabilities within <= 5 days (VER-TFR-EVU); PAIN=5 IRV+LEV remediated in 2 days (VDR-TFR-PVR); non-IRV PAIN=5 LEV incident escalation is MAY (VER-TFR-NRI).",
+      "class_d_enforcement": "Evaluate vulnerabilities within <= 2 days (VER-TFR-EVU); PAIN=5 IRV+LEV remediated in 12 hours (VDR-TFR-PVR); non-IRV PAIN=5 LEV incident escalation elevates to SHOULD (VER-TFR-NRI).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "controlThreatDetection",
+      "title": "Threat Detection",
+      "category": "controlsAssurance",
+      "cosai_components": "all",
+      "cosai_risks": "all",
+      "cosai_personas": [
+        "personaGovernance"
+      ],
+      "external_mappings": {},
+      "fedramp_frr_ids": [
+        "VDR-CSO-ADT",
+        "IEC-CSO-EFR",
+        "MAS-CSO-MDI"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-MLA-OSM",
+        "KSI-MLA-RVL",
+        "KSI-IAM-SUS"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SI.SI-04",
+        "CTL.SI.SI-04-02",
+        "CTL.SI.SI-04-04",
+        "CTL.SI.SI-04-05",
+        "CTL.AU.AU-06"
+      ],
+      "agent_manifest_paths": [
+        "observability.tamper_evident_audit_repo",
+        "observability.audit_control_plane_separated"
+      ],
+      "class_c_enforcement": "Automated SIEM correlation over agent tool anomalies, delegation failures, and egress blocks (KSI-MLA-OSM, KSI-IAM-SUS).",
+      "class_d_enforcement": "Real-time automated alerting and anomaly correlation integrated with 2-day VDR/IEC escalation pipelines (CTL.SI.SI-04-02, VER-TFR-NRI SHOULD).",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "controlIncidentResponseManagement",
+      "title": "Incident Response Management",
+      "category": "controlsAssurance",
+      "cosai_components": "all",
+      "cosai_risks": "all",
+      "cosai_personas": [
+        "personaModelProvider",
+        "personaDataProvider",
+        "personaPlatformProvider",
+        "personaModelServing",
+        "personaAgenticProvider",
+        "personaApplicationDeveloper",
+        "personaGovernance",
+        "personaEndUser"
+      ],
+      "external_mappings": {},
+      "fedramp_frr_ids": [
+        "IEC-CSO-EFR",
+        "IEC-CSO-DPR",
+        "IEC-CSO-EFI",
+        "IEC-CSO-IIR",
+        "IEC-CSO-OIR",
+        "IEC-CSO-FIR",
+        "IEC-CSO-AIR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-INR-RIR",
+        "KSI-INR-RPI",
+        "KSI-INR-AAR"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.IR.IR-04",
+        "CTL.IR.IR-04-01",
+        "CTL.IR.IR-06",
+        "CTL.IR.IR-08",
+        "CTL.IR.IR-09"
+      ],
+      "agent_manifest_paths": [
+        "lifecycle.iec_incident_channel"
+      ],
+      "class_c_enforcement": "Default PAIN=5 unless promptly rated (IEC-CSO-DPR); mandatory IIR/OIR/FIR notifications to FedRAMP and affected agencies.",
+      "class_d_enforcement": "Same mandatory IIR/OIR/FIR plus SHOULD escalate non-internet-reachable PAIN=5 LEVs as FedRAMP Reportable Incidents (VER-TFR-NRI) and execute immediate kill-switch containment.",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "controlUserPoliciesAndEducation",
+      "title": "User Policies and Education",
+      "category": "controlsGovernance",
+      "cosai_components": "none",
+      "cosai_risks": [
+        "riskSensitiveDataDisclosure",
+        "riskInsecureIntegratedComponent"
+      ],
+      "cosai_personas": [
+        "personaGovernance",
+        "personaEndUser"
+      ],
+      "external_mappings": {},
+      "fedramp_frr_ids": [
+        "SCG-CSO-AUP",
+        "SCG-CSO-PUB",
+        "CDS-CSO-IRP"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-DFP"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SA.SA-05"
+      ],
+      "agent_manifest_paths": [],
+      "class_c_enforcement": "Publish agency customer acceptable-use and secure configuration guidance (SCG-CSO-AUP, SCG-CSO-PUB).",
+      "class_d_enforcement": "Supply per-service customer configuration and usage policies in Trust Center (CDS-CSO-PSM MUST, CDS-CSO-IRP).",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "controlInternalPoliciesAndEducation",
+      "title": "Internal Policies and Education",
+      "category": "controlsGovernance",
+      "cosai_components": "none",
+      "cosai_risks": "all",
+      "cosai_personas": [
+        "personaGovernance"
+      ],
+      "external_mappings": {},
+      "fedramp_frr_ids": [
+        "FRC-CSO-MRA",
+        "CDS-CSO-IRP"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CED-RAT",
+        "KSI-PIY-RES",
+        "KSI-PIY-RSD"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.IR.IR-02",
+        "CTL.IR.IR-02-01",
+        "CTL.IR.IR-02-02",
+        "CTL.PS.PS-07"
+      ],
+      "agent_manifest_paths": [
+        "owner.responsible_official"
+      ],
+      "class_c_enforcement": "Role-based AI security, prompt-injection, and incident-response training for engineering and operations personnel (KSI-CED-RAT).",
+      "class_d_enforcement": "Enhanced privileged-operator training and U.S.-jurisdiction personnel access controls where required (KSI-CED-RAT, CTL.IR.IR-02-02, CTL.SA.SA-09-05).",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "controlProductGovernance",
+      "title": "Product Governance",
+      "category": "controlsGovernance",
+      "cosai_components": "none",
+      "cosai_risks": "all",
+      "cosai_personas": [
+        "personaGovernance"
+      ],
+      "external_mappings": {},
+      "fedramp_frr_ids": [
+        "FRC-CSO-MRA",
+        "FRC-CSO-PKG",
+        "CPO-CSO-OVR",
+        "SCN-CSO-EVA",
+        "CDS-CSO-PSM"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-PIY-RES",
+        "KSI-PIY-RSD",
+        "KSI-CMT-RVP"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-01",
+        "CTL.CA.CA-02",
+        "CTL.CA.CA-07"
+      ],
+      "agent_manifest_paths": [
+        "owner",
+        "fedramp",
+        "lifecycle.per_service_certification_artifacts"
+      ],
+      "class_c_enforcement": "Named accountable official (FRC-CSO-MRA), SCN governance (SCN-CSO-EVA), and optional per-service materials (CDS-CSO-PSM MAY).",
+      "class_d_enforcement": "Mandatory per-service FedRAMP Certification materials (CDS-CSO-PSM MUST) and quarterly CCM reviews (CCM-QTR-MTG MUST).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "controlRiskGovernance",
+      "title": "Risk Governance",
+      "category": "controlsGovernance",
+      "cosai_components": "none",
+      "cosai_risks": "all",
+      "cosai_personas": [
+        "personaGovernance"
+      ],
+      "external_mappings": {},
+      "fedramp_frr_ids": [
+        "SDR-CSO-FRR",
+        "SDR-CSO-MTD",
+        "SDR-CSX-KSI",
+        "SDR-CSX-KMT",
+        "CCM-OCR-AVL",
+        "CCM-QTR-MTG"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-PIY-RES",
+        "KSI-PIY-RIS",
+        "KSI-SVC-EIS"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.RA.RA-07",
+        "CTL.CA.CA-07",
+        "CTL.SR.SR-03"
+      ],
+      "agent_manifest_paths": [
+        "fedramp.service_class",
+        "fedramp.certification_tracks"
+      ],
+      "class_c_enforcement": "Persistent Security Decision Record (SDR-CSO-FRR), quarterly reviews (CCM-QTR-MTG MUST), and 20x daily/30d/1yr KSI metrics (SDR-CSX-KMT MUST).",
+      "class_d_enforcement": "Same Rev5/common SDR rigor; note SDR-CSX-KMT states 20x Class D MUST significantly supersede lower classes with specifics set in the 20x Phase 4 Pilot.",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "controlAgentObservability",
+      "title": "Agent Observability",
+      "category": "controlsApplication",
+      "cosai_components": [
+        "componentOrchestrationInputHandling",
+        "componentOrchestrationOutputHandling",
+        "componentAgentInputHandling",
+        "componentAgentOutputHandling",
+        "componentReasoningCore"
+      ],
+      "cosai_risks": [
+        "riskSensitiveDataDisclosure",
+        "riskRogueActions",
+        "riskToolRegistryTampering",
+        "riskAgentDelegationChainOpacity",
+        "riskShadowAndUnknownAgents",
+        "riskRunawayAgentToolLoops",
+        "riskZombieShadowMCPServers",
+        "riskAgenticDelegationConfusedDeputy"
+      ],
+      "cosai_personas": [
+        "personaAgenticProvider",
+        "personaApplicationDeveloper"
+      ],
+      "external_mappings": {},
+      "fedramp_frr_ids": [
+        "MAS-CSO-MDI",
+        "SCN-CSO-MAR",
+        "CDS-TRC-ACL"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-MLA-LET",
+        "KSI-MLA-OSM",
+        "KSI-MLA-RVL",
+        "KSI-MLA-ALA"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-MLA-ALA"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.AU.AU-06",
+        "CTL.AU.AU-10",
+        "CTL.AU.AU-12"
+      ],
+      "agent_manifest_paths": [
+        "observability.tamper_evident_audit_repo",
+        "observability.audit_control_plane_separated",
+        "observability.prompt_response_redacted_from_external_telemetry"
+      ],
+      "class_c_enforcement": "Structured delegation, tool-call, and PEP verdict logs written to separated tamper-evident repository; KSI-MLA-ALA applies to 20x Class C.",
+      "class_d_enforcement": "Adds FIPS 140-3 signed/encrypted audit trails (CMU-CSO-UVM MUST) and U.S. residency (CTL.SA.SA-09-05); KSI-MLA-ALA omits Class D in 2026.11.02.01.",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "controlIsolatedConfidentialComputing",
+      "title": "Isolated and Confidential Computing",
+      "category": "controlsInfrastructure",
+      "cosai_components": [
+        "componentModelServing",
+        "componentModelTrainingTuning",
+        "componentMemory",
+        "componentReasoningCore"
+      ],
+      "cosai_risks": [
+        "riskAcceleratorAndSystemSideChannels",
+        "riskModelSourceTampering",
+        "riskModelExfiltration",
+        "riskModelDeploymentTampering",
+        "riskOrchestratorRouteHijacking",
+        "riskCrossTenantCredentialPropagation"
+      ],
+      "cosai_personas": [
+        "personaPlatformProvider",
+        "personaModelServing",
+        "personaAgenticProvider",
+        "personaApplicationDeveloper"
+      ],
+      "external_mappings": {},
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "SCG-CSO-SDF",
+        "VDR-CSO-DFR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-ULN",
+        "KSI-CNA-EIS",
+        "KSI-SVC-PRR"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-CNA-EIS",
+        "KSI-SVC-PRR"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.SC.SC-07",
+        "CTL.CP.CP-10-04"
+      ],
+      "agent_manifest_paths": [
+        "tool_boundaries.third_party_tool_isolation"
+      ],
+      "class_c_enforcement": "Hardware/hypervisor isolation for multi-tenant inference and third-party tool sandboxes (third_party_tool_isolation=true).",
+      "class_d_enforcement": "Dedicated U.S.-jurisdiction sovereign compute / confidential enclaves mitigating cross-tenant side channels for High-impact workloads (CTL.SA.SA-09-05).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "controlRetrievalAndVectorSystemIntegrity",
+      "title": "Retrieval and Vector System Integrity Management",
+      "category": "controlsData",
+      "cosai_components": [
+        "componentDataSources",
+        "componentDataStorage",
+        "componentDataFilteringAndProcessing"
+      ],
+      "cosai_risks": [
+        "riskRetrievalVectorStorePoisoning"
+      ],
+      "cosai_personas": [
+        "personaDataProvider",
+        "personaPlatformProvider",
+        "personaApplicationDeveloper"
+      ],
+      "external_mappings": {},
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-TPR",
+        "CMU-CSO-UVM"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-VRI",
+        "KSI-SVC-SIN",
+        "KSI-IAM-ELP"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-14",
+        "CTL.AC.AC-06-01",
+        "CTL.SC.SC-13",
+        "CTL.SA.SA-09-05"
+      ],
+      "agent_manifest_paths": [
+        "tpirs",
+        "cryptography.fips_140_3_validated_modules"
+      ],
+      "class_c_enforcement": " Provenance-verified ingestion, tenant-isolated vector namespaces, and pre-retrieval ACL filtering.",
+      "class_d_enforcement": "FIPS 140-3 encrypted vector indices (CMU-CSO-UVM MUST) hosted strictly within U.S. jurisdiction (CTL.SA.SA-09-05).",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "controlOrchestratorAndRouteIntegrity",
+      "title": "Orchestrator and Route Integrity",
+      "category": "controlsInfrastructure",
+      "cosai_components": [
+        "componentModelServing",
+        "componentApplication"
+      ],
+      "cosai_risks": [
+        "riskOrchestratorRouteHijacking",
+        "riskModelDeploymentTampering",
+        "riskToolRegistryTampering"
+      ],
+      "cosai_personas": [
+        "personaPlatformProvider",
+        "personaModelServing",
+        "personaAgenticProvider",
+        "personaApplicationDeveloper"
+      ],
+      "external_mappings": {},
+      "fedramp_frr_ids": [
+        "MAS-CSO-FLO",
+        "MAS-CSO-TPR",
+        "SCN-CSO-EVA",
+        "SCG-CSO-SDF"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-RNT",
+        "KSI-CMT-LMC",
+        "KSI-SVC-VRI"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SC.SC-07",
+        "CTL.CM.CM-14",
+        "CTL.SA.SA-09-05"
+      ],
+      "agent_manifest_paths": [
+        "model_serving.model_reachability_pep",
+        "model_serving.fedramp_certified_tpir_id",
+        "model_serving.us_jurisdiction_only"
+      ],
+      "class_c_enforcement": "Cryptographically pinned routing configuration enforced by Model Serving PEP to approved certified TPIR endpoints.",
+      "class_d_enforcement": "Fail-closed U.S.-jurisdiction-only model routing (us_jurisdiction_only=true per CTL.SA.SA-09-05); route table edits require SCN evaluation.",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "controlAgentInventoryManagement",
+      "title": "Agent Inventory Management",
+      "category": "controlsApplication",
+      "cosai_components": [
+        "componentReasoningCore",
+        "componentTools",
+        "componentOrchestrationInputHandling",
+        "componentOrchestrationOutputHandling"
+      ],
+      "cosai_risks": [
+        "riskShadowAndUnknownAgents",
+        "riskZombieShadowMCPServers",
+        "riskAgentDelegationChainOpacity"
+      ],
+      "cosai_personas": [
+        "personaAgenticProvider",
+        "personaPlatformProvider",
+        "personaGovernance"
+      ],
+      "external_mappings": {
+        "nist-ai-rmf": [
+          "GOVERN-1.6@1.0",
+          "MAP-3.4@1.0"
+        ]
+      },
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "CPO-CSO-OVR",
+        "CDS-CSO-SVC",
+        "SCN-CSO-EVA"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-PIY-GIV",
+        "KSI-IAM-AAM",
+        "KSI-IAM-SNU"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-08",
+        "CTL.IA.IA-04-04"
+      ],
+      "agent_manifest_paths": [
+        "agent_id",
+        "version",
+        "fedramp.in_minimum_assessment_scope",
+        "tool_boundaries.allowed_tools"
+      ],
+      "class_c_enforcement": "Every agent registered via canonical agent-manifest.json before credential issuance; unregistered shadow agents blocked at PEPs.",
+      "class_d_enforcement": "Same pre-issuance registration plus mandatory per-service certification artifacts in Trust Center (CDS-CSO-PSM MUST).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "controlAgentIntegrityManagement",
+      "title": "Agent Integrity Management",
+      "category": "controlsApplication",
+      "cosai_components": [
+        "componentReasoningCore",
+        "componentTools",
+        "componentOrchestrationInputHandling",
+        "componentModelServing"
+      ],
+      "cosai_risks": [
+        "riskShadowAndUnknownAgents",
+        "riskStaleAgentIdentityBinding",
+        "riskAgentDelegationChainOpacity"
+      ],
+      "cosai_personas": [
+        "personaAgenticProvider",
+        "personaPlatformProvider",
+        "personaGovernance"
+      ],
+      "external_mappings": {
+        "mitre-atlas": [
+          "AML.M0013@5.0.1"
+        ],
+        "nist-ai-rmf": [
+          "MAP-3.4@1.0",
+          "MEASURE-2.9@1.0"
+        ]
+      },
+      "fedramp_frr_ids": [
+        "CMU-CSO-CMD",
+        "CMU-CSO-UVM",
+        "VDR-TFR-PDD",
+        "SCN-CSO-EVA"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-VRI",
+        "KSI-IAM-SNU",
+        "KSI-CMT-RMV"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-14",
+        "CTL.SC.SC-13"
+      ],
+      "agent_manifest_paths": [
+        "version",
+        "cryptography.fips_140_3_validated_modules",
+        "identity_access.delegation_model"
+      ],
+      "class_c_enforcement": "Cryptographically bind agent workload identity to manifest/model digest; revoke credentials automatically on model swap.",
+      "class_d_enforcement": "Cryptographic identity-to-artifact bindings signed using active CMVP FIPS 140-3 modules (CMU-CSO-UVM MUST).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "controlAgentCredentialIsolation",
+      "title": "Agent Credential Isolation",
+      "category": "controlsApplication",
+      "cosai_components": [
+        "componentReasoningCore",
+        "componentOrchestrationInputHandling",
+        "componentOrchestrationOutputHandling",
+        "componentTools",
+        "componentMemory"
+      ],
+      "cosai_risks": [
+        "riskCrossTenantCredentialPropagation",
+        "riskShadowAndUnknownAgents",
+        "riskStaleAgentIdentityBinding"
+      ],
+      "cosai_personas": [
+        "personaAgenticProvider",
+        "personaPlatformProvider",
+        "personaApplicationDeveloper",
+        "personaGovernance"
+      ],
+      "external_mappings": {
+        "owasp-top10-llm": [
+          "LLM06:2025"
+        ],
+        "nist-ai-rmf": [
+          "MEASURE-2.10@1.0"
+        ]
+      },
+      "fedramp_frr_ids": [
+        "SCG-CSO-SDF",
+        "CMU-CSO-CAT",
+        "CMU-CSO-UVM"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-IAM-SNU",
+        "KSI-IAM-JIT",
+        "KSI-SVC-ASM",
+        "KSI-CNA-ULN"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.IA.IA-05",
+        "CTL.AC.AC-06-01",
+        "CTL.SC.SC-13"
+      ],
+      "agent_manifest_paths": [
+        "identity_access.delegation_model",
+        "identity_access.encrypted_assertions"
+      ],
+      "class_c_enforcement": "Per-tenant, short-lived capability tokens with zero cross-tenant credential pools; validated at every MCP/tool hop.",
+      "class_d_enforcement": "Tokens minted under FAL3/AAL3 assurance and protected with FIPS 140-3 cryptographic modules (CTL.IA.IA-05, CMU-CSO-UVM MUST).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "controlInterComponentTransportSecurity",
+      "title": "Inter-Component Transport Security",
+      "category": "controlsInfrastructure",
+      "cosai_components": [
+        "componentModelServing",
+        "componentTools",
+        "componentOrchestrationInputHandling",
+        "componentOrchestrationOutputHandling",
+        "componentApplication"
+      ],
+      "cosai_risks": [
+        "riskMCPTransportHijacking",
+        "riskOrchestratorRouteHijacking",
+        "riskInsecureIntegratedComponent",
+        "riskToolRegistryTampering",
+        "riskModelDeploymentTampering",
+        "riskZombieShadowMCPServers"
+      ],
+      "cosai_personas": [
+        "personaPlatformProvider",
+        "personaModelServing",
+        "personaAgenticProvider",
+        "personaApplicationDeveloper"
+      ],
+      "external_mappings": {
+        "nist-ai-rmf": [
+          "MEASURE-2.7@1.0",
+          "MAP-3.4@1.0"
+        ],
+        "owasp-top10-llm": [
+          "LLM03:2025"
+        ]
+      },
+      "fedramp_frr_ids": [
+        "CMU-CSO-CMD",
+        "CMU-CSO-UVM",
+        "MAS-CSO-FLO"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-RNT",
+        "KSI-SVC-VCM",
+        "KSI-SVC-ASM",
+        "KSI-IAM-SNU"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-SVC-VCM"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.SC.SC-07",
+        "CTL.SC.SC-13"
+      ],
+      "agent_manifest_paths": [
+        "cryptography.fips_140_3_validated_modules",
+        "cryptography.modules",
+        "tool_boundaries.network_egress_pep"
+      ],
+      "class_c_enforcement": "mTLS 1.2+/1.3 across all inter-component paths (including localhost MCP servers), channel-bound tokens, and replay nonces; FIPS SHOULD (CMU-CSO-UVM).",
+      "class_d_enforcement": "Active CMVP FIPS 140-3 validated TLS/mTLS cryptographic modules are MANDATORY across every inter-component wire (CMU-CSO-UVM MUST).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "controlComponentIdentityProvenance",
+      "title": "Component Identity Provenance",
+      "category": "controlsInfrastructure",
+      "cosai_components": [
+        "componentOrchestrationInputHandling",
+        "componentOrchestrationOutputHandling",
+        "componentTools",
+        "componentModelServing",
+        "componentApplication"
+      ],
+      "cosai_risks": [
+        "riskZombieShadowMCPServers",
+        "riskStaleAgentIdentityBinding",
+        "riskMCPTransportHijacking"
+      ],
+      "cosai_personas": [
+        "personaPlatformProvider",
+        "personaAgenticProvider",
+        "personaApplicationDeveloper",
+        "personaModelServing",
+        "personaGovernance"
+      ],
+      "external_mappings": {
+        "nist-ai-rmf": [
+          "MAP-3.4@1.0",
+          "MEASURE-2.7@1.0"
+        ]
+      },
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "CMU-CSO-UVM",
+        "VDR-TFR-PDD"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-IAM-SNU",
+        "KSI-PIY-GIV",
+        "KSI-SVC-VRI"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.IA.IA-05",
+        "CTL.CM.CM-08",
+        "CTL.SC.SC-13"
+      ],
+      "agent_manifest_paths": [
+        "tool_boundaries.tool_registry_allowlist",
+        "identity_access.delegation_model"
+      ],
+      "class_c_enforcement": "Runtime SPIFFE/SVID or short-lived registry-gated attestation verifying callee is the active non-revoked principal at invocation time.",
+      "class_d_enforcement": "Provenance attestations backed by FIPS 140-3 HSM/KMS roots of trust (CMU-CSO-UVM MUST).",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "controlAgentExecutionBounds",
+      "title": "Agent Execution Bounds",
+      "category": "controlsApplication",
+      "cosai_components": [
+        "componentReasoningCore",
+        "componentOrchestrationInputHandling",
+        "componentOrchestrationOutputHandling"
+      ],
+      "cosai_risks": [
+        "riskRunawayAgentToolLoops",
+        "riskEconomicDenialOfWallet"
+      ],
+      "cosai_personas": [
+        "personaAgenticProvider",
+        "personaApplicationDeveloper",
+        "personaPlatformProvider"
+      ],
+      "external_mappings": {
+        "owasp-top10-llm": [
+          "LLM10:2025"
+        ],
+        "mitre-atlas": [
+          "AML.M0004@5.0.1"
+        ],
+        "nist-ai-rmf": [
+          "MEASURE-2.6@1.0",
+          "MANAGE-2.1@1.0"
+        ]
+      },
+      "fedramp_frr_ids": [
+        "SCG-CSO-SDF",
+        "CDS-CSO-AVR",
+        "VDR-CSO-DFR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-OFA",
+        "KSI-CNA-RVP",
+        "KSI-MLA-LET"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SC.SC-07",
+        "CTL.SI.SI-04"
+      ],
+      "agent_manifest_paths": [
+        "tool_boundaries.authorization_pep",
+        "lifecycle.cosai_control_ids"
+      ],
+      "class_c_enforcement": "Mandatory max_turns, tool-call budgets, context-window ceilings, and loop-detection circuit breakers.",
+      "class_d_enforcement": "Strict deterministic execution ceilings protecting High-availability mission workloads (CDS-CSO-AVR MUST, KSI-CNA-OFA).",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "controlModelRegistryIntegrity",
+      "title": "Model Registry and Discovery Integrity",
+      "category": "controlsInfrastructure",
+      "cosai_components": [
+        "componentModelRegistry"
+      ],
+      "cosai_risks": [
+        "riskModelSourceTampering",
+        "riskModelDeploymentTampering",
+        "riskInsecureIntegratedComponent",
+        "riskEvaluationBenchmarkManipulation"
+      ],
+      "cosai_personas": [
+        "personaModelProvider",
+        "personaPlatformProvider",
+        "personaApplicationDeveloper",
+        "personaGovernance"
+      ],
+      "external_mappings": {},
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "CMU-CSO-UVM",
+        "SCN-CSO-EVA"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-PIY-GIV",
+        "KSI-SVC-VRI",
+        "KSI-SCR-MIT"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-08",
+        "CTL.CM.CM-14",
+        "CTL.SR.SR-03"
+      ],
+      "agent_manifest_paths": [
+        "model_serving.inference_provider",
+        "model_serving.model_reachability_pep"
+      ],
+      "class_c_enforcement": "Signed model registry entries with digest pinning consulted by Model Serving PEP.",
+      "class_d_enforcement": "FIPS 140-3 signature verification on registry manifests and U.S.-jurisdiction artifact hosting (CMU-CSO-UVM MUST, CTL.SA.SA-09-05).",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "controlToolRegistryAndDiscoveryIntegrity",
+      "title": "Tool Registry and Discovery Integrity",
+      "category": "controlsInfrastructure",
+      "cosai_components": [
+        "componentToolRegistry"
+      ],
+      "cosai_risks": [
+        "riskToolRegistryTampering",
+        "riskToolSourceProvenance"
+      ],
+      "cosai_personas": [
+        "personaAgenticProvider",
+        "personaPlatformProvider",
+        "personaApplicationDeveloper"
+      ],
+      "external_mappings": {},
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-TPR",
+        "SCN-CSO-EVA",
+        "VDR-TFR-PDD"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-PIY-GIV",
+        "KSI-SVC-VRI",
+        "KSI-CNA-RNT"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-08",
+        "CTL.CM.CM-14",
+        "CTL.AC.AC-06-08"
+      ],
+      "agent_manifest_paths": [
+        "tool_boundaries.tool_registry_allowlist",
+        "tool_boundaries.allowed_tools"
+      ],
+      "class_c_enforcement": "Signed MCP/tool manifests, schema hash pinning, anti-shadowing checks, and egress PEP allowlist enforcement.",
+      "class_d_enforcement": "FIPS 140-3 signed tool descriptors (CMU-CSO-UVM MUST), 2-day CVE/tampering triage (VER-TFR-EVU), and U.S. residency for federal-data tools.",
+      "verification_method": "automated-cli"
+    }
+  ],
+  "risks": [
+    {
+      "id": "riskDataPoisoning",
+      "title": "Data Poisoning",
+      "category": "risksSupplyChainAndDevelopment",
+      "cosai_controls": [
+        "controlTrainingDataSanitization",
+        "controlSecureByDefaultMLTooling",
+        "controlModelAndDataIntegrityManagement",
+        "controlModelAndDataAccessControls",
+        "controlModelAndDataInventoryManagement"
+      ],
+      "cosai_personas": [
+        "personaModelProvider",
+        "personaDataProvider",
+        "personaModelServing",
+        "personaAgenticProvider",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {
+        "mitre-atlas": [
+          "AML.T0020@5.0.1",
+          "AML.T0019@5.0.1",
+          "AML.T0010.002@5.0.1",
+          "AML.T0043@5.0.1",
+          "AML.T0059@5.0.1",
+          "AML.T0008.002@5.0.1"
+        ],
+        "stride": [
+          "Tampering"
+        ],
+        "owasp-top10-llm": [
+          "LLM04:2025"
+        ]
+      },
+      "lifecycle_stage": [
+        "data-preparation",
+        "model-training",
+        "maintenance"
+      ],
+      "impact_type": [
+        "integrity",
+        "reliability",
+        "safety",
+        "fairness"
+      ],
+      "actor_access": [
+        "supply-chain",
+        "privileged",
+        "service-provider",
+        "infrastructure-provider"
+      ],
+      "fedramp_frr_ids": [
+        "VDR-CSO-DET",
+        "IEC-CSO-EFR",
+        "SCN-CSO-EVA"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SCR-MIT",
+        "KSI-SVC-VRI"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SR.SR-03",
+        "CTL.SI.SI-08",
+        "CTL.CM.CM-14"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Compromised integrity of Federal outputs triggers IEC-CSO-EFR reportability; Class D requires 2-day evaluation (VER-TFR-EVU).",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "riskUnauthorizedTrainingData",
+      "title": "Unauthorized Training Data",
+      "category": "risksSupplyChainAndDevelopment",
+      "cosai_controls": [
+        "controlTrainingDataSanitization",
+        "controlTrainingDataManagement"
+      ],
+      "cosai_personas": [
+        "personaModelProvider",
+        "personaDataProvider"
+      ],
+      "external_mappings": {
+        "mitre-atlas": [
+          "AML.T0010.002@5.0.1"
+        ],
+        "stride": [
+          "InformationDisclosure"
+        ]
+      },
+      "lifecycle_stage": [
+        "planning",
+        "data-preparation",
+        "model-training"
+      ],
+      "impact_type": [
+        "compliance",
+        "privacy",
+        "fairness"
+      ],
+      "actor_access": [
+        "supply-chain",
+        "service-provider"
+      ],
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-FLO",
+        "IEC-CSO-EFR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-SIN",
+        "KSI-SVC-RUD",
+        "KSI-PIY-GIV"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-SVC-RUD"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-12",
+        "CTL.SA.SA-09-05"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso"
+      ],
+      "class_c_vs_d_elevation": "Unauthorized ingestion of Federal Customer Data into training is a reportable confidentiality/integrity incident (IEC-CSO-EFR) and violates Class D U.S. residency if offshored (CTL.SA.SA-09-05).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "riskModelSourceTampering",
+      "title": "Model Source Tampering",
+      "category": "risksSupplyChainAndDevelopment",
+      "cosai_controls": [
+        "controlIsolatedConfidentialComputing",
+        "controlModelAndDataAccessControls",
+        "controlModelAndDataExecutionIntegrity",
+        "controlModelAndDataIntegrityManagement",
+        "controlModelAndDataInventoryManagement",
+        "controlSecureByDefaultMLTooling",
+        "controlModelRegistryIntegrity"
+      ],
+      "cosai_personas": [
+        "personaModelProvider",
+        "personaPlatformProvider",
+        "personaModelServing",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {
+        "mitre-atlas": [
+          "AML.T0010.001@5.0.1",
+          "AML.T0010.003@5.0.1",
+          "AML.T0018@5.0.1"
+        ],
+        "stride": [
+          "Tampering",
+          "ElevationOfPrivilege"
+        ],
+        "owasp-top10-llm": [
+          "LLM03:2025"
+        ]
+      },
+      "lifecycle_stage": [
+        "development",
+        "model-training",
+        "deployment"
+      ],
+      "impact_type": [
+        "integrity",
+        "availability",
+        "safety",
+        "reliability",
+        "compliance"
+      ],
+      "actor_access": [
+        "supply-chain",
+        "privileged",
+        "infrastructure-provider",
+        "physical"
+      ],
+      "fedramp_frr_ids": [
+        "VDR-CSO-DET",
+        "VDR-TFR-PDD",
+        "CMU-CSO-UVM",
+        "IEC-CSO-EFR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SCR-MIT",
+        "KSI-SCR-MON",
+        "KSI-SVC-VRI"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SR.SR-03",
+        "CTL.SR.SR-08",
+        "CTL.CM.CM-14"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Class D mandates FIPS 140-3 signature verification on model artifacts (CMU-CSO-UVM MUST) and 2-day VDR triage (VER-TFR-EVU).",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "riskExcessiveDataHandling",
+      "title": "Excessive Data Handling",
+      "category": "risksSupplyChainAndDevelopment",
+      "cosai_controls": [
+        "controlTrainingDataManagement",
+        "controlUserTransparencyAndControls"
+      ],
+      "cosai_personas": [
+        "personaModelProvider",
+        "personaDataProvider"
+      ],
+      "external_mappings": {
+        "stride": [
+          "InformationDisclosure"
+        ],
+        "owasp-top10-llm": [
+          "LLM02:2025"
+        ]
+      },
+      "lifecycle_stage": [
+        "data-preparation",
+        "model-training",
+        "evaluation"
+      ],
+      "impact_type": [
+        "privacy",
+        "compliance",
+        "confidentiality"
+      ],
+      "actor_access": [
+        "privileged",
+        "service-provider"
+      ],
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-MDI",
+        "SCG-CSO-SDF"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-SIN",
+        "KSI-SVC-RUD",
+        "KSI-IAM-ELP"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-SVC-RUD"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-12",
+        "CTL.AC.AC-06-01"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Any component handling excessive Federal Customer Data or metadata is pulled into MAS (MAS-CSO-IIR, MAS-CSO-MDI); Class D adds per-service certification burden (CDS-CSO-PSM MUST).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "riskExcessiveDataHandlingDuringInference",
+      "title": "Excessive Data Handling During Inference",
+      "category": "risksRuntimeDataSecurity",
+      "cosai_controls": [
+        "controlUserDataManagement",
+        "controlUserTransparencyAndControls"
+      ],
+      "cosai_personas": [
+        "personaPlatformProvider",
+        "personaModelServing",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {
+        "stride": [
+          "InformationDisclosure"
+        ],
+        "owasp-top10-llm": [
+          "LLM02:2025"
+        ]
+      },
+      "lifecycle_stage": [
+        "runtime",
+        "maintenance"
+      ],
+      "impact_type": [
+        "privacy",
+        "compliance",
+        "confidentiality"
+      ],
+      "actor_access": [
+        "privileged",
+        "service-provider"
+      ],
+      "fedramp_frr_ids": [
+        "MAS-CSO-MDI",
+        "MAS-CSO-TPR",
+        "IEC-CSO-EFR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-SIN",
+        "KSI-SVC-PRR",
+        "KSI-SVC-RUD"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-SVC-PRR",
+        "KSI-SVC-RUD"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-12",
+        "CTL.SA.SA-09-05"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso"
+      ],
+      "class_c_vs_d_elevation": "Leaking inference prompts/responses to external telemetry or non-certified TPIRs fails validate_manifest.py; Class D enforces strict U.S. jurisdiction (CTL.SA.SA-09-05).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "riskModelExfiltration",
+      "title": "Model Exfiltration",
+      "category": "risksDeploymentAndInfrastructure",
+      "cosai_controls": [
+        "controlIsolatedConfidentialComputing",
+        "controlModelAndDataInventoryManagement",
+        "controlModelAndDataAccessControls",
+        "controlSecureByDefaultMLTooling",
+        "controlModelAndDataIntegrityManagement"
+      ],
+      "cosai_personas": [
+        "personaModelProvider",
+        "personaModelServing"
+      ],
+      "external_mappings": {
+        "mitre-atlas": [
+          "AML.T0024.002@5.0.1",
+          "AML.T0025@5.0.1",
+          "AML.T0048.004@5.0.1"
+        ],
+        "stride": [
+          "InformationDisclosure"
+        ]
+      },
+      "lifecycle_stage": [
+        "deployment",
+        "runtime",
+        "model-training",
+        "evaluation",
+        "maintenance"
+      ],
+      "impact_type": [
+        "confidentiality",
+        "integrity",
+        "privacy"
+      ],
+      "actor_access": [
+        "external",
+        "privileged",
+        "infrastructure-provider",
+        "physical",
+        "api"
+      ],
+      "fedramp_frr_ids": [
+        "MAS-CSO-FLO",
+        "CMU-CSO-UVM",
+        "IEC-CSO-EFR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-RNT",
+        "KSI-SVC-SIN",
+        "KSI-IAM-ELP"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SC.SC-07",
+        "CTL.SC.SC-13",
+        "CTL.AC.AC-06-01"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Prevented by ADR-030 D11 reachability boundary (model_reachability_pep=true) and Class D FIPS 140-3 storage/transport encryption (CMU-CSO-UVM MUST).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "riskModelDeploymentTampering",
+      "title": "Model Deployment Tampering",
+      "category": "risksDeploymentAndInfrastructure",
+      "cosai_controls": [
+        "controlIsolatedConfidentialComputing",
+        "controlModelAndDataExecutionIntegrity",
+        "controlOrchestratorAndRouteIntegrity",
+        "controlSecureByDefaultMLTooling",
+        "controlInterComponentTransportSecurity",
+        "controlModelRegistryIntegrity"
+      ],
+      "cosai_personas": [
+        "personaPlatformProvider",
+        "personaModelServing",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {
+        "mitre-atlas": [
+          "AML.T0010.003@5.0.1",
+          "AML.T0049@5.0.1",
+          "AML.T0051@5.0.1"
+        ],
+        "stride": [
+          "Tampering",
+          "ElevationOfPrivilege"
+        ],
+        "owasp-top10-llm": [
+          "LLM03:2025",
+          "LLM01:2025"
+        ]
+      },
+      "lifecycle_stage": [
+        "deployment",
+        "runtime"
+      ],
+      "impact_type": [
+        "integrity",
+        "availability",
+        "safety"
+      ],
+      "actor_access": [
+        "privileged",
+        "infrastructure-provider",
+        "api",
+        "user"
+      ],
+      "fedramp_frr_ids": [
+        "VDR-TFR-PDD",
+        "SCN-CSO-EVA",
+        "IEC-CSO-EFR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CMT-RMV",
+        "KSI-CNA-EIS",
+        "KSI-SVC-VRI"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-CNA-EIS"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-14",
+        "CTL.CP.CP-10-04",
+        "CTL.SI.SI-04"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Detected via persistent drift detection (VDR-TFR-PDD) and immutable redeployment (KSI-CMT-RMV); Class D evaluates findings within <= 2 days (VER-TFR-EVU).",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "riskDenialOfMLService",
+      "title": "Denial of ML Service",
+      "category": "risksRuntimeInputSecurity",
+      "cosai_controls": [
+        "controlApplicationAccessManagement"
+      ],
+      "cosai_personas": [
+        "personaPlatformProvider",
+        "personaModelServing",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {
+        "mitre-atlas": [
+          "AML.T0029@5.0.1",
+          "AML.T0034@5.0.1"
+        ],
+        "stride": [
+          "DenialOfService"
+        ],
+        "owasp-top10-llm": [
+          "LLM10:2025"
+        ]
+      },
+      "lifecycle_stage": [
+        "runtime"
+      ],
+      "impact_type": [
+        "availability"
+      ],
+      "actor_access": [
+        "external",
+        "api",
+        "user"
+      ],
+      "fedramp_frr_ids": [
+        "CDS-CSO-AVR",
+        "VDR-CSO-DFR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-OFA",
+        "KSI-CNA-RVP"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SC.SC-07",
+        "CTL.CP.CP-02-03"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso"
+      ],
+      "class_c_vs_d_elevation": "Both Class C and Class D MUST report availability metrics (CDS-CSO-AVR); High-impact Class D systems carry stricter mission continuity SLAs (CTL.CP.CP-02-03).",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "riskModelReverseEngineering",
+      "title": "Model Reverse Engineering",
+      "category": "risksDeploymentAndInfrastructure",
+      "cosai_controls": [
+        "controlApplicationAccessManagement"
+      ],
+      "cosai_personas": [
+        "personaModelProvider",
+        "personaDataProvider"
+      ],
+      "external_mappings": {
+        "mitre-atlas": [
+          "AML.T0024.002@5.0.1",
+          "AML.T0005@5.0.1",
+          "AML.T0048.004@5.0.1"
+        ],
+        "stride": [
+          "InformationDisclosure"
+        ]
+      },
+      "lifecycle_stage": [
+        "runtime"
+      ],
+      "impact_type": [
+        "confidentiality",
+        "integrity"
+      ],
+      "actor_access": [
+        "api",
+        "user"
+      ],
+      "fedramp_frr_ids": [
+        "MAS-CSO-FLO",
+        "SCG-CSO-SDF"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-RVP",
+        "KSI-IAM-SUS",
+        "KSI-MLA-OSM"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SI.SI-04",
+        "CTL.SC.SC-07"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso"
+      ],
+      "class_c_vs_d_elevation": "Mitigated via query rate limiting at Model Serving PEP and SIEM extraction-pattern alerting; heightened impact if fine-tuned on agency data.",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "riskInsecureIntegratedComponent",
+      "title": "Insecure Integrated Component",
+      "category": "risksDeploymentAndInfrastructure",
+      "cosai_controls": [
+        "controlAgentPluginPermissions",
+        "controlModelAndDataExecutionIntegrity",
+        "controlUserPoliciesAndEducation",
+        "controlInputValidationAndSanitization",
+        "controlInterComponentTransportSecurity",
+        "controlModelRegistryIntegrity"
+      ],
+      "cosai_personas": [
+        "personaPlatformProvider",
+        "personaModelServing",
+        "personaAgenticProvider",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {
+        "mitre-atlas": [
+          "AML.T0051@5.0.1",
+          "AML.T0049@5.0.1"
+        ],
+        "stride": [
+          "Tampering",
+          "ElevationOfPrivilege"
+        ],
+        "owasp-top10-llm": [
+          "LLM03:2025",
+          "LLM06:2025"
+        ]
+      },
+      "lifecycle_stage": [
+        "development",
+        "deployment",
+        "runtime"
+      ],
+      "impact_type": [
+        "confidentiality",
+        "integrity",
+        "availability",
+        "safety"
+      ],
+      "actor_access": [
+        "external",
+        "api",
+        "agent",
+        "user"
+      ],
+      "fedramp_frr_ids": [
+        "VDR-CSO-DET",
+        "VDR-TFR-KEV",
+        "VER-TFR-EVU",
+        "VER-TFR-NRI",
+        "MAS-CSO-TPR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SCR-MIT",
+        "KSI-SCR-MON",
+        "KSI-CNA-MAT"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.RA.RA-05",
+        "CTL.SI.SI-02",
+        "CTL.SA.SA-09-02",
+        "CTL.SR.SR-03"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Class C <= 5d vs Class D <= 2d triage (VER-TFR-EVU); Class D PAIN=5 IRV+LEV remediation is 12 hours vs Class C 2 days (VDR-TFR-PVR); Class D VER-TFR-NRI elevates to SHOULD.",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "riskPromptInjection",
+      "title": "Prompt Injection",
+      "category": "risksRuntimeInputSecurity",
+      "cosai_controls": [
+        "controlInputValidationAndSanitization",
+        "controlAdversarialTrainingAndTesting",
+        "controlOutputValidationAndSanitization"
+      ],
+      "cosai_personas": [
+        "personaModelServing",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {
+        "mitre-atlas": [
+          "AML.T0051@5.0.1"
+        ],
+        "stride": [
+          "Tampering",
+          "ElevationOfPrivilege"
+        ],
+        "owasp-top10-llm": [
+          "LLM01:2025"
+        ]
+      },
+      "lifecycle_stage": [
+        "runtime"
+      ],
+      "impact_type": [
+        "integrity",
+        "confidentiality",
+        "safety"
+      ],
+      "actor_access": [
+        "external",
+        "api",
+        "user"
+      ],
+      "fedramp_frr_ids": [
+        "VDR-CSO-FAV",
+        "SCG-CSO-SDF",
+        "IEC-CSO-EFR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-MAT",
+        "KSI-IAM-ELP",
+        "KSI-MLA-OSM"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SI.SI-04",
+        "CTL.AC.AC-06-01",
+        "CTL.SC.SC-07"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Contained architecturally via Agent Input Handling, Authorization PEP, and Dual Consent Surfaces; compromises affecting Federal data trigger IEC-CSO-EFR.",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "riskModelEvasion",
+      "title": "Model Evasion",
+      "category": "risksRuntimeInputSecurity",
+      "cosai_controls": [
+        "controlAdversarialTrainingAndTesting"
+      ],
+      "cosai_personas": [
+        "personaModelServing",
+        "personaAgenticProvider",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {
+        "mitre-atlas": [
+          "AML.T0015@5.0.1",
+          "AML.T0043@5.0.1"
+        ],
+        "stride": [
+          "Tampering"
+        ],
+        "owasp-top10-llm": [
+          "LLM01:2025"
+        ]
+      },
+      "lifecycle_stage": [
+        "evaluation",
+        "runtime"
+      ],
+      "impact_type": [
+        "integrity",
+        "safety",
+        "reliability"
+      ],
+      "actor_access": [
+        "external",
+        "api",
+        "user"
+      ],
+      "fedramp_frr_ids": [
+        "VDR-CSO-DET",
+        "IVV-CSO-SEE"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-EIS",
+        "KSI-MLA-OSM"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CA.CA-08",
+        "CTL.SI.SI-04"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Tested via portable evals and red-teaming (CTL.CA.CA-08); high-consequence tool actions remain gated by deterministic Authorization PEP regardless of model evasion.",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "riskSensitiveDataDisclosure",
+      "title": "Sensitive Data Disclosure",
+      "category": "risksRuntimeDataSecurity",
+      "cosai_controls": [
+        "controlModelPrivacyEnhancingTechnologies",
+        "controlRuntimePrivacyEnhancingTechnologies",
+        "controlUserDataManagement",
+        "controlOutputValidationAndSanitization",
+        "controlAdversarialTrainingAndTesting",
+        "controlAgentPluginPermissions",
+        "controlAgentPluginUserControl",
+        "controlAgentObservability",
+        "controlUserTransparencyAndControls",
+        "controlUserPoliciesAndEducation"
+      ],
+      "cosai_personas": [
+        "personaModelProvider",
+        "personaDataProvider",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {
+        "mitre-atlas": [
+          "AML.T0024@5.0.1"
+        ],
+        "stride": [
+          "InformationDisclosure"
+        ],
+        "owasp-top10-llm": [
+          "LLM02:2025",
+          "LLM07:2025"
+        ]
+      },
+      "lifecycle_stage": [
+        "model-training",
+        "evaluation",
+        "runtime"
+      ],
+      "impact_type": [
+        "confidentiality",
+        "privacy"
+      ],
+      "actor_access": [
+        "external",
+        "api",
+        "user",
+        "agent",
+        "privileged",
+        "infrastructure-provider"
+      ],
+      "fedramp_frr_ids": [
+        "IEC-CSO-EFR",
+        "IEC-CSO-DPR",
+        "IEC-CSO-IIR",
+        "MAS-CSO-MDI"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-SIN",
+        "KSI-SVC-PRR",
+        "KSI-IAM-ELP"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-SVC-PRR"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-12",
+        "CTL.AC.AC-06-01",
+        "CTL.IR.IR-09"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Any disclosure of Federal Customer Data is a mandatory FedRAMP Reportable Incident (IEC-CSO-EFR, default PAIN=5 per IEC-CSO-DPR) requiring spillage response (CTL.IR.IR-09).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "riskInferredSensitiveData",
+      "title": "Inferred Sensitive Data",
+      "category": "risksRuntimeDataSecurity",
+      "cosai_controls": [
+        "controlTrainingDataManagement",
+        "controlOutputValidationAndSanitization",
+        "controlAdversarialTrainingAndTesting"
+      ],
+      "cosai_personas": [
+        "personaModelServing",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {
+        "stride": [
+          "InformationDisclosure"
+        ],
+        "owasp-top10-llm": [
+          "LLM02:2025",
+          "LLM09:2025"
+        ]
+      },
+      "lifecycle_stage": [
+        "runtime"
+      ],
+      "impact_type": [
+        "privacy",
+        "fairness"
+      ],
+      "actor_access": [
+        "external",
+        "api",
+        "user"
+      ],
+      "fedramp_frr_ids": [
+        "MAS-CSO-FLO",
+        "IEC-CSO-EFR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-SIN",
+        "KSI-IAM-ELP"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-12",
+        "CTL.AC.AC-06-01"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso"
+      ],
+      "class_c_vs_d_elevation": "Pre-retrieval RBAC/ABAC and tenant context isolation prevent cross-record inference; Class D High categorization elevates spillage severity.",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "riskInsecureModelOutput",
+      "title": "Insecure Model Output",
+      "category": "risksRuntimeOutputSecurity",
+      "cosai_controls": [
+        "controlOutputValidationAndSanitization",
+        "controlAdversarialTrainingAndTesting"
+      ],
+      "cosai_personas": [
+        "personaAgenticProvider",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {
+        "stride": [
+          "Tampering"
+        ],
+        "owasp-top10-llm": [
+          "LLM05:2025",
+          "LLM09:2025"
+        ]
+      },
+      "lifecycle_stage": [
+        "runtime"
+      ],
+      "impact_type": [
+        "integrity",
+        "safety",
+        "reliability"
+      ],
+      "actor_access": [
+        "external",
+        "api",
+        "user"
+      ],
+      "fedramp_frr_ids": [
+        "VDR-CSO-FAV",
+        "SCG-CSO-SDF",
+        "IEC-CSO-EFR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-MAT",
+        "KSI-CNA-RNT"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SI.SI-04",
+        "CTL.SC.SC-07"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Unsanitized markdown/code output executing in agency browsers or CI runners is mitigated by Agent/Application Output Handling and strict CSP/egress PEPs.",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "riskRogueActions",
+      "title": "Rogue Actions",
+      "category": "risksRuntimeOutputSecurity",
+      "cosai_controls": [
+        "controlAgentPluginPermissions",
+        "controlAgentPluginUserControl",
+        "controlOutputValidationAndSanitization",
+        "controlAgentObservability"
+      ],
+      "cosai_personas": [
+        "personaPlatformProvider",
+        "personaModelServing",
+        "personaAgenticProvider",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {
+        "mitre-atlas": [
+          "AML.T0051@5.0.1",
+          "AML.T0086@5.0.1"
+        ],
+        "stride": [
+          "Tampering",
+          "ElevationOfPrivilege"
+        ],
+        "owasp-top10-llm": [
+          "LLM06:2025"
+        ]
+      },
+      "lifecycle_stage": [
+        "runtime"
+      ],
+      "impact_type": [
+        "integrity",
+        "safety",
+        "confidentiality",
+        "availability"
+      ],
+      "actor_access": [
+        "external",
+        "api",
+        "user",
+        "agent"
+      ],
+      "fedramp_frr_ids": [
+        "SCG-CSO-SDF",
+        "IEC-CSO-EFR",
+        "VDR-CSO-FAV"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-IAM-ELP",
+        "KSI-IAM-JIT",
+        "KSI-CNA-DFP",
+        "KSI-MLA-LET"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.AC.AC-06-01",
+        "CTL.AC.AC-06-02",
+        "CTL.AC.AC-06-08",
+        "CTL.AU.AU-12"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Blocked by Authorization PEP, allowed_tools allowlist, and Dual Consent Surfaces (consent_surface_dual_mode=true); Class D binds approvals to IAL3/AAL3/FAL3.",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "riskAcceleratorAndSystemSideChannels",
+      "title": "Accelerator and System Side-channels",
+      "category": "risksDeploymentAndInfrastructure",
+      "cosai_controls": [
+        "controlSecureByDefaultMLTooling",
+        "controlModelAndDataAccessControls",
+        "controlIsolatedConfidentialComputing"
+      ],
+      "cosai_personas": [
+        "personaPlatformProvider",
+        "personaModelServing",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {},
+      "lifecycle_stage": [],
+      "impact_type": [],
+      "actor_access": [],
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "VDR-CSO-DFR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-ULN",
+        "KSI-SVC-PRR"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-SVC-PRR"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.SC.SC-07",
+        "CTL.SA.SA-09-05"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso"
+      ],
+      "class_c_vs_d_elevation": "Class D High workloads require dedicated U.S.-jurisdiction sovereign GPU/compute isolation or confidential enclaves (third_party_tool_isolation=true, CTL.SA.SA-09-05).",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "riskEconomicDenialOfWallet",
+      "title": "Economic Denial of Wallet",
+      "category": "risksRuntimeInputSecurity",
+      "cosai_controls": [
+        "controlApplicationAccessManagement",
+        "controlAgentExecutionBounds"
+      ],
+      "cosai_personas": [
+        "personaPlatformProvider",
+        "personaModelServing",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {},
+      "lifecycle_stage": [],
+      "impact_type": [],
+      "actor_access": [],
+      "fedramp_frr_ids": [
+        "CDS-CSO-AVR",
+        "SCG-CSO-SDF"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-OFA",
+        "KSI-CNA-RVP"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SC.SC-07",
+        "CTL.SI.SI-04"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Mitigated by token/cost quotas at Application Access Management and max_turns circuit breakers in Agent Execution Bounds.",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "riskFederatedDistributedTrainingPrivacy",
+      "title": "Federated/Distributed Training Privacy",
+      "category": "risksSupplyChainAndDevelopment",
+      "cosai_controls": [
+        "controlModelPrivacyEnhancingTechnologies",
+        "controlRuntimePrivacyEnhancingTechnologies",
+        "controlModelAndDataIntegrityManagement",
+        "controlSecureByDefaultMLTooling"
+      ],
+      "cosai_personas": [
+        "personaModelProvider",
+        "personaDataProvider",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {},
+      "lifecycle_stage": [],
+      "impact_type": [],
+      "actor_access": [],
+      "fedramp_frr_ids": [
+        "MAS-CSO-FLO",
+        "MAS-CSO-TPR",
+        "CMU-CSO-UVM"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-SIN",
+        "KSI-CNA-RNT"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SC.SC-13",
+        "CTL.SA.SA-09-05"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso"
+      ],
+      "class_c_vs_d_elevation": "Cross-boundary gradient sharing prohibited unless inside MAS or certified TPIRs with Class D FIPS 140-3 encryption and U.S. residency.",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "riskAdapterPEFTInjection",
+      "title": "Adapter/PEFT Injection",
+      "category": "risksDeploymentAndInfrastructure",
+      "cosai_controls": [
+        "controlModelAndDataExecutionIntegrity",
+        "controlModelAndDataIntegrityManagement",
+        "controlModelAndDataAccessControls",
+        "controlSecureByDefaultMLTooling"
+      ],
+      "cosai_personas": [
+        "personaPlatformProvider",
+        "personaModelServing",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {},
+      "lifecycle_stage": [],
+      "impact_type": [],
+      "actor_access": [],
+      "fedramp_frr_ids": [
+        "VDR-TFR-PDD",
+        "SCN-CSO-EVA",
+        "CMU-CSO-UVM"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-VRI",
+        "KSI-SCR-MIT",
+        "KSI-CMT-LMC"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-14",
+        "CTL.SR.SR-03",
+        "CTL.SC.SC-13"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "LoRA/PEFT adapters must be cryptographically signed in Model Registry; Class D mandates FIPS 140-3 signature validation at Model Serving PEP (CMU-CSO-UVM MUST).",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "riskToolRegistryTampering",
+      "title": "Tool Registry Tampering",
+      "category": "risksDeploymentAndInfrastructure",
+      "cosai_controls": [
+        "controlOrchestratorAndRouteIntegrity",
+        "controlAgentObservability",
+        "controlInterComponentTransportSecurity",
+        "controlToolRegistryAndDiscoveryIntegrity"
+      ],
+      "cosai_personas": [
+        "personaAgenticProvider",
+        "personaApplicationDeveloper",
+        "personaPlatformProvider",
+        "personaModelServing"
+      ],
+      "external_mappings": {
+        "mitre-atlas": [
+          "AML.T0010.004@5.0.1"
+        ],
+        "stride": [
+          "Tampering"
+        ],
+        "owasp-top10-llm": [
+          "LLM06:2025"
+        ]
+      },
+      "lifecycle_stage": [
+        "deployment",
+        "runtime"
+      ],
+      "impact_type": [
+        "confidentiality",
+        "integrity",
+        "safety"
+      ],
+      "actor_access": [
+        "external",
+        "agent",
+        "privileged"
+      ],
+      "fedramp_frr_ids": [
+        "VDR-TFR-PDD",
+        "SCN-CSO-EVA",
+        "IEC-CSO-EFR",
+        "CMU-CSO-UVM"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-VRI",
+        "KSI-PIY-GIV",
+        "KSI-CMT-LMC"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-14",
+        "CTL.CM.CM-08",
+        "CTL.AC.AC-06-08"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Mitigated by tool_registry_allowlist=true and signed tool schemas; Class D enforces FIPS 140-3 manifest signatures and 2-day VDR triage.",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "riskOrchestratorRouteHijacking",
+      "title": "Orchestrator/Route Hijack",
+      "category": "risksRuntimeOutputSecurity",
+      "cosai_controls": [
+        "controlIsolatedConfidentialComputing",
+        "controlModelAndDataIntegrityManagement",
+        "controlModelAndDataAccessControls",
+        "controlSecureByDefaultMLTooling",
+        "controlOrchestratorAndRouteIntegrity",
+        "controlInterComponentTransportSecurity"
+      ],
+      "cosai_personas": [
+        "personaModelServing",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {},
+      "lifecycle_stage": [],
+      "impact_type": [],
+      "actor_access": [],
+      "fedramp_frr_ids": [
+        "MAS-CSO-FLO",
+        "MAS-CSO-TPR",
+        "VDR-TFR-PDD",
+        "IEC-CSO-EFR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-RNT",
+        "KSI-SVC-VRI",
+        "KSI-MLA-OSM"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SC.SC-07",
+        "CTL.CM.CM-14",
+        "CTL.SA.SA-09-05"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Route hijacking to non-certified or non-U.S. inference endpoints violates MAS-CSO-TPR and Class D CTL.SA.SA-09-05; blocked by model_reachability_pep=true.",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "riskEvaluationBenchmarkManipulation",
+      "title": "Evaluation/Benchmark Manipulation",
+      "category": "risksRuntimeDataSecurity",
+      "cosai_controls": [
+        "controlModelAndDataIntegrityManagement",
+        "controlModelRegistryIntegrity"
+      ],
+      "cosai_personas": [
+        "personaModelProvider",
+        "personaModelServing",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {},
+      "lifecycle_stage": [],
+      "impact_type": [],
+      "actor_access": [],
+      "fedramp_frr_ids": [
+        "IVV-CSO-SEE",
+        "IVV-CSO-SEI",
+        "FRC-CSX-VVK"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CMT-VTD",
+        "KSI-SVC-VRI"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CA.CA-02",
+        "CTL.CM.CM-14"
+      ],
+      "agent_profiles_impacted": [
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Mitigated by SHA-256 artifact_digests in evidence-bundle.schema.json and CoSAI ADR-033 D7d clean separation of fixtures from grader expectations.",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "riskCovertChannelsInModelOutputs",
+      "title": "Covert Channels in Model Outputs",
+      "category": "risksRuntimeOutputSecurity",
+      "cosai_controls": [
+        "controlOutputValidationAndSanitization",
+        "controlModelAndDataIntegrityManagement"
+      ],
+      "cosai_personas": [
+        "personaModelServing",
+        "personaAgenticProvider",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {},
+      "lifecycle_stage": [],
+      "impact_type": [],
+      "actor_access": [],
+      "fedramp_frr_ids": [
+        "MAS-CSO-FLO",
+        "IEC-CSO-EFR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-RNT",
+        "KSI-SVC-SIN",
+        "KSI-MLA-OSM"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SC.SC-07",
+        "CTL.SI.SI-04"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso"
+      ],
+      "class_c_vs_d_elevation": "Contained by default-deny Agent/Application Network PEPs blocking arbitrary external URL rendering or unapproved callback egress.",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "riskMaliciousLoaderDeserialization",
+      "title": "Malicious Loader/Deserialization",
+      "category": "risksSupplyChainAndDevelopment",
+      "cosai_controls": [
+        "controlInputValidationAndSanitization",
+        "controlModelAndDataAccessControls",
+        "controlModelAndDataExecutionIntegrity",
+        "controlModelAndDataIntegrityManagement",
+        "controlSecureByDefaultMLTooling"
+      ],
+      "cosai_personas": [
+        "personaPlatformProvider",
+        "personaModelServing",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {},
+      "lifecycle_stage": [],
+      "impact_type": [],
+      "actor_access": [],
+      "fedramp_frr_ids": [
+        "VDR-CSO-DET",
+        "VDR-TFR-KEV",
+        "VER-TFR-EVU",
+        "SCG-CSO-SDF"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SCR-MIT",
+        "KSI-CNA-MAT",
+        "KSI-SVC-VRI"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SI.SI-02",
+        "CTL.AC.AC-06-08",
+        "CTL.SR.SR-03"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Prohibit unsafe pickle/code-executing model loaders; Class D requires <= 2-day evaluation (VER-TFR-EVU) and 12h PAIN=5 IRV+LEV mitigation (VDR-TFR-PVR).",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "riskToolSourceProvenance",
+      "title": "Tool Source Provenance",
+      "category": "risksSupplyChainAndDevelopment",
+      "cosai_controls": [
+        "controlModelAndDataIntegrityManagement",
+        "controlSecureByDefaultMLTooling",
+        "controlAgentPluginPermissions",
+        "controlToolRegistryAndDiscoveryIntegrity"
+      ],
+      "cosai_personas": [
+        "personaAgenticProvider",
+        "personaApplicationDeveloper"
+      ],
+      "external_mappings": {
+        "mitre-atlas": [
+          "AML.T0010.001@5.0.1"
+        ],
+        "stride": [
+          "Spoofing"
+        ],
+        "owasp-top10-llm": [
+          "LLM03:2025",
+          "LLM06:2025"
+        ]
+      },
+      "lifecycle_stage": [
+        "development",
+        "deployment"
+      ],
+      "impact_type": [
+        "confidentiality",
+        "integrity",
+        "safety"
+      ],
+      "actor_access": [
+        "supply-chain",
+        "agent",
+        "external"
+      ],
+      "fedramp_frr_ids": [
+        "MAS-CSO-TPR",
+        "SCN-CSO-EVA",
+        "VDR-CSO-DET"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SCR-MIT",
+        "KSI-SCR-MON",
+        "KSI-PIY-GIV"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SR.SR-03",
+        "CTL.SA.SA-09-02",
+        "CTL.AC.AC-06-08"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Unvetted MCP/tool servers prohibited; every external tool dependency requires MAS-CSO-TPR documentation, tool_registry_allowlist=true, and Class D U.S. residency.",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "riskPromptResponseCachePoisoning",
+      "title": "Prompt/Response Cache Poisoning",
+      "category": "risksRuntimeDataSecurity",
+      "cosai_controls": [
+        "controlModelAndDataAccessControls",
+        "controlModelAndDataIntegrityManagement",
+        "controlInputValidationAndSanitization",
+        "controlOutputValidationAndSanitization",
+        "controlUserDataManagement"
+      ],
+      "cosai_personas": [
+        "personaModelServing",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {},
+      "lifecycle_stage": [],
+      "impact_type": [],
+      "actor_access": [],
+      "fedramp_frr_ids": [
+        "CMU-CSO-CAT",
+        "SCG-CSO-SDF",
+        "IEC-CSO-EFR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-ULN",
+        "KSI-SVC-SIN",
+        "KSI-SVC-PRR"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-SVC-PRR"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.SC.SC-07",
+        "CTL.CM.CM-12"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso"
+      ],
+      "class_c_vs_d_elevation": "Semantic/KV caches MUST partition cache keys cryptographically by agency tenant ID and caller authorization scope across Class C and Class D.",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "riskRetrievalVectorStorePoisoning",
+      "title": "Retrieval/Vector Store Poisoning",
+      "category": "risksRuntimeOutputSecurity",
+      "cosai_controls": [
+        "controlTrainingDataSanitization",
+        "controlModelAndDataIntegrityManagement",
+        "controlInputValidationAndSanitization",
+        "controlOutputValidationAndSanitization",
+        "controlRetrievalAndVectorSystemIntegrity"
+      ],
+      "cosai_personas": [
+        "personaPlatformProvider",
+        "personaModelServing",
+        "personaAgenticProvider",
+        "personaApplicationDeveloper",
+        "personaEndUser"
+      ],
+      "external_mappings": {},
+      "lifecycle_stage": [],
+      "impact_type": [],
+      "actor_access": [],
+      "fedramp_frr_ids": [
+        "VDR-CSO-FAV",
+        "MAS-CSO-FLO",
+        "IEC-CSO-EFR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-SVC-VRI",
+        "KSI-SVC-SIN",
+        "KSI-MLA-LET"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-14",
+        "CTL.SI.SI-04",
+        "CTL.AC.AC-06-01"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso"
+      ],
+      "class_c_vs_d_elevation": "Mitigated via authenticated RAG ingestion pipelines, Agent Input Handling screening of retrieved chunks, and tenant-isolated vector indices.",
+      "verification_method": "procedural-ivv"
+    },
+    {
+      "id": "riskAgentDelegationChainOpacity",
+      "title": "Agent Delegation Chain Opacity",
+      "category": "risksDeploymentAndInfrastructure",
+      "cosai_controls": [
+        "controlAgentObservability",
+        "controlAgentIntegrityManagement",
+        "controlAgentInventoryManagement"
+      ],
+      "cosai_personas": [
+        "personaAgenticProvider",
+        "personaApplicationDeveloper",
+        "personaPlatformProvider",
+        "personaEndUser"
+      ],
+      "external_mappings": {
+        "stride": [
+          "Repudiation"
+        ]
+      },
+      "lifecycle_stage": [
+        "deployment",
+        "runtime",
+        "maintenance"
+      ],
+      "impact_type": [
+        "accountability",
+        "compliance",
+        "integrity"
+      ],
+      "actor_access": [
+        "agent",
+        "privileged"
+      ],
+      "fedramp_frr_ids": [
+        "MAS-CSO-MDI",
+        "SCN-CSO-MAR",
+        "IEC-CSO-EFR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-MLA-LET",
+        "KSI-MLA-OSM",
+        "KSI-MLA-RVL",
+        "KSI-IAM-SNU"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.AU.AU-10",
+        "CTL.AU.AU-12",
+        "CTL.AU.AU-06"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Eliminated by logging structured correlation/delegation-chain spans at every PEP hop into separated tamper-evident Audit Record Repository (tamper_evident_audit_repo=true).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "riskStaleAgentIdentityBinding",
+      "title": "Stale Agent Identity Binding",
+      "category": "risksDeploymentAndInfrastructure",
+      "cosai_controls": [
+        "controlModelAndDataIntegrityManagement",
+        "controlAgentIntegrityManagement",
+        "controlAgentCredentialIsolation",
+        "controlComponentIdentityProvenance"
+      ],
+      "cosai_personas": [
+        "personaAgenticProvider",
+        "personaApplicationDeveloper",
+        "personaModelProvider",
+        "personaPlatformProvider",
+        "personaEndUser"
+      ],
+      "external_mappings": {
+        "stride": [
+          "Spoofing"
+        ],
+        "mitre-atlas": [
+          "AML.T0012@5.0.1"
+        ]
+      },
+      "lifecycle_stage": [
+        "deployment",
+        "runtime",
+        "maintenance"
+      ],
+      "impact_type": [
+        "integrity",
+        "confidentiality",
+        "accountability",
+        "compliance"
+      ],
+      "actor_access": [
+        "supply-chain",
+        "privileged",
+        "infrastructure-provider"
+      ],
+      "fedramp_frr_ids": [
+        "VDR-TFR-PDD",
+        "SCN-CSO-EVA",
+        "CMU-CSO-UVM"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-IAM-SNU",
+        "KSI-IAM-AAM",
+        "KSI-SVC-VRI"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.IA.IA-04-04",
+        "CTL.IA.IA-05",
+        "CTL.CM.CM-14"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Agent workload identities bind to manifest + model artifact digest and auto-revoke on model swap; Class D binds via FIPS 140-3 modules (CMU-CSO-UVM MUST).",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "riskMCPTransportHijacking",
+      "title": "MCP Transport Hijacking",
+      "category": "risksDeploymentAndInfrastructure",
+      "cosai_controls": [
+        "controlSecureByDefaultMLTooling",
+        "controlInterComponentTransportSecurity",
+        "controlComponentIdentityProvenance"
+      ],
+      "cosai_personas": [
+        "personaAgenticProvider",
+        "personaApplicationDeveloper",
+        "personaPlatformProvider",
+        "personaEndUser"
+      ],
+      "external_mappings": {
+        "stride": [
+          "Tampering",
+          "InformationDisclosure"
+        ]
+      },
+      "lifecycle_stage": [
+        "deployment",
+        "runtime"
+      ],
+      "impact_type": [
+        "confidentiality",
+        "integrity"
+      ],
+      "actor_access": [
+        "external",
+        "agent"
+      ],
+      "fedramp_frr_ids": [
+        "CMU-CSO-CMD",
+        "CMU-CSO-UVM",
+        "MAS-CSO-FLO"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-RNT",
+        "KSI-SVC-VCM",
+        "KSI-IAM-SNU",
+        "KSI-SVC-ASM"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [
+        "KSI-SVC-VCM"
+      ],
+      "fedramp_ctl_ids": [
+        "CTL.SC.SC-07",
+        "CTL.SC.SC-13"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Mandates mTLS, origin validation, and channel-bound tokens on Agent Tool Transport; Class D elevates FIPS 140-3 cryptographic modules from SHOULD to MUST (CMU-CSO-UVM).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "riskShadowAndUnknownAgents",
+      "title": "Shadow and Unknown Agents",
+      "category": "risksDeploymentAndInfrastructure",
+      "cosai_controls": [
+        "controlSecureByDefaultMLTooling",
+        "controlAgentObservability",
+        "controlAgentInventoryManagement",
+        "controlAgentIntegrityManagement",
+        "controlAgentCredentialIsolation"
+      ],
+      "cosai_personas": [
+        "personaAgenticProvider",
+        "personaApplicationDeveloper",
+        "personaPlatformProvider",
+        "personaEndUser"
+      ],
+      "external_mappings": {
+        "stride": [
+          "Spoofing",
+          "Repudiation"
+        ],
+        "mitre-atlas": [
+          "AML.T0012@5.0.1"
+        ]
+      },
+      "lifecycle_stage": [
+        "deployment",
+        "runtime",
+        "maintenance"
+      ],
+      "impact_type": [
+        "confidentiality",
+        "integrity",
+        "accountability",
+        "compliance"
+      ],
+      "actor_access": [
+        "agent",
+        "privileged",
+        "supply-chain",
+        "infrastructure-provider"
+      ],
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "VDR-TFR-PDD",
+        "SCG-CSO-SDF"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-PIY-GIV",
+        "KSI-IAM-AAM",
+        "KSI-IAM-SNU",
+        "KSI-CNA-RNT"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-08",
+        "CTL.AC.AC-06-08",
+        "CTL.SI.SI-04"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Unregistered agents without a valid agent-manifest.json and registry-issued identity are blocked by Network and Model Serving PEPs; Class D requires per-service CDS artifacts (CDS-CSO-PSM MUST).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "riskRunawayAgentToolLoops",
+      "title": "Runaway Agent Tool Loops",
+      "category": "risksRuntimeInputSecurity",
+      "cosai_controls": [
+        "controlAgentObservability",
+        "controlAgentExecutionBounds"
+      ],
+      "cosai_personas": [
+        "personaAgenticProvider",
+        "personaApplicationDeveloper",
+        "personaPlatformProvider",
+        "personaEndUser"
+      ],
+      "external_mappings": {
+        "stride": [
+          "DenialOfService"
+        ],
+        "owasp-top10-llm": [
+          "LLM10:2025"
+        ]
+      },
+      "lifecycle_stage": [
+        "runtime"
+      ],
+      "impact_type": [
+        "availability",
+        "safety"
+      ],
+      "actor_access": [
+        "agent"
+      ],
+      "fedramp_frr_ids": [
+        "CDS-CSO-AVR",
+        "SCG-CSO-SDF",
+        "VDR-CSO-DFR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-OFA",
+        "KSI-MLA-OSM"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.SC.SC-07",
+        "CTL.SI.SI-04"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Halted by mandatory max_turns, per-session tool budgets, and circuit breakers enforced before Authorization PEP dispatch.",
+      "verification_method": "hybrid-cli-and-ivv"
+    },
+    {
+      "id": "riskAgenticDelegationConfusedDeputy",
+      "title": "Agentic Delegation Confused Deputy",
+      "category": "risksDeploymentAndInfrastructure",
+      "cosai_controls": [
+        "controlSecureByDefaultMLTooling",
+        "controlAgentPluginPermissions",
+        "controlAgentObservability"
+      ],
+      "cosai_personas": [
+        "personaAgenticProvider",
+        "personaApplicationDeveloper",
+        "personaPlatformProvider",
+        "personaEndUser"
+      ],
+      "external_mappings": {
+        "stride": [
+          "ElevationOfPrivilege",
+          "Spoofing"
+        ],
+        "mitre-atlas": [
+          "AML.T0053@5.0.1"
+        ],
+        "owasp-top10-llm": [
+          "LLM06:2025"
+        ]
+      },
+      "lifecycle_stage": [
+        "deployment",
+        "runtime"
+      ],
+      "impact_type": [
+        "confidentiality",
+        "integrity",
+        "accountability",
+        "compliance"
+      ],
+      "actor_access": [
+        "agent",
+        "external",
+        "user"
+      ],
+      "fedramp_frr_ids": [
+        "SCG-CSO-SDF",
+        "MAS-CSO-FLO",
+        "IEC-CSO-EFR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-IAM-ELP",
+        "KSI-IAM-JIT",
+        "KSI-IAM-SNU"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.AC.AC-06-01",
+        "CTL.AC.AC-06-02",
+        "CTL.IA.IA-05"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Prevented by authorization_pep=true enforcing RFC 8693 audience/scope intersection of caller + deputy; Class D requires IAL3/AAL3/FAL3 caller assertions (CTL.IA.IA-05).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "riskCrossTenantCredentialPropagation",
+      "title": "Cross-Tenant Credential Propagation",
+      "category": "risksDeploymentAndInfrastructure",
+      "cosai_controls": [
+        "controlSecureByDefaultMLTooling",
+        "controlAgentPluginPermissions",
+        "controlIsolatedConfidentialComputing",
+        "controlAgentCredentialIsolation"
+      ],
+      "cosai_personas": [
+        "personaAgenticProvider",
+        "personaApplicationDeveloper",
+        "personaPlatformProvider",
+        "personaEndUser"
+      ],
+      "external_mappings": {
+        "stride": [
+          "ElevationOfPrivilege",
+          "InformationDisclosure"
+        ],
+        "mitre-atlas": [
+          "AML.T0012@5.0.1",
+          "AML.T0055@5.0.1"
+        ],
+        "owasp-top10-llm": [
+          "LLM06:2025"
+        ]
+      },
+      "lifecycle_stage": [
+        "deployment",
+        "runtime"
+      ],
+      "impact_type": [
+        "confidentiality",
+        "integrity",
+        "compliance",
+        "privacy"
+      ],
+      "actor_access": [
+        "agent",
+        "privileged",
+        "infrastructure-provider"
+      ],
+      "fedramp_frr_ids": [
+        "CMU-CSO-CAT",
+        "SCG-CSO-SDF",
+        "IEC-CSO-EFR",
+        "IEC-CSO-DPR"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-CNA-ULN",
+        "KSI-IAM-SNU",
+        "KSI-SVC-ASM"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.AC.AC-06-01",
+        "CTL.IA.IA-05",
+        "CTL.SC.SC-07"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso"
+      ],
+      "class_c_vs_d_elevation": "Prevented by per-tenant token issuance and Federation Proxy tenant-claim validation; cross-tenant leakage is a catastrophic PAIN=5 FedRAMP Reportable Incident (IEC-CSO-DPR).",
+      "verification_method": "automated-cli"
+    },
+    {
+      "id": "riskZombieShadowMCPServers",
+      "title": "Zombie / Shadow MCP Servers",
+      "category": "risksDeploymentAndInfrastructure",
+      "cosai_controls": [
+        "controlAgentObservability",
+        "controlAgentInventoryManagement",
+        "controlInterComponentTransportSecurity",
+        "controlComponentIdentityProvenance"
+      ],
+      "cosai_personas": [
+        "personaAgenticProvider",
+        "personaApplicationDeveloper",
+        "personaPlatformProvider",
+        "personaEndUser"
+      ],
+      "external_mappings": {
+        "stride": [
+          "Spoofing",
+          "Tampering",
+          "InformationDisclosure"
+        ],
+        "mitre-atlas": [
+          "AML.T0010.001@5.0.1"
+        ],
+        "owasp-top10-llm": [
+          "LLM03:2025"
+        ]
+      },
+      "lifecycle_stage": [
+        "deployment",
+        "runtime",
+        "maintenance"
+      ],
+      "impact_type": [
+        "confidentiality",
+        "integrity"
+      ],
+      "actor_access": [
+        "external",
+        "supply-chain"
+      ],
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-TPR",
+        "VDR-TFR-PDD",
+        "SCN-CSO-EVA"
+      ],
+      "fedramp_ksi_ids": [
+        "KSI-PIY-GIV",
+        "KSI-CNA-MAT",
+        "KSI-CNA-RNT",
+        "KSI-IAM-AAM"
+      ],
+      "ksi_20x_class_d_omitted_in_2026_11_02_01": [],
+      "fedramp_ctl_ids": [
+        "CTL.CM.CM-08",
+        "CTL.AC.AC-06-08",
+        "CTL.SC.SC-07"
+      ],
+      "agent_profiles_impacted": [
+        "runtime-cso",
+        "internal-devsecops"
+      ],
+      "class_c_vs_d_elevation": "Eliminated by tool_registry_allowlist=true at Agent Network PEP plus Component Identity Provenance revocation checks at invocation time.",
+      "verification_method": "automated-cli"
+    }
+  ],
+  "personas": [
+    {
+      "id": "personaModelProvider",
+      "title": "Model Provider",
+      "deprecated": false,
+      "external_mappings": {
+        "iso-22989": [
+          "AI Producer@2022"
+        ]
+      },
+      "fedramp_actors": [
+        "Providers",
+        "Third-Party Information Resource Providers"
+      ],
+      "cr26_rulesets": [
+        "MAS",
+        "CMU",
+        "VDR",
+        "VER",
+        "SCN"
+      ],
+      "fedramp_frr_ids": [
+        "MAS-CSO-TPR",
+        "CMU-CSO-UVM",
+        "VDR-CSO-DET",
+        "SCN-CSO-EVA"
+      ],
+      "responsibility_summary": "Supplies foundation or fine-tuned model weights/endpoints; when external to the CSO MAS, governed under MAS-CSO-TPR (certified TPIR preferred; U.S. jurisdiction mandatory for Class D per CTL.SA.SA-09-05)."
+    },
+    {
+      "id": "personaDataProvider",
+      "title": "Data Provider",
+      "deprecated": false,
+      "external_mappings": {
+        "iso-22989": [
+          "AI Partner (data supplier)@2022"
+        ]
+      },
+      "fedramp_actors": [
+        "Agencies",
+        "Providers"
+      ],
+      "cr26_rulesets": [
+        "MAS",
+        "CMU",
+        "CDS"
+      ],
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-FLO",
+        "MAS-CSO-MDI"
+      ],
+      "responsibility_summary": "Supplies Federal Customer Data (FRD-FCD), retrieval corpora, or evaluation datasets; governs security categorization (FIPS 199 Moderate/Class C vs High/Class D) and residency constraints."
+    },
+    {
+      "id": "personaPlatformProvider",
+      "title": "AI Platform Provider",
+      "deprecated": false,
+      "external_mappings": {
+        "iso-22989": [
+          "AI Partner (infrastructure provider)@2022"
+        ]
+      },
+      "fedramp_actors": [
+        "Providers",
+        "Inherited Certified Cloud IaaS/PaaS Providers"
+      ],
+      "cr26_rulesets": [
+        "MAS",
+        "CMU",
+        "SCG",
+        "VDR",
+        "VER"
+      ],
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-TPR",
+        "CMU-CSO-CMD",
+        "CMU-CSO-UVM",
+        "VDR-TFR-MVF",
+        "VDR-TFR-MVX"
+      ],
+      "responsibility_summary": "Operates underlying cloud hosting, Isolation Runtime, KMS/HSM, network PEPs, and WORM Audit Record Repository (e.g., inherited FedRAMP High sovereign cloud in Class D)."
+    },
+    {
+      "id": "personaModelServing",
+      "title": "AI Model Serving",
+      "deprecated": false,
+      "external_mappings": {},
+      "fedramp_actors": [
+        "Providers"
+      ],
+      "cr26_rulesets": [
+        "MAS",
+        "CMU",
+        "SCG",
+        "VDR",
+        "VER",
+        "CDS"
+      ],
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "CMU-CSO-UVM",
+        "CDS-CSO-AVR",
+        "VER-TFR-EVU"
+      ],
+      "responsibility_summary": "Operates Model Serving Infrastructure & Policy Enforcement Point (componentModelServing), enforcing model reachability (ADR-030 D11/D12), FIPS mTLS, and Class D U.S.-only inference processing."
+    },
+    {
+      "id": "personaAgenticProvider",
+      "title": "Agentic Platform and Framework Providers",
+      "deprecated": false,
+      "external_mappings": {
+        "iso-22989": [
+          "AI Partner (tooling provider)@2022"
+        ]
+      },
+      "fedramp_actors": [
+        "Providers"
+      ],
+      "cr26_rulesets": [
+        "MAS",
+        "SCG",
+        "VDR",
+        "VER",
+        "SCN"
+      ],
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "SCG-CSO-SDF",
+        "VDR-CSO-DET",
+        "VER-TFR-EVU",
+        "SCN-CSO-EVA"
+      ],
+      "responsibility_summary": "Supplies orchestration/agentic runtime libraries, MCP transports, and execution-bound enforcement; subject to 5-day (Class C) or 2-day (Class D) VDR evaluation SLAs."
+    },
+    {
+      "id": "personaApplicationDeveloper",
+      "title": "Application Developer",
+      "deprecated": false,
+      "external_mappings": {
+        "iso-22989": [
+          "AI Customer (application builder)@2022"
+        ]
+      },
+      "fedramp_actors": [
+        "Providers"
+      ],
+      "cr26_rulesets": [
+        "MAS",
+        "CMU",
+        "SCG",
+        "SCN",
+        "SDR",
+        "CDS",
+        "IEC"
+      ],
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "MAS-CSO-MDI",
+        "SCG-CSO-RSC",
+        "SCN-CSO-EVA",
+        "SDR-CSO-FRR",
+        "CDS-CSO-PSM"
+      ],
+      "responsibility_summary": "Clones/branches this standard repository, authors agent-manifest.json, wires PEPs and dual consent surfaces, maintains portable evals, and publishes SCN/SDR/CDS artifacts."
+    },
+    {
+      "id": "personaGovernance",
+      "title": "AI System Governance",
+      "deprecated": false,
+      "external_mappings": {},
+      "fedramp_actors": [
+        "Providers",
+        "Assessors",
+        "FedRAMP",
+        "Agencies"
+      ],
+      "cr26_rulesets": [
+        "FRC",
+        "SDR",
+        "CPO",
+        "CDS",
+        "CCM",
+        "IVV",
+        "IEC",
+        "SCN"
+      ],
+      "fedramp_frr_ids": [
+        "FRC-CSO-MRA",
+        "SDR-CSO-FRR",
+        "CCM-OCR-AVL",
+        "CCM-QTR-MTG",
+        "IVV-CSO-FIA",
+        "CDS-CSO-PSM"
+      ],
+      "responsibility_summary": "Named Responsible/Accountable Official, compliance reviewers, and 3PAO/IVV assessors governing SDR decisions, Trust Center releases, quarterly reviews, and incident reportability."
+    },
+    {
+      "id": "personaEndUser",
+      "title": "AI System Users",
+      "deprecated": false,
+      "external_mappings": {
+        "iso-22989": [
+          "AI Customer (end user)@2022"
+        ]
+      },
+      "fedramp_actors": [
+        "Agencies"
+      ],
+      "cr26_rulesets": [
+        "SCG",
+        "CCM",
+        "IEC"
+      ],
+      "fedramp_frr_ids": [
+        "SCG-CSO-AUP",
+        "SCG-CSO-RSC",
+        "CCM-OCR-FBM"
+      ],
+      "responsibility_summary": "Federal agency personnel and mission operators authenticating via IAL2/AAL2/FAL2 (Class C) or IAL3/AAL3/FAL3 (Class D) SSO and exercising Application/Agent Consent Surfaces."
+    },
+    {
+      "id": "personaModelCreator",
+      "title": "Model Creator (Legacy)",
+      "deprecated": true,
+      "external_mappings": {},
+      "fedramp_actors": [
+        "Providers"
+      ],
+      "cr26_rulesets": [
+        "MAS",
+        "VDR"
+      ],
+      "fedramp_frr_ids": [
+        "MAS-CSO-TPR",
+        "VDR-CSO-DET"
+      ],
+      "responsibility_summary": "DEPRECATED in CoSAI Risk Map (superseded by personaModelProvider and personaApplicationDeveloper); retained in crosswalk for full 10-persona schema completeness."
+    },
+    {
+      "id": "personaModelConsumer",
+      "title": "Model Consumer (Legacy)",
+      "deprecated": true,
+      "external_mappings": {},
+      "fedramp_actors": [
+        "Providers",
+        "Agencies"
+      ],
+      "cr26_rulesets": [
+        "MAS",
+        "SCG"
+      ],
+      "fedramp_frr_ids": [
+        "MAS-CSO-IIR",
+        "SCG-CSO-AUP"
+      ],
+      "responsibility_summary": "DEPRECATED in CoSAI Risk Map (superseded by personaApplicationDeveloper and personaEndUser); retained in crosswalk for full 10-persona schema completeness."
+    }
+  ]
+}

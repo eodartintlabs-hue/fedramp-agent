@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0.0",
+  "agent_id": "fixture-invalid-class-d",
+  "name": "Non-Compliant Class D Test Agent (Violates Class D Escalations)",
+  "version": "2.0.0",
+  "owner": {
+    "team": "Mission Team",
+    "responsible_official": "Dr. Elena Vance",
+    "contact_email": "high-sec@example.gov"
+  },
+  "fedramp": {
+    "service_class": "D",
+    "certification_tracks": ["Rev5", "20x"],
+    "certification_path": "Program",
+    "cso_package_id": "F1603047866",
+    "in_minimum_assessment_scope": true
+  },
+  "agent_profile": "runtime-cso",
+  "data_classification": {
+    "handles_federal_customer_data": true,
+    "handles_sensitive_metadata": true,
+    "fips199_level": "Moderate",
+    "residency_boundary": "Global Multi-Region EU/APAC Mesh"
+  },
+  "model_serving": {
+    "inference_provider": "Global Commercial Endpoint",
+    "fedramp_certified_tpir_id": "F1603047866",
+    "model_reachability_pep": true,
+    "us_jurisdiction_only": false
+  },
+  "cryptography": {
+    "fips_140_3_validated_modules": false,
+    "modules": [
+      {
+        "name": "Unvalidated Custom Crypto",
+        "module_id": "NONE",
+        "validation_status": "Unvalidated",
+        "purpose": "Transport"
+      }
+    ]
+  },
+  "identity_access": {
+    "digital_identity_level": "IAL2/AAL2/FAL2",
+    "sso_protocol": "OIDC",
+    "encrypted_assertions": true,
+    "local_password_bypass_disabled": true,
+    "delegation_model": "RFC 8693 token exchange"
+  },
+  "tool_boundaries": {
+    "network_egress_pep": true,
+    "authorization_pep": true,
+    "tool_registry_allowlist": true,
+    "third_party_tool_isolation": true,
+    "consent_surface_dual_mode": true,
+    "allowed_tools": ["kev_vulnerability_correlator"]
+  },
+  "observability": {
+    "tamper_evident_audit_repo": true,
+    "prompt_response_redacted_from_external_telemetry": true,
+    "audit_control_plane_separated": true
+  },
+  "tpirs": [
+    {
+      "name": "AWS GovCloud (US)",
+      "certified": true,
+      "fedramp_package_id": "F1603047866",
+      "use_case": "Hosting",
+      "mitigations": "Private endpoints"
+    }
+  ],
+  "lifecycle": {
+    "vdr_triage_sla_days": 5,
+    "scn_change_channel": "https://trust.example.gov/class-d/scn.json",
+    "iec_incident_channel": "mailto:fedramp_security@fedramp.gov",
+    "per_service_certification_artifacts": false,
+    "portable_eval_paths": ["skills/check-cr26-applicability/evals/evals.json"],
+    "cosai_component_ids": ["componentModelServing"],
+    "cosai_control_ids": ["controlAgentCredentialIsolation"]
+  }
+}

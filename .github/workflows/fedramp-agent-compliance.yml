@@ -1,0 +1,71 @@
+name: FedRAMP CR-26 & CoSAI AI Agent Compliance Gate
+
+on:
+  push:
+    branches: [main, "release/**"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fedramp-cr26-compliance-gate:
+    name: Validate Schemas, Manifests, Neutrality & Repo Audit (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }} (Zero Third-Party Dependencies)
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Run Unit Test Suite (unittest stdlib discovery)
+        run: python3 -m unittest discover -s tests -v
+
+      - name: Validate Class C Example Agent Manifest
+        run: python3 tools/validate_manifest.py templates/agent-manifest.example.class-c.json
+
+      - name: Validate Class D Example Agent Manifest
+        run: python3 tools/validate_manifest.py templates/agent-manifest.example.class-d.json
+
+      - name: Enforce CoSAI ADR-033 Vendor Neutrality & SKILL.md Structure
+        run: python3 tools/check_neutrality.py agents skills
+
+      - name: Run Full Repository Compliance Audit (Class C)
+        run: python3 tools/audit_agent_repo.py --repo . --manifest templates/agent-manifest.example.class-c.json --json-out /tmp/audit-class-c.json
+
+      - name: Run Full Repository Compliance Audit (Class D)
+        run: python3 tools/audit_agent_repo.py --repo . --manifest templates/agent-manifest.example.class-d.json --json-out /tmp/audit-class-d.json
+
+      - name: Generate Dual Markdown & JSON Compliance / SDR Evidence Reports
+        run: |
+          python3 tools/generate_compliance_report.py \
+            --manifest templates/agent-manifest.example.class-c.json \
+            --md-out /tmp/compliance-report-class-c.md \
+            --json-out /tmp/compliance-report-class-c.json
+          python3 tools/generate_compliance_report.py \
+            --manifest templates/agent-manifest.example.class-d.json \
+            --md-out /tmp/compliance-report-class-d.md \
+            --json-out /tmp/compliance-report-class-d.json
+
+      - name: Upload Generated Compliance Evidence Bundle Artifacts
+        if: matrix.python-version == '3.13'
+        uses: actions/upload-artifact@v4
+        with:
+          name: fedramp-cr26-agent-compliance-evidence
+          path: |
+            /tmp/audit-class-c.json
+            /tmp/audit-class-d.json
+            /tmp/compliance-report-class-c.md
+            /tmp/compliance-report-class-c.json
+            /tmp/compliance-report-class-d.md
+            /tmp/compliance-report-class-d.json

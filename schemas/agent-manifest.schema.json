@@ -1,0 +1,421 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fedramp.gov/schemas/fedramp-agent/agent-manifest.schema.json",
+  "title": "FedRAMP AI Agent Compliance Manifest",
+  "description": "Canonical compliance manifest schema for AI agents deployed within or operating on FedRAMP Class C and Class D Cloud Service Offerings under FedRAMP Consolidated Rules 2026 (CR-26, version 2026.11.02.01) and CoSAI Risk Map architectural boundaries.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "agent_id",
+    "name",
+    "version",
+    "owner",
+    "fedramp",
+    "agent_profile",
+    "data_classification",
+    "model_serving",
+    "cryptography",
+    "identity_access",
+    "tool_boundaries",
+    "observability",
+    "tpirs",
+    "lifecycle"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Manifest schema version (e.g., '1.0.0')."
+    },
+    "agent_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "description": "Unique lowercase kebab-case slug identifier for the agent."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable agent name."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[A-Za-z0-9.-]+)?(?:\\+[A-Za-z0-9.-]+)?$",
+      "description": "Semantic version string of the agent release."
+    },
+    "owner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["team", "responsible_official", "contact_email"],
+      "properties": {
+        "team": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Engineering or platform team owning the agent."
+        },
+        "responsible_official": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Named accountable official responsible for agent compliance (CPO-CSO-OVR / SDR-CSO-FRR)."
+        },
+        "contact_email": {
+          "type": "string",
+          "format": "email",
+          "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+          "description": "Security and compliance contact email."
+        }
+      }
+    },
+    "fedramp": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "service_class",
+        "certification_tracks",
+        "certification_path",
+        "cso_package_id",
+        "in_minimum_assessment_scope"
+      ],
+      "properties": {
+        "service_class": {
+          "type": "string",
+          "enum": ["C", "D"],
+          "description": "FedRAMP Service Class ('C' for Moderate/Class C, 'D' for High/Class D)."
+        },
+        "certification_tracks": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": ["20x", "Rev5"]
+          },
+          "description": "Active or target FedRAMP certification tracks ('20x', 'Rev5')."
+        },
+        "certification_path": {
+          "type": "string",
+          "enum": ["Program", "Agency", "Hybrid"],
+          "description": "FedRAMP authorization/certification path."
+        },
+        "cso_package_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "FedRAMP Marketplace CSO Package ID (e.g., FR2628650874 or F1603047866)."
+        },
+        "in_minimum_assessment_scope": {
+          "type": "boolean",
+          "description": "Whether the agent is included in the Minimum Assessment Scope (MAS-CSO-IIR / MAS-CSO-MDI / MAS-CSO-SUP)."
+        }
+      }
+    },
+    "agent_profile": {
+      "type": "string",
+      "enum": ["runtime-cso", "internal-devsecops"],
+      "description": "Deployment profile: 'runtime-cso' (in-boundary handling Federal Customer Data/metadata) or 'internal-devsecops' (internal engineering/platform/compliance agent operating on the CSO)."
+    },
+    "data_classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "handles_federal_customer_data",
+        "handles_sensitive_metadata",
+        "fips199_level",
+        "residency_boundary"
+      ],
+      "properties": {
+        "handles_federal_customer_data": {
+          "type": "boolean",
+          "description": "Whether the agent ingests, processes, stores, or transmits Federal Customer Data (FRD-FCD / MAS-CSO-IIR)."
+        },
+        "handles_sensitive_metadata": {
+          "type": "boolean",
+          "description": "Whether the agent handles privileged or sensitive system metadata (FRD-MTD / MAS-CSO-MDI)."
+        },
+        "fips199_level": {
+          "type": "string",
+          "enum": ["Moderate", "High"],
+          "description": "FIPS 199 security categorization level."
+        },
+        "residency_boundary": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Data and inference processing residency boundary (e.g., 'US-GovCloud / US Jurisdiction Only' per CTL.SA.SA-09-05 for Class D)."
+        }
+      }
+    },
+    "model_serving": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "inference_provider",
+        "fedramp_certified_tpir_id",
+        "model_reachability_pep",
+        "us_jurisdiction_only"
+      ],
+      "properties": {
+        "inference_provider": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Description of the model serving substrate or authorized inference destination."
+        },
+        "fedramp_certified_tpir_id": {
+          "type": ["string", "null"],
+          "description": "FedRAMP Package ID of the certified Third-Party Information Resource hosting inference, or null if self-hosted inside the CSO boundary."
+        },
+        "model_reachability_pep": {
+          "type": "boolean",
+          "description": "Whether a dedicated Model Serving Policy Enforcement Point (CoSAI componentModelServing / ADR-030) enforces reachability and egress rules."
+        },
+        "us_jurisdiction_only": {
+          "type": "boolean",
+          "description": "Whether all inference processing, weights, caches, and system services remain exclusively within U.S. / U.S. Territories / U.S. jurisdiction (mandatory true for Class D under CTL.SA.SA-09-05)."
+        }
+      }
+    },
+    "cryptography": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fips_140_3_validated_modules", "modules"],
+      "properties": {
+        "fips_140_3_validated_modules": {
+          "type": "boolean",
+          "description": "Whether all cryptographic modules protecting Federal data/sessions are active FIPS-validated modules (CMU-CSO-UVM: SHOULD for Class C, MUST for Class D)."
+        },
+        "modules": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "module_id", "validation_status", "purpose"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Cryptographic module name."
+              },
+              "module_id": {
+                "type": "string",
+                "minLength": 1,
+                "description": "CMVP certificate number or module identifier (CMU-CSO-CMD)."
+              },
+              "validation_status": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Validation status (e.g., 'FIPS 140-3 Active', 'FIPS 140-2 Active per Transition', 'SDR Documented Rationale')."
+              },
+              "purpose": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Security boundary or transport/storage layer protected by this module."
+              }
+            }
+          }
+        }
+      }
+    },
+    "identity_access": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "digital_identity_level",
+        "sso_protocol",
+        "encrypted_assertions",
+        "local_password_bypass_disabled",
+        "delegation_model"
+      ],
+      "properties": {
+        "digital_identity_level": {
+          "type": "string",
+          "enum": ["IAL2/AAL2/FAL2", "IAL3/AAL3/FAL3"],
+          "description": "NIST SP 800-63-4 digital identity assurance levels (CTL.IA.IA-05: Class C requires at least IAL2/AAL2/FAL2; Class D requires IAL3/AAL3/FAL3)."
+        },
+        "sso_protocol": {
+          "type": "string",
+          "enum": ["OIDC", "SAML"],
+          "description": "Federated Single Sign-On protocol."
+        },
+        "encrypted_assertions": {
+          "type": "boolean",
+          "description": "Whether identity assertions are encrypted end-to-end (JWE for OIDC or XML Encryption for SAML per CTL.IA.IA-05)."
+        },
+        "local_password_bypass_disabled": {
+          "type": "boolean",
+          "description": "Whether local password authentication bypass is disabled for agency tenants (KSI-IAM-MFA / KSI-IAM-SFA)."
+        },
+        "delegation_model": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Principal authority delegation and confused-deputy prevention model (e.g., RFC 8693 OAuth 2.0 Token Exchange with audience-scoped short-lived tokens)."
+        }
+      }
+    },
+    "tool_boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "network_egress_pep",
+        "authorization_pep",
+        "tool_registry_allowlist",
+        "third_party_tool_isolation",
+        "consent_surface_dual_mode",
+        "allowed_tools"
+      ],
+      "properties": {
+        "network_egress_pep": {
+          "type": "boolean",
+          "description": "Whether a dedicated Network Policy Enforcement Point governs agent and tool egress (CoSAI componentAgentNetworkPolicyEnforcementPoint / componentToolNetworkPolicyEnforcementPoint)."
+        },
+        "authorization_pep": {
+          "type": "boolean",
+          "description": "Whether a dedicated Authorization Policy Enforcement Point validates every tool invocation against principal scope (CoSAI componentAuthorizationPolicyEnforcementPoint)."
+        },
+        "tool_registry_allowlist": {
+          "type": "boolean",
+          "description": "Whether tool discovery and invocation are restricted to a cryptographically pinned allowlist (CoSAI componentToolRegistry / controlToolRegistryAndDiscoveryIntegrity)."
+        },
+        "third_party_tool_isolation": {
+          "type": "boolean",
+          "description": "Whether external/third-party tools execute inside an isolated sandbox runtime (CoSAI componentIsolationRuntime / componentToolHosting)."
+        },
+        "consent_surface_dual_mode": {
+          "type": "boolean",
+          "description": "Whether dual consent surfaces (application-level and agent-level per CoSAI componentApplicationConsentSurface / componentAgentConsentSurface) gate destructive or external mutations."
+        },
+        "allowed_tools": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Explicit inventory of allowlisted tool identifiers."
+        }
+      }
+    },
+    "observability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tamper_evident_audit_repo",
+        "prompt_response_redacted_from_external_telemetry",
+        "audit_control_plane_separated"
+      ],
+      "properties": {
+        "tamper_evident_audit_repo": {
+          "type": "boolean",
+          "description": "Whether agent invocations, tool calls, and policy decisions are written to a tamper-evident audit repository (CoSAI componentAuditRecordRepository / KSI-MLA-ALA / CTL.AU.AU-09)."
+        },
+        "prompt_response_redacted_from_external_telemetry": {
+          "type": "boolean",
+          "description": "Whether raw prompts, responses, and Federal Customer Data are scrubbed/redacted prior to any external telemetry sink (MAS-CSO-MDI / controlRuntimePrivacyEnhancingTechnologies)."
+        },
+        "audit_control_plane_separated": {
+          "type": "boolean",
+          "description": "Whether the audit record repository resides in a separate control plane inaccessible to the agent runtime workload."
+        }
+      }
+    },
+    "tpirs": {
+      "type": "array",
+      "description": "Inventory of Third-Party Information Resources (TPIRs) leveraged by the agent (MAS-CSO-TPR).",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "certified",
+          "fedramp_package_id",
+          "use_case",
+          "mitigations"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Third-party service or dependency name."
+          },
+          "certified": {
+            "type": "boolean",
+            "description": "Whether the TPIR holds an active FedRAMP Certification at or above the agent's service class."
+          },
+          "fedramp_package_id": {
+            "type": ["string", "null"],
+            "description": "FedRAMP Marketplace Package ID when certified is true; null when certified is false."
+          },
+          "use_case": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Architectural purpose and data flow description for the TPIR."
+          },
+          "mitigations": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Mandatory boundary protections, data redaction, and compensating controls (MAS-CSO-TPR)."
+          }
+        }
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "vdr_triage_sla_days",
+        "scn_change_channel",
+        "iec_incident_channel",
+        "per_service_certification_artifacts",
+        "portable_eval_paths",
+        "cosai_component_ids",
+        "cosai_control_ids"
+      ],
+      "properties": {
+        "vdr_triage_sla_days": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Maximum days to evaluate and triage newly detected vulnerabilities (VER-TFR-EVU: <= 5 days for Class C, <= 2 days for Class D)."
+        },
+        "scn_change_channel": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Controlled distribution channel or URI for Significant Change Notifications (SCN-ADP-NTF / SCN-CSO-INF)."
+        },
+        "iec_incident_channel": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Incident escalation and notification channel for FedRAMP and agency customers (IEC-CSO-IIR / IEC-CSO-OIR / IEC-CSO-FIR)."
+        },
+        "per_service_certification_artifacts": {
+          "type": "boolean",
+          "description": "Whether per-service FedRAMP Certification materials are maintained and supplied (CDS-CSO-PSM: MAY for Class C, MUST for Class D)."
+        },
+        "portable_eval_paths": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Relative repository paths to portable, vendor-neutral evaluation suites (CoSAI ADR-033 D6)."
+        },
+        "cosai_component_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "CoSAI Risk Map component IDs in scope for this agent (e.g., componentModelServing, componentIsolationRuntime)."
+        },
+        "cosai_control_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "CoSAI Risk Map control IDs implemented by this agent (e.g., controlAgentCredentialIsolation, controlAgentExecutionBounds)."
+        }
+      }
+    }
+  }
+}

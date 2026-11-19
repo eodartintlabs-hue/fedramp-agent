@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fedramp.gov/schemas/fedramp-agent/sdr-agent-addendum.schema.json",
+  "title": "FedRAMP Security Decision Record (SDR) Agent Addendum",
+  "description": "Schema for machine-readable Security Decision Record entries documenting agent boundary, cryptographic module rationale, TPIR inheritance, and Key Security Indicator mitigations under CR-26 SDR-CSO-FRR, SDR-CSO-MTD, SDR-CSX-KSI, SDR-CSX-KMT, and SDR-CSF-CTF.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "sdr_id",
+    "cso_package_id",
+    "agent_id",
+    "service_class",
+    "certification_tracks",
+    "recorded_at",
+    "approving_official",
+    "decisions"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "sdr_id": {
+      "type": "string",
+      "pattern": "^SDR-[A-Z0-9-]+$",
+      "description": "Unique Security Decision Record identifier."
+    },
+    "cso_package_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "agent_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "service_class": {
+      "type": "string",
+      "enum": ["C", "D"]
+    },
+    "certification_tracks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": ["20x", "Rev5"]
+      }
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "approving_official": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "title", "email"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "email": { "type": "string", "format": "email" }
+      }
+    },
+    "decisions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "decision_id",
+          "cr26_rule_ids",
+          "cosai_control_ids",
+          "summary",
+          "rationale",
+          "compensating_controls",
+          "residual_risk_level",
+          "review_expiration_date"
+        ],
+        "properties": {
+          "decision_id": { "type": "string", "minLength": 1 },
+          "cr26_rule_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "cosai_control_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "summary": { "type": "string", "minLength": 1 },
+          "rationale": { "type": "string", "minLength": 1 },
+          "compensating_controls": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "residual_risk_level": {
+            "type": "string",
+            "enum": ["Low", "Moderate", "High"]
+          },
+          "review_expiration_date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    }
+  }
+}

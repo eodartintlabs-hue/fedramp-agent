@@ -1,0 +1,35 @@
+{
+  "skill_name": "map-cosai-controls",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Audit manifest-draft-1 in skills/map-cosai-controls/evals/fixtures/cosai-crosswalk-subset.json against compliance/cosai-crosswalk.json for CoSAI ADR-030 placement rules and active persona validity, and prescribe the compliant CoSAI components and personas.",
+      "expected_output": "Cross-checking manifest-draft-1 against compliance/cosai-crosswalk.json surfaces three structural and lifecycle defects: (1) wiring componentApplicationInputHandling directly to componentTheModel violates ADR-030 D11/D12 — at runtime componentTheModel is reachable solely via componentModelServing (Model Serving Infrastructure & Policy Enforcement Point); (2) wiring componentApplication directly to componentToolServer violates ADR-030 D8 and D14 — tool invocation is agent-exclusive and must traverse componentAgentNetworkPolicyEnforcementPoint -> componentAgentToolTransport -> componentToolNetworkPolicyEnforcementPoint -> componentToolInputHandling -> componentAuthorizationPolicyEnforcementPoint -> componentToolServer; and (3) personaModelCreator and personaModelConsumer are both marked deprecated=true in compliance/cosai-crosswalk.json — replace with active personaModelProvider (if training/tuning models), personaApplicationDeveloper, or personaEndUser. Grounding: input pinned to skills/map-cosai-controls/evals/fixtures/cosai-crosswalk-subset.json verified against compliance/cosai-crosswalk.json.",
+      "expectations": [
+        "Flags the direct componentApplicationInputHandling -> componentTheModel edge as violating ADR-030 D11/D12 and inserts componentModelServing as sole runtime door",
+        "Flags the direct componentApplication -> componentToolServer edge as violating ADR-030 D8/D14 and prescribes the Agent Network PEP -> Agent Tool Transport -> Tool Network PEP -> Tool Input Handling -> Authorization PEP path",
+        "Flags personaModelCreator and personaModelConsumer as deprecated (deprecated=true) and recommends active personaModelProvider, personaApplicationDeveloper, or personaEndUser"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "For manifest-draft-2 in skills/map-cosai-controls/evals/fixtures/cosai-crosswalk-subset.json, look up riskAgenticDelegationConfusedDeputy and riskMCPTransportHijacking in compliance/cosai-crosswalk.json and report their verbatim external framework mappings, mitigating CoSAI controls, and Class D FedRAMP CR-26 elevations.",
+      "expected_output": "From compliance/cosai-crosswalk.json: (1) riskAgenticDelegationConfusedDeputy maps externally to stride: ['ElevationOfPrivilege', 'Spoofing'], mitre-atlas: ['AML.T0053@5.0.1'], and owasp-top10-llm: ['LLM06:2025']; is mitigated by CoSAI controls including controlAgentPluginPermissions and controlAgentCredentialIsolation (at componentAuthorizationPolicyEnforcementPoint and componentFederationProxy); and in Class D requires authorization_pep=true plus NIST IAL3/AAL3/FAL3 caller identity assurance with encrypted assertions under CTL.IA.IA-05 (alongside SCG-CSO-SDF, KSI-IAM-ELP, KSI-IAM-JIT, KSI-IAM-SNU, CTL.AC.AC-06-01, CTL.AC.AC-06-02). (2) riskMCPTransportHijacking maps externally to stride: ['Tampering', 'InformationDisclosure']; is mitigated by controlInterComponentTransportSecurity (and controlComponentIdentityProvenance); and in Class D elevates CMU-CSO-UVM from Class C SHOULD to MUST active FIPS 140-3 validated cryptographic modules across componentAgentToolTransport (with CTL.SC.SC-07, CTL.SC.SC-13, KSI-CNA-RNT, KSI-IAM-SNU, KSI-SVC-ASM; noting KSI-SVC-VCM omits Class D in 2026.11.02.01). Grounding: input from skills/map-cosai-controls/evals/fixtures/cosai-crosswalk-subset.json resolved against compliance/cosai-crosswalk.json.",
+      "expectations": [
+        "Reports exact external mappings for riskAgenticDelegationConfusedDeputy (STRIDE ElevationOfPrivilege/Spoofing, AML.T0053@5.0.1, LLM06:2025) and riskMCPTransportHijacking (STRIDE Tampering/InformationDisclosure)",
+        "Maps mitigating CoSAI controls (controlAgentPluginPermissions, controlAgentCredentialIsolation, controlInterComponentTransportSecurity)",
+        "Highlights Class D elevations: CTL.IA.IA-05 IAL3/AAL3/FAL3 + encrypted assertions and CMU-CSO-UVM MUST FIPS 140-3 modules, while noting KSI-SVC-VCM omits Class D in 2026.11.02.01"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Query the live compliance/cosai-crosswalk.json in this repository for componentAuditRecordRepository and controlAgentExecutionBounds: report their ADR-030 / external mappings, FedRAMP CR-26 mappings, manifest gates, and any pending 20x Class D indicator notes.",
+      "expected_output": "Live-corpus check against compliance/cosai-crosswalk.json: (1) componentAuditRecordRepository (componentsInfrastructure / componentsDeployment, ADR-030 D3 & D15) maps to FRR rules MAS-CSO-MDI, SCN-CSO-MAR, CDS-TRC-ACL, CMU-CSO-UVM; KSIs KSI-MLA-ALA, KSI-MLA-LET, KSI-MLA-OSM, KSI-MLA-RVL, KSI-SVC-VRI (with KSI-MLA-ALA flagged in ksi_20x_class_d_omitted_in_2026_11_02_01); and Rev5 CTLs CTL.AU.AU-06, CTL.AU.AU-06-05, CTL.AU.AU-10, CTL.AU.AU-12, CTL.SC.SC-13, enforced via observability.tamper_evident_audit_repo, observability.audit_control_plane_separated, and observability.prompt_response_redacted_from_external_telemetry (automated-cli). (2) controlAgentExecutionBounds (controlsApplication) carries verbatim external mappings owasp-top10-llm: ['LLM10:2025'], mitre-atlas: ['AML.M0004@5.0.1'], and nist-ai-rmf: ['MEASURE-2.6@1.0', 'MANAGE-2.1@1.0']; maps to SCG-CSO-SDF, CDS-CSO-AVR, VDR-CSO-DFR, KSI-CNA-OFA, KSI-CNA-RVP, KSI-MLA-LET, CTL.SC.SC-07, CTL.SI.SI-04; and uses hybrid-cli-and-ivv verification. Grounding: live lookup against compliance/cosai-crosswalk.json.",
+      "expectations": [
+        "Reads live compliance/cosai-crosswalk.json and accurately reports componentAuditRecordRepository ADR-030 D15 role, observability manifest paths, and KSI-MLA-ALA Class D omission notice",
+        "Reports verbatim external mappings for controlAgentExecutionBounds (LLM10:2025, AML.M0004@5.0.1, MEASURE-2.6@1.0, MANAGE-2.1@1.0)",
+        "Lists mapped CR-26 FRR/KSI/CTL IDs and verification methods accurately"
+      ]
+    }
+  ]
+}

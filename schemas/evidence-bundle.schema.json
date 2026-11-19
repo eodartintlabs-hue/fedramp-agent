@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fedramp.gov/schemas/fedramp-agent/evidence-bundle.schema.json",
+  "title": "FedRAMP Continuous Compliance & KSI Evidence Bundle",
+  "description": "Schema for machine-readable agent compliance evidence packages and Ongoing Certification Report (OCR) attachments under CR-26 CCM-OCR-AVL, CDS-CSO-PSM, IVV, and KSI automated validation requirements.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "bundle_id",
+    "generated_at",
+    "cr26_dataset_version",
+    "agent_manifest_summary",
+    "validation_status",
+    "findings",
+    "ksi_coverage",
+    "cosai_alignment",
+    "artifact_digests"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "bundle_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "cr26_dataset_version": {
+      "type": "string",
+      "const": "2026.11.02.01"
+    },
+    "agent_manifest_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "agent_id",
+        "name",
+        "version",
+        "agent_profile",
+        "service_class",
+        "certification_tracks",
+        "cso_package_id",
+        "in_minimum_assessment_scope"
+      ],
+      "properties": {
+        "agent_id": { "type": "string" },
+        "name": { "type": "string" },
+        "version": { "type": "string" },
+        "agent_profile": { "type": "string", "enum": ["runtime-cso", "internal-devsecops"] },
+        "service_class": { "type": "string", "enum": ["C", "D"] },
+        "certification_tracks": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["20x", "Rev5"] }
+        },
+        "cso_package_id": { "type": "string" },
+        "in_minimum_assessment_scope": { "type": "boolean" }
+      }
+    },
+    "validation_status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["passed", "error_count", "warning_count"],
+      "properties": {
+        "passed": { "type": "boolean" },
+        "error_count": { "type": "integer", "minimum": 0 },
+        "warning_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["severity", "rule_id", "field", "message"],
+        "properties": {
+          "severity": { "type": "string", "enum": ["ERROR", "WARNING", "INFO"] },
+          "rule_id": { "type": "string" },
+          "field": { "type": "string" },
+          "message": { "type": "string" }
+        }
+      }
+    },
+    "ksi_coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["applicable_themes", "class_d_20x_notice"],
+      "properties": {
+        "applicable_themes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "class_d_20x_notice": {
+          "type": ["string", "null"]
+        }
+      }
+    },
+    "cosai_alignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["component_ids", "control_ids", "portable_eval_paths"],
+      "properties": {
+        "component_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "control_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "portable_eval_paths": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "artifact_digests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256"],
+        "properties": {
+          "path": { "type": "string" },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+        }
+      }
+    }
+  }
+}

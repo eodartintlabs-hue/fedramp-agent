@@ -1,0 +1,54 @@
+{
+  "_header": {
+    "notice": "Synthetic test input — not FedRAMP or CoSAI authoritative content. Must not be cited or consumed as production certification data.",
+    "models": "Baseline agent manifest configuration and three proposed change requests for SCN evaluation.",
+    "completeness": "Self-contained baseline plus three candidate diffs.",
+    "refresh_policy": "Refresh only if schemas/agent-manifest.schema.json or schemas/scn-record.schema.json changes structurally."
+  },
+  "baseline_manifest": {
+    "agent_id": "grants-review-assistant-c",
+    "service_class": "C",
+    "certification_tracks": ["20x", "Rev5"],
+    "cso_package_id": "FR2699900111",
+    "in_minimum_assessment_scope": true,
+    "model_serving": {
+      "inference_provider": "Certified U.S. Cloud Foundation Endpoint",
+      "fedramp_certified_tpir_id": "F1209051525",
+      "model_reachability_pep": true,
+      "us_jurisdiction_only": true
+    },
+    "cryptography": {
+      "fips_140_3_validated_modules": true,
+      "modules": [
+        {
+          "name": "Validated TLS FIPS Module",
+          "module_id": "CMVP-4798",
+          "validation_status": "FIPS 140-3 Active",
+          "purpose": "mTLS 1.3 across PEPs"
+        }
+      ]
+    },
+    "tool_boundaries": {
+      "network_egress_pep": true,
+      "authorization_pep": true,
+      "tool_registry_allowlist": true,
+      "third_party_tool_isolation": true,
+      "consent_surface_dual_mode": true,
+      "allowed_tools": ["grant_application_reader", "cfr_regulation_lookup"]
+    }
+  },
+  "proposed_changes": [
+    {
+      "change_id": "CR-101",
+      "summary": "Weekly automated container base-image rebuild patching OS library CVEs and scheduled 90-day mTLS leaf certificate rotation under existing CMVP-4798 module."
+    },
+    {
+      "change_id": "CR-102",
+      "summary": "Add in-boundary read-only tool 'agency_rubric_scorer' hosted inside the existing Isolation Runtime behind existing Authorization PEP and Tool Registry allowlist; zero new TPIRs or egress routes."
+    },
+    {
+      "change_id": "CR-103",
+      "summary": "Onboard an external third-party SaaS document-OCR MCP server outside the CSO MAS to parse uploaded grant PDFs containing Federal Customer Data."
+    }
+  ]
+}

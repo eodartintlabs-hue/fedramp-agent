@@ -1,0 +1,44 @@
+{
+  "_header": {
+    "notice": "Synthetic test input — not FedRAMP or CoSAI authoritative content. Must not be cited or consumed as production certification data.",
+    "models": "Candidate manifest CoSAI topology edges, persona lists, and risk scopes for cross-reference verification.",
+    "completeness": "Two candidate drafts tested against compliance/cosai-crosswalk.json.",
+    "refresh_policy": "Refresh only if schemas/agent-manifest.schema.json changes structurally."
+  },
+  "drafts": [
+    {
+      "draft_id": "manifest-draft-1",
+      "service_class": "D",
+      "proposed_edges": [
+        {
+          "from": "componentApplicationInputHandling",
+          "to": "componentTheModel"
+        },
+        {
+          "from": "componentApplication",
+          "to": "componentToolServer"
+        }
+      ],
+      "cosai_component_ids": [
+        "componentApplication",
+        "componentApplicationInputHandling",
+        "componentTheModel",
+        "componentToolServer",
+        "componentAuditRecordRepository"
+      ],
+      "declared_personas": [
+        "personaApplicationDeveloper",
+        "personaModelCreator",
+        "personaModelConsumer"
+      ]
+    },
+    {
+      "draft_id": "manifest-draft-2",
+      "service_class": "D",
+      "threat_focus": [
+        "riskAgenticDelegationConfusedDeputy",
+        "riskMCPTransportHijacking"
+      ]
+    }
+  ]
+}
